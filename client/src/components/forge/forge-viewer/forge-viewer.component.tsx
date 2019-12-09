@@ -41,12 +41,12 @@ class ForgeViewer extends Component<ForgeViewerProps> {
 
 					//input the transformation
 					var loadOptions = {
-						placementTransform: new THREE.Matrix4(),
-						globalOffset: {
-							x: 0,
-							y: 0,
-							z: 0
-						}
+						placementTransform: new THREE.Matrix4()
+						// globalOffset: {
+						// 	x: 0,
+						// 	y: 0,
+						// 	z: 0
+						// }
 					};
 					await this.viewer!.loadDocumentNode(viewerDocument, viewables[1], loadOptions);
 				},

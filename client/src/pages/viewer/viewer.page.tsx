@@ -5,6 +5,8 @@ import { RouteComponentProps } from 'react-router';
 
 import ServiceManager from '../../services/manager.service';
 
+import SplitPane from 'react-split-pane';
+
 class Viewer extends Component<RouteComponentProps> {
 	_assetListService: any = ServiceManager.getService('AssetListService');
 	_linkService: any = ServiceManager.getService('LinkService');
@@ -23,9 +25,11 @@ class Viewer extends Component<RouteComponentProps> {
 
 	render() {
 		return (
-			<div>
-				<ForgeViewer ref={this.forgeViewerRef} urn={`urn:${this.props.location.state.urn}`} />
-			</div>
+			<ForgeViewer ref={this.forgeViewerRef} urn={`urn:${this.props.location.state.urn}`} />
+			// <SplitPane>
+
+			// 	{/* <ObjectList /> */}
+			// </SplitPane>
 		);
 	}
 }
