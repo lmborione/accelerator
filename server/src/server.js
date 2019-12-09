@@ -2,10 +2,10 @@ const express = require('express');
 const bodyParser = require("body-parser");
 const methodOverride = require("method-override");
 
-const routes = require('./routes/index');
+const routes = require('./src/routes/index');
 
-const authSvc = require('./services/auth.service');
-const SvcMng = require('./services/manager.service').ServiceManager;
+const authSvc = require('./src/services/auth.service');
+const SvcMng = require('./src/services/manager.service').ServiceManager;
 
 const dotenv = require('dotenv');
 dotenv.config();

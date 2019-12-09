@@ -8,8 +8,6 @@ const moment = require('moment');
 class AuthService extends BaseService {
     constructor(config) {
         super(config)
-        // this.viewtoken = this.viewtoken.bind(this);
-
         this._config = {
             oauth: {
                 clientId: process.env.CLIENT_ID,
