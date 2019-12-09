@@ -29,7 +29,13 @@
 		},
 		"[typescriptreact]": {
 			"editor.defaultFormatter": "remimarsal.prettier-now"
-		}
+		},
+		"autodesk.forge.environments": [{
+			"title": "accelerator",
+			"clientId": "W2I80AOTn5pnEnaThJbECN2t6gSsh1HV",
+			"clientSecret": "FFqMpVKwwCmWxiKR",
+			"region": "US"
+		}]
 
 	}
 }
