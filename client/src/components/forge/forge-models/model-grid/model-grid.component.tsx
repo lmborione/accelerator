@@ -12,7 +12,6 @@ const ModelGrid = (props: GridProp) => {
 		if (index < lastIndex) {
 			return (
 				<Col key={`forgemodelcol-${index}`}>
-					<h6>{index}</h6>
 					<ForgeModelInterface
 						name={forgeElement.name}
 						thumbnail={forgeElement.thumbnail}
@@ -22,11 +21,11 @@ const ModelGrid = (props: GridProp) => {
 				</Col>
 			);
 		}
-		return (
-			<Col className=".col-md-1" key={`forgemodelcol-${index}`}>
-				<h6>{index}</h6>
-			</Col>
-		);
+		// return (
+		// 	// <Col className=".col-md-1" key={`forgemodelcol-${index}`}>
+
+		// 	// </Col>
+		// );
 	};
 
 	const renderRows = [];

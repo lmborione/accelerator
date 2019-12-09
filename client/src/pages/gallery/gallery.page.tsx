@@ -53,21 +53,6 @@ class GalleryView extends Component<{}, GalleryState> {
 				};
 			})
 		);
-		forgeModels = forgeModels
-			.concat(forgeModels)
-			.concat(forgeModels)
-			.concat(forgeModels)
-			.concat(forgeModels)
-			.concat(forgeModels)
-			.concat(forgeModels)
-			.concat(forgeModels)
-			.concat(forgeModels)
-			.concat(forgeModels)
-			.concat(forgeModels)
-			.concat(forgeModels)
-			.concat(forgeModels)
-			.concat(forgeModels)
-			.concat(forgeModels);
 
 		return forgeModels;
 	}
