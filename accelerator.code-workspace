@@ -1,0 +1,35 @@
+{
+	"folders": [{
+		"path": "."
+	}],
+	"settings": {
+		"files.exclude": {
+			"**/www": true,
+			"**/.github": true,
+			"**/dist": true,
+			"**/node_modules": true
+		},
+		"[html]": {
+			"editor.defaultFormatter": "vscode.html-language-features"
+		},
+		"[typescript]": {
+			"editor.defaultFormatter": "vscode.typescript-language-features"
+		},
+		"[json]": {
+			"editor.defaultFormatter": "vscode.json-language-features"
+		},
+		"[javascript]": {
+			"editor.defaultFormatter": "vscode.typescript-language-features"
+		},
+		"terminal.integrated.shell.windows": "C:\\Program Files\\Git\\bin\\bash.exe",
+		"editor.formatOnSave": true,
+		"beautify.language": {
+			"css": ["css", "scss"],
+			"html": ["htm", "html"]
+		},
+		"[typescriptreact]": {
+			"editor.defaultFormatter": "remimarsal.prettier-now"
+		}
+
+	}
+}
