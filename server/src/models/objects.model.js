@@ -8,7 +8,6 @@ function countObjects() {
     return objects.length
 }
 
-
 function getAllObjects(page, limit) {
     return objects.slice(page * limit, (page + 1) * limit);
 }
@@ -17,7 +16,7 @@ function getObjectByName(name) {
     return objects.filter((e) => e.name == name);
 }
 
-function getObjectByName(id) {
+function getObjectById(id) {
     return objects.filter((e) => e.id == id);
 }
 
@@ -25,5 +24,5 @@ module.exports = {
     countObjects,
     getAllObjects,
     getObjectByName,
-    getObjectByName
+    getObjectById
 };
