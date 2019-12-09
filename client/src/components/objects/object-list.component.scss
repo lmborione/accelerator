@@ -1,0 +1,25 @@
+.table-input{
+    border: 0px;
+    min-width:50px!important;
+    width: 100%;
+    background: transparent;
+}
+
+.react-table{
+    overflow-y: hidden;
+    max-height: calc(100% - 60px) !important;
+    width: 100%;
+}
+
+.inner-border { 
+    height: 100%;
+    width: 100%;;
+} 
+
+.inner-border::-webkit-scrollbar { 
+    display: none; 
+} 
+
+.selected-row{
+    background-color: rgb(255, 179, 179) !important;
+  }
