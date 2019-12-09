@@ -6,6 +6,7 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 import ForgeService from './services/forge/forge.service';
 import ServiceManager from './services/manager.service';
 import ObjectsService from './services/objects/objects.service';
+import AlignmentService from './services/alignment/alignment.service';
 
 import 'bootstrap/dist/css/bootstrap.min.css';
 
@@ -14,9 +15,11 @@ import App from './App';
 
 const forgeSrv = new ForgeService();
 const objSrv = new ObjectsService();
+const alignSrv = new AlignmentService();
 
 ServiceManager.registerService(forgeSrv);
 ServiceManager.registerService(objSrv);
+ServiceManager.registerService(alignSrv);
 
 ReactDOM.render(<App />, document.getElementById('root'));
 

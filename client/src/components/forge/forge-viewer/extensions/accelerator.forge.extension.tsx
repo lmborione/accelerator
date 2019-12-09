@@ -4,6 +4,8 @@ import ReactDOM from 'react-dom';
 
 import './accelerator.forge.extension.scss';
 
+import ServiceManager from '../../../../services/manager.service';
+
 const THREE = window.THREE;
 
 const ExtensionId = 'Accelerator';
@@ -46,7 +48,7 @@ export class AIMSPainterForgeExtension extends Autodesk.Viewing.Extension {
 		this._btnUploadAlignment.setIcon('adsk-icon-bug');
 		this._btnUploadAlignment.setToolTip('GetAlignmentData');
 		this._btnUploadAlignment.onClick = () => {
-			this.onGetAlignmentData();
+			this.onAddAlignmentData();
 			console.log('alert');
 		};
 
@@ -84,7 +86,7 @@ export class AIMSPainterForgeExtension extends Autodesk.Viewing.Extension {
 	}
 
 
-	onGetAlignmentData = () => {
+	onAddAlignmentData = () => {
 		this.viewer.model.getObjectTree(instanceTree => {
 			var myviewer = this.viewer;
 
@@ -100,43 +102,52 @@ export class AIMSPainterForgeExtension extends Autodesk.Viewing.Extension {
 				true
 			);
 
-			//get XYZ points from alignments
-			var tab_align = [];
+			//get XYZ points from alignments and add in data
+			var data = [];
 			for (var i = 0; i < ids.length; i++) {
-				tab_align.push(this.XYZPointsfromID(ids[i]));
+				data.push({
+					dbid: ids[i],
+					XYZs: "bonjour"
+					//XYZs: this.XYZPointsfromID(ids[i])
+				});
+			}
+
+			if (data) {
+				const alignments = ServiceManager.getService('AlignmentService').addAlignments(data);
+				console.log(alignments);
 			}
 		});
 	}
 
-	XYZPointsfromID = (nodeId: number) => {
-		var result = [] as THREE.Vector3[];
-		const myviewer = this.viewer;
+	// XYZPointsfromID = (nodeId: number) => {
+	// 	var result = [] as THREE.Vector3[];
+	// 	const myviewer = this.viewer;
 
-		this.viewer.model.getInstanceTree().enumNodeFragments(nodeId, (frag) => {
-			let fragProxy = myviewer.impl.getFragmentProxy(myviewer.model, frag);
+	// 	this.viewer.model.getInstanceTree().enumNodeFragments(nodeId, (frag) => {
+	// 		let fragProxy = myviewer.impl.getFragmentProxy(myviewer.model, frag);
 
-			var frags = fragProxy.frags.getVizmesh(fragProxy.fragId);
+	// 		var frags = fragProxy.frags.getVizmesh(fragProxy.fragId);
 
-			var vb_array = frags.geometry.vb;
+	// 		var vb_array = frags.geometry.vb;
 
-			var tab_pos = [];
+	// 		var tab_pos = [];
 
-			//loop through vb to get pos
-			tab_pos.push(new THREE.Vector3(vb_array[0], vb_array[1], vb_array[2]));
+	// 		//loop through vb to get pos
+	// 		tab_pos.push(new THREE.Vector3(vb_array[0], vb_array[1], vb_array[2]));
 
-			var i = 6;
-			while (i < vb_array.length) {
-				var pos = new THREE.Vector3(vb_array[i], vb_array[i + 1], vb_array[i + 2]);
-				var world_pos = frags.localToWorld(pos);
+	// 		var i = 6;
+	// 		while (i < vb_array.length) {
+	// 			var pos = new THREE.Vector3(vb_array[i], vb_array[i + 1], vb_array[i + 2]);
+	// 			var world_pos = frags.localToWorld(pos);
 
-				tab_pos.push(world_pos);
-				i += 12;
-			}
+	// 			tab_pos.push(world_pos);
+	// 			i += 12;
+	// 		}
 
 
-		});
-		return result;
-	}
+	// 	});
+	// 	return result;
+	// }
 }
 
 
