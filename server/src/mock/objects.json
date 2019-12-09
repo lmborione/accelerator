@@ -1,0 +1,20 @@
+[
+    {
+        "id": "0",
+        "objectId": "132",
+        "pk": "135.68",
+        "name": "panneau SIG 1"
+    },
+    {
+        "id": "1",
+        "objectId": "132",
+        "pk": "147.68",
+        "name": "panneau SIG 2"
+    },
+    {
+        "id": "2",
+        "objectId": "132",
+        "pk": "135.68",
+        "name": "panneau SIG 3"
+    }
+]
