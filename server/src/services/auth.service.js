@@ -40,12 +40,20 @@ class AuthService extends BaseService {
 
     async request2LeggedToken() {
         const scope = this._config.oauth.scope;
-        const oAuth2TwoLegged = new forge.AuthClientTwoLegged(
-            this._config.oauth.clientId,
-            this._config.oauth.clientSecret,
-            Array.isArray(scope) ? scope : [scope]);
+        console.log(this._config);
+        try {
+            const oAuth2TwoLegged = new forge.AuthClientTwoLegged(
+                this._config.oauth.clientId,
+                this._config.oauth.clientSecret,
+                Array.isArray(scope) ? scope : [scope]);
 
-        return oAuth2TwoLegged.authenticate();
+            return oAuth2TwoLegged.authenticate();
+        } catch (error) {
+            console.log(error);
+            return null
+        }
+
+
     }
 
     set2LeggedToken(token) {
