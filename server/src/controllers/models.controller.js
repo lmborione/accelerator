@@ -11,13 +11,14 @@ class ModelsController {
         try {
             const objectApi = new forge.ObjectsApi();
             const token = await svcMng.getService('AuthService').get2LeggedToken();
-            const objectsRes = await objectApi.getObjects('forgelmb_2019_aimspainter',
+
+
+            const objectsRes = await objectApi.getObjects(process.env.BUCKET_KEY,
                 {
                     limit: req.params.limit
                 },
                 { autoRefresh: false },
                 token);
-
             res.status(200).json({ status: 200, data: objectsRes.body, message: "Succesfully Retrieved Forge Models" });
         } catch (error) {
             next(error);
@@ -30,7 +31,7 @@ class ModelsController {
             const objectApi = new forge.ObjectsApi();
             const token = await svcMng.getService('AuthService').get2LeggedToken();
 
-            const objectsRes = await objectApi.getObjectDetails('forgelmb_2019_aimspainter',
+            const objectsRes = await objectApi.getObjectDetails(process.env.BUCKET_KEY,
                 req.params.objectName,
                 {},
                 { autoRefresh: false },

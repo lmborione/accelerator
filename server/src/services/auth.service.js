@@ -13,8 +13,6 @@ class AuthService extends BaseService {
                 clientId: process.env.CLIENT_ID,
                 clientSecret: process.env.CLIENT_SECRET,
                 scope: ['bucket:read', 'data:read', 'viewables:read']
-
-
             }
         }
     }
@@ -27,7 +25,6 @@ class AuthService extends BaseService {
         try {
             var token = this._2LeggedToken;
             if (!token || this.getExpiry(token) < 60) {
-                console.log('request new token');
                 token = await this.request2LeggedToken();
                 this.set2LeggedToken(token);
             }
@@ -39,21 +36,18 @@ class AuthService extends BaseService {
     }
 
     async request2LeggedToken() {
-        const scope = this._config.oauth.scope;
-        console.log(this._config);
+
         try {
             const oAuth2TwoLegged = new forge.AuthClientTwoLegged(
                 this._config.oauth.clientId,
                 this._config.oauth.clientSecret,
-                Array.isArray(scope) ? scope : [scope]);
+                this._config.oauth.scope);
 
             return oAuth2TwoLegged.authenticate();
         } catch (error) {
             console.log(error);
-            return null
+            return null;
         }
-
-
     }
 
     set2LeggedToken(token) {
