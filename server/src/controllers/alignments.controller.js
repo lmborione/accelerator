@@ -20,7 +20,7 @@ class AlignmentsController {
     async addPointOnAlignment(req, res, next) {
         try {
             if (req.body && req.params.id) {
-                const alignment = await alignmentsModel.addPointOnAlignement(req.body, req.params.id);
+                const alignment = await alignmentsModel.addPointOnAlignement(req.params.id, req.body);
                 if (alignment) {
                     res.status(200).json({ status: 200, data: alignment, message: "Succesfully add one alignment" });
                 }

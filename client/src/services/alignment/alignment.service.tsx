@@ -8,7 +8,7 @@ class AlignmentService {
 			const response = await fetch(`/api/alignment/get/${id}`);
 			const resp = await response.json();
 			return {
-				data: resp.data,
+				data: resp.data
 			};
 		} catch (error) {
 			console.log(error);
@@ -22,7 +22,6 @@ class AlignmentService {
 			var chunk_size = 1000;
 			for (var i = 0; i < newData.length; i++) {
 				if (newData[i].XYZs.length > chunk_size) {
-
 					//create new align with a point
 					const response = await fetch('/api/alignments/add', {
 						method: 'POST',
@@ -31,7 +30,8 @@ class AlignmentService {
 							'Content-Type': 'application/json'
 						},
 						body: JSON.stringify({
-							dbid: newData[i].dbid
+							dbid: newData[i].dbid,
+							XYZs: []
 						})
 					});
 					await response.json();
