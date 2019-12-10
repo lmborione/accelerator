@@ -58,20 +58,7 @@ function setAllAlignments(dataset) {
     console.log(tab_res);
 
     fs.writeFileSync(path, JSON.stringify(tab_res));
-
-    // //delete file if exist
-    // fs.unlink(path, () => { });
-
-    // //create new file 
-    // tab_res = JSON.stringify(tab_res)
-    // fs.writeFile(path, tab_res, function (err) {
-    //     if (err) {
-    //         return console.log(err);
-    //     } else {
-    //         return tab_res;
-    //     }
-    // });
-
+    return tab_res;
 }
 
 module.exports = {
