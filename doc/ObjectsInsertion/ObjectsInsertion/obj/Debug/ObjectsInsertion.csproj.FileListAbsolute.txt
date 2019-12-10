@@ -1,0 +1,215 @@
+I:\SYSTRA\Add-ins\ObjectsInsertion\ObjectsInsertion\obj\Debug\ObjectsInsertion.csprojResolveAssemblyReference.cache
+I:\SYSTRA\Add-ins\ObjectsInsertion\ObjectsInsertion\bin\Debug\ObjectsInsertion.dll
+I:\SYSTRA\Add-ins\ObjectsInsertion\ObjectsInsertion\bin\Debug\ObjectsInsertion.pdb
+I:\SYSTRA\Add-ins\ObjectsInsertion\ObjectsInsertion\bin\Debug\RevitAPI.dll
+I:\SYSTRA\Add-ins\ObjectsInsertion\ObjectsInsertion\bin\Debug\RevitAPIUI.dll
+I:\SYSTRA\Add-ins\ObjectsInsertion\ObjectsInsertion\bin\Debug\RevitAPIFoundation.dll
+I:\SYSTRA\Add-ins\ObjectsInsertion\ObjectsInsertion\bin\Debug\RevitDBAPI.dll
+I:\SYSTRA\Add-ins\ObjectsInsertion\ObjectsInsertion\bin\Debug\UtilityAPI.dll
+I:\SYSTRA\Add-ins\ObjectsInsertion\ObjectsInsertion\bin\Debug\APIDBAPI.dll
+I:\SYSTRA\Add-ins\ObjectsInsertion\ObjectsInsertion\bin\Debug\GraphicsAPI.dll
+I:\SYSTRA\Add-ins\ObjectsInsertion\ObjectsInsertion\bin\Debug\ElementGroupDBAPI.dll
+I:\SYSTRA\Add-ins\ObjectsInsertion\ObjectsInsertion\bin\Debug\EssentialsDBAPI.dll
+I:\SYSTRA\Add-ins\ObjectsInsertion\ObjectsInsertion\bin\Debug\GeomUtilAPI.dll
+I:\SYSTRA\Add-ins\ObjectsInsertion\ObjectsInsertion\bin\Debug\FamilyDBAPI.dll
+I:\SYSTRA\Add-ins\ObjectsInsertion\ObjectsInsertion\bin\Debug\DetailDBAPI.dll
+I:\SYSTRA\Add-ins\ObjectsInsertion\ObjectsInsertion\bin\Debug\CurtainGridFamilyDBAPI.dll
+I:\SYSTRA\Add-ins\ObjectsInsertion\ObjectsInsertion\bin\Debug\ArrayElemsDBAPI.dll
+I:\SYSTRA\Add-ins\ObjectsInsertion\ObjectsInsertion\bin\Debug\EnergyAnalysisDBAPI.dll
+I:\SYSTRA\Add-ins\ObjectsInsertion\ObjectsInsertion\bin\Debug\BuildingSystemsDBAPI.dll
+I:\SYSTRA\Add-ins\ObjectsInsertion\ObjectsInsertion\bin\Debug\HostObjDBAPI.dll
+I:\SYSTRA\Add-ins\ObjectsInsertion\ObjectsInsertion\bin\Debug\RoomAreaPlanDBAPI.dll
+I:\SYSTRA\Add-ins\ObjectsInsertion\ObjectsInsertion\bin\Debug\SiteDBAPI.dll
+I:\SYSTRA\Add-ins\ObjectsInsertion\ObjectsInsertion\bin\Debug\SculptingDBAPI.dll
+I:\SYSTRA\Add-ins\ObjectsInsertion\ObjectsInsertion\bin\Debug\StructuralDBAPI.dll
+I:\SYSTRA\Add-ins\ObjectsInsertion\ObjectsInsertion\bin\Debug\InterfaceAPI.dll
+I:\SYSTRA\Add-ins\ObjectsInsertion\ObjectsInsertion\bin\Debug\InterfaceUtilAPI.dll
+I:\SYSTRA\Add-ins\ObjectsInsertion\ObjectsInsertion\bin\Debug\RebarDBAPI.dll
+I:\SYSTRA\Add-ins\ObjectsInsertion\ObjectsInsertion\bin\Debug\StructuralAnalysisDBAPI.dll
+I:\SYSTRA\Add-ins\ObjectsInsertion\ObjectsInsertion\bin\Debug\MassingDBAPI.dll
+I:\SYSTRA\Add-ins\ObjectsInsertion\ObjectsInsertion\bin\Debug\AssemblyDBAPI.dll
+I:\SYSTRA\Add-ins\ObjectsInsertion\ObjectsInsertion\bin\Debug\DPartDBAPI.dll
+I:\SYSTRA\Add-ins\ObjectsInsertion\ObjectsInsertion\bin\Debug\NumberingDBAPI.dll
+I:\SYSTRA\Add-ins\ObjectsInsertion\ObjectsInsertion\bin\Debug\PointCloudAccessAPI.dll
+I:\SYSTRA\Add-ins\ObjectsInsertion\ObjectsInsertion\bin\Debug\StairRampDBAPI.dll
+I:\SYSTRA\Add-ins\ObjectsInsertion\ObjectsInsertion\bin\Debug\AnalysisAppsDBAPI.dll
+I:\SYSTRA\Add-ins\ObjectsInsertion\ObjectsInsertion\bin\Debug\DBManagedServices.dll
+I:\SYSTRA\Add-ins\ObjectsInsertion\ObjectsInsertion\bin\Debug\AdWindows.dll
+I:\SYSTRA\Add-ins\ObjectsInsertion\ObjectsInsertion\bin\Debug\RevitAddInUtility.dll
+I:\SYSTRA\Add-ins\ObjectsInsertion\ObjectsInsertion\bin\Debug\APIInterop.dll
+I:\SYSTRA\Add-ins\ObjectsInsertion\ObjectsInsertion\bin\Debug\UIFramework.dll
+I:\SYSTRA\Add-ins\ObjectsInsertion\ObjectsInsertion\bin\Debug\AddInManager.dll
+I:\SYSTRA\Add-ins\ObjectsInsertion\ObjectsInsertion\bin\Debug\RevitUIAPI.dll
+I:\SYSTRA\Add-ins\ObjectsInsertion\ObjectsInsertion\bin\Debug\BuildingSystemsUIAPI.dll
+I:\SYSTRA\Add-ins\ObjectsInsertion\ObjectsInsertion\bin\Debug\DesktopMFCAPI.dll
+I:\SYSTRA\Add-ins\ObjectsInsertion\ObjectsInsertion\bin\Debug\APIUIAPI.dll
+I:\SYSTRA\Add-ins\ObjectsInsertion\ObjectsInsertion\bin\Debug\RevitMFCAPI.dll
+I:\SYSTRA\Add-ins\ObjectsInsertion\ObjectsInsertion\bin\Debug\EssentialsUIAPI.dll
+I:\SYSTRA\Add-ins\ObjectsInsertion\ObjectsInsertion\bin\Debug\EnergyAnalysisUtilitiesAPI.dll
+I:\SYSTRA\Add-ins\ObjectsInsertion\ObjectsInsertion\bin\Debug\DetailUIAPI.dll
+I:\SYSTRA\Add-ins\ObjectsInsertion\ObjectsInsertion\bin\Debug\UIFrameworkServices.dll
+I:\SYSTRA\Add-ins\ObjectsInsertion\ObjectsInsertion\bin\Debug\ManagedMC3.dll
+I:\SYSTRA\Add-ins\ObjectsInsertion\ObjectsInsertion\bin\Debug\RevitAPI.xml
+I:\SYSTRA\Add-ins\ObjectsInsertion\ObjectsInsertion\bin\Debug\RevitAPIUI.xml
+I:\SYSTRA\Add-ins\ObjectsInsertion\ObjectsInsertion\bin\Debug\cs-CZ\AdWindows.resources.dll
+I:\SYSTRA\Add-ins\ObjectsInsertion\ObjectsInsertion\bin\Debug\de-DE\AdWindows.resources.dll
+I:\SYSTRA\Add-ins\ObjectsInsertion\ObjectsInsertion\bin\Debug\en-US\AdWindows.resources.dll
+I:\SYSTRA\Add-ins\ObjectsInsertion\ObjectsInsertion\bin\Debug\es-ES\AdWindows.resources.dll
+I:\SYSTRA\Add-ins\ObjectsInsertion\ObjectsInsertion\bin\Debug\fr-FR\AdWindows.resources.dll
+I:\SYSTRA\Add-ins\ObjectsInsertion\ObjectsInsertion\bin\Debug\it-IT\AdWindows.resources.dll
+I:\SYSTRA\Add-ins\ObjectsInsertion\ObjectsInsertion\bin\Debug\ja-JP\AdWindows.resources.dll
+I:\SYSTRA\Add-ins\ObjectsInsertion\ObjectsInsertion\bin\Debug\ko-KR\AdWindows.resources.dll
+I:\SYSTRA\Add-ins\ObjectsInsertion\ObjectsInsertion\bin\Debug\pl-PL\AdWindows.resources.dll
+I:\SYSTRA\Add-ins\ObjectsInsertion\ObjectsInsertion\bin\Debug\pt-BR\AdWindows.resources.dll
+I:\SYSTRA\Add-ins\ObjectsInsertion\ObjectsInsertion\bin\Debug\ru-RU\AdWindows.resources.dll
+I:\SYSTRA\Add-ins\ObjectsInsertion\ObjectsInsertion\bin\Debug\zh-CN\AdWindows.resources.dll
+I:\SYSTRA\Add-ins\ObjectsInsertion\ObjectsInsertion\bin\Debug\zh-TW\AdWindows.resources.dll
+I:\SYSTRA\Add-ins\ObjectsInsertion\ObjectsInsertion\obj\Debug\ObjectsInsertion.dll
+I:\SYSTRA\Add-ins\ObjectsInsertion\ObjectsInsertion\obj\Debug\ObjectsInsertion.pdb
+D:\SYSTRA\Add-ins\ObjectsInsertion\ObjectsInsertion\bin\Debug\ObjectsInsertion.dll
+D:\SYSTRA\Add-ins\ObjectsInsertion\ObjectsInsertion\bin\Debug\ObjectsInsertion.pdb
+D:\SYSTRA\Add-ins\ObjectsInsertion\ObjectsInsertion\bin\Debug\RevitAPI.dll
+D:\SYSTRA\Add-ins\ObjectsInsertion\ObjectsInsertion\bin\Debug\RevitAPIUI.dll
+D:\SYSTRA\Add-ins\ObjectsInsertion\ObjectsInsertion\bin\Debug\RevitAPIFoundation.dll
+D:\SYSTRA\Add-ins\ObjectsInsertion\ObjectsInsertion\bin\Debug\RevitDBAPI.dll
+D:\SYSTRA\Add-ins\ObjectsInsertion\ObjectsInsertion\bin\Debug\UtilityAPI.dll
+D:\SYSTRA\Add-ins\ObjectsInsertion\ObjectsInsertion\bin\Debug\APIDBAPI.dll
+D:\SYSTRA\Add-ins\ObjectsInsertion\ObjectsInsertion\bin\Debug\GraphicsAPI.dll
+D:\SYSTRA\Add-ins\ObjectsInsertion\ObjectsInsertion\bin\Debug\ElementGroupDBAPI.dll
+D:\SYSTRA\Add-ins\ObjectsInsertion\ObjectsInsertion\bin\Debug\EssentialsDBAPI.dll
+D:\SYSTRA\Add-ins\ObjectsInsertion\ObjectsInsertion\bin\Debug\GeomUtilAPI.dll
+D:\SYSTRA\Add-ins\ObjectsInsertion\ObjectsInsertion\bin\Debug\FamilyDBAPI.dll
+D:\SYSTRA\Add-ins\ObjectsInsertion\ObjectsInsertion\bin\Debug\DetailDBAPI.dll
+D:\SYSTRA\Add-ins\ObjectsInsertion\ObjectsInsertion\bin\Debug\CurtainGridFamilyDBAPI.dll
+D:\SYSTRA\Add-ins\ObjectsInsertion\ObjectsInsertion\bin\Debug\ArrayElemsDBAPI.dll
+D:\SYSTRA\Add-ins\ObjectsInsertion\ObjectsInsertion\bin\Debug\EnergyAnalysisDBAPI.dll
+D:\SYSTRA\Add-ins\ObjectsInsertion\ObjectsInsertion\bin\Debug\BuildingSystemsDBAPI.dll
+D:\SYSTRA\Add-ins\ObjectsInsertion\ObjectsInsertion\bin\Debug\HostObjDBAPI.dll
+D:\SYSTRA\Add-ins\ObjectsInsertion\ObjectsInsertion\bin\Debug\RoomAreaPlanDBAPI.dll
+D:\SYSTRA\Add-ins\ObjectsInsertion\ObjectsInsertion\bin\Debug\SiteDBAPI.dll
+D:\SYSTRA\Add-ins\ObjectsInsertion\ObjectsInsertion\bin\Debug\SculptingDBAPI.dll
+D:\SYSTRA\Add-ins\ObjectsInsertion\ObjectsInsertion\bin\Debug\StructuralDBAPI.dll
+D:\SYSTRA\Add-ins\ObjectsInsertion\ObjectsInsertion\bin\Debug\InterfaceAPI.dll
+D:\SYSTRA\Add-ins\ObjectsInsertion\ObjectsInsertion\bin\Debug\InterfaceUtilAPI.dll
+D:\SYSTRA\Add-ins\ObjectsInsertion\ObjectsInsertion\bin\Debug\RebarDBAPI.dll
+D:\SYSTRA\Add-ins\ObjectsInsertion\ObjectsInsertion\bin\Debug\StructuralAnalysisDBAPI.dll
+D:\SYSTRA\Add-ins\ObjectsInsertion\ObjectsInsertion\bin\Debug\MassingDBAPI.dll
+D:\SYSTRA\Add-ins\ObjectsInsertion\ObjectsInsertion\bin\Debug\AssemblyDBAPI.dll
+D:\SYSTRA\Add-ins\ObjectsInsertion\ObjectsInsertion\bin\Debug\DPartDBAPI.dll
+D:\SYSTRA\Add-ins\ObjectsInsertion\ObjectsInsertion\bin\Debug\NumberingDBAPI.dll
+D:\SYSTRA\Add-ins\ObjectsInsertion\ObjectsInsertion\bin\Debug\PointCloudAccessAPI.dll
+D:\SYSTRA\Add-ins\ObjectsInsertion\ObjectsInsertion\bin\Debug\StairRampDBAPI.dll
+D:\SYSTRA\Add-ins\ObjectsInsertion\ObjectsInsertion\bin\Debug\AnalysisAppsDBAPI.dll
+D:\SYSTRA\Add-ins\ObjectsInsertion\ObjectsInsertion\bin\Debug\DBManagedServices.dll
+D:\SYSTRA\Add-ins\ObjectsInsertion\ObjectsInsertion\bin\Debug\AdWindows.dll
+D:\SYSTRA\Add-ins\ObjectsInsertion\ObjectsInsertion\bin\Debug\RevitAddInUtility.dll
+D:\SYSTRA\Add-ins\ObjectsInsertion\ObjectsInsertion\bin\Debug\APIInterop.dll
+D:\SYSTRA\Add-ins\ObjectsInsertion\ObjectsInsertion\bin\Debug\UIFramework.dll
+D:\SYSTRA\Add-ins\ObjectsInsertion\ObjectsInsertion\bin\Debug\AddInManager.dll
+D:\SYSTRA\Add-ins\ObjectsInsertion\ObjectsInsertion\bin\Debug\RevitUIAPI.dll
+D:\SYSTRA\Add-ins\ObjectsInsertion\ObjectsInsertion\bin\Debug\BuildingSystemsUIAPI.dll
+D:\SYSTRA\Add-ins\ObjectsInsertion\ObjectsInsertion\bin\Debug\DesktopMFCAPI.dll
+D:\SYSTRA\Add-ins\ObjectsInsertion\ObjectsInsertion\bin\Debug\APIUIAPI.dll
+D:\SYSTRA\Add-ins\ObjectsInsertion\ObjectsInsertion\bin\Debug\RevitMFCAPI.dll
+D:\SYSTRA\Add-ins\ObjectsInsertion\ObjectsInsertion\bin\Debug\EssentialsUIAPI.dll
+D:\SYSTRA\Add-ins\ObjectsInsertion\ObjectsInsertion\bin\Debug\EnergyAnalysisUtilitiesAPI.dll
+D:\SYSTRA\Add-ins\ObjectsInsertion\ObjectsInsertion\bin\Debug\DetailUIAPI.dll
+D:\SYSTRA\Add-ins\ObjectsInsertion\ObjectsInsertion\bin\Debug\UIFrameworkServices.dll
+D:\SYSTRA\Add-ins\ObjectsInsertion\ObjectsInsertion\bin\Debug\ManagedMC3.dll
+D:\SYSTRA\Add-ins\ObjectsInsertion\ObjectsInsertion\bin\Debug\RevitAPI.xml
+D:\SYSTRA\Add-ins\ObjectsInsertion\ObjectsInsertion\bin\Debug\RevitAPIUI.xml
+D:\SYSTRA\Add-ins\ObjectsInsertion\ObjectsInsertion\bin\Debug\cs-CZ\AdWindows.resources.dll
+D:\SYSTRA\Add-ins\ObjectsInsertion\ObjectsInsertion\bin\Debug\de-DE\AdWindows.resources.dll
+D:\SYSTRA\Add-ins\ObjectsInsertion\ObjectsInsertion\bin\Debug\en-US\AdWindows.resources.dll
+D:\SYSTRA\Add-ins\ObjectsInsertion\ObjectsInsertion\bin\Debug\es-ES\AdWindows.resources.dll
+D:\SYSTRA\Add-ins\ObjectsInsertion\ObjectsInsertion\bin\Debug\fr-FR\AdWindows.resources.dll
+D:\SYSTRA\Add-ins\ObjectsInsertion\ObjectsInsertion\bin\Debug\it-IT\AdWindows.resources.dll
+D:\SYSTRA\Add-ins\ObjectsInsertion\ObjectsInsertion\bin\Debug\ja-JP\AdWindows.resources.dll
+D:\SYSTRA\Add-ins\ObjectsInsertion\ObjectsInsertion\bin\Debug\ko-KR\AdWindows.resources.dll
+D:\SYSTRA\Add-ins\ObjectsInsertion\ObjectsInsertion\bin\Debug\pl-PL\AdWindows.resources.dll
+D:\SYSTRA\Add-ins\ObjectsInsertion\ObjectsInsertion\bin\Debug\pt-BR\AdWindows.resources.dll
+D:\SYSTRA\Add-ins\ObjectsInsertion\ObjectsInsertion\bin\Debug\ru-RU\AdWindows.resources.dll
+D:\SYSTRA\Add-ins\ObjectsInsertion\ObjectsInsertion\bin\Debug\zh-CN\AdWindows.resources.dll
+D:\SYSTRA\Add-ins\ObjectsInsertion\ObjectsInsertion\bin\Debug\zh-TW\AdWindows.resources.dll
+D:\SYSTRA\Add-ins\ObjectsInsertion\ObjectsInsertion\obj\Debug\ObjectsInsertion.csprojResolveAssemblyReference.cache
+D:\SYSTRA\Add-ins\ObjectsInsertion\ObjectsInsertion\obj\Debug\ObjectsInsertion.dll
+D:\SYSTRA\Add-ins\ObjectsInsertion\ObjectsInsertion\obj\Debug\ObjectsInsertion.pdb
+D:\SYSTRA\Add-ins\ObjectsInsertion\ObjectsInsertion\obj\Debug\ObjectsInsertion.csproj.ResolveComReference.cache
+D:\SYSTRA\Add-ins\ObjectsInsertion\ObjectsInsertion\obj\Debug\ObjectsInsertion.BIOC.resources
+D:\SYSTRA\Add-ins\ObjectsInsertion\ObjectsInsertion\obj\Debug\ObjectsInsertion.csproj.GenerateResource.Cache
+I:\SYSTRA\Add-ins\ObjectsInsertion\ObjectsInsertion\obj\Debug\ObjectsInsertion.csproj.ResolveComReference.cache
+I:\SYSTRA\Add-ins\ObjectsInsertion\ObjectsInsertion\obj\Debug\ObjectsInsertion.BIOC.resources
+I:\SYSTRA\Add-ins\ObjectsInsertion\ObjectsInsertion\obj\Debug\ObjectsInsertion.csproj.GenerateResource.Cache
+C:\Users\lgibaud\OneDrive - SystraGroup\Documents\Add-ins\ObjectsInsertion\ObjectsInsertion\bin\Debug\ObjectsInsertion.dll
+C:\Users\lgibaud\OneDrive - SystraGroup\Documents\Add-ins\ObjectsInsertion\ObjectsInsertion\bin\Debug\ObjectsInsertion.pdb
+C:\Users\lgibaud\OneDrive - SystraGroup\Documents\Add-ins\ObjectsInsertion\ObjectsInsertion\bin\Debug\RevitAPI.dll
+C:\Users\lgibaud\OneDrive - SystraGroup\Documents\Add-ins\ObjectsInsertion\ObjectsInsertion\bin\Debug\RevitAPIUI.dll
+C:\Users\lgibaud\OneDrive - SystraGroup\Documents\Add-ins\ObjectsInsertion\ObjectsInsertion\bin\Debug\RevitAPIFoundation.dll
+C:\Users\lgibaud\OneDrive - SystraGroup\Documents\Add-ins\ObjectsInsertion\ObjectsInsertion\bin\Debug\RevitDBAPI.dll
+C:\Users\lgibaud\OneDrive - SystraGroup\Documents\Add-ins\ObjectsInsertion\ObjectsInsertion\bin\Debug\UtilityAPI.dll
+C:\Users\lgibaud\OneDrive - SystraGroup\Documents\Add-ins\ObjectsInsertion\ObjectsInsertion\bin\Debug\APIDBAPI.dll
+C:\Users\lgibaud\OneDrive - SystraGroup\Documents\Add-ins\ObjectsInsertion\ObjectsInsertion\bin\Debug\GraphicsAPI.dll
+C:\Users\lgibaud\OneDrive - SystraGroup\Documents\Add-ins\ObjectsInsertion\ObjectsInsertion\bin\Debug\ElementGroupDBAPI.dll
+C:\Users\lgibaud\OneDrive - SystraGroup\Documents\Add-ins\ObjectsInsertion\ObjectsInsertion\bin\Debug\EssentialsDBAPI.dll
+C:\Users\lgibaud\OneDrive - SystraGroup\Documents\Add-ins\ObjectsInsertion\ObjectsInsertion\bin\Debug\GeomUtilAPI.dll
+C:\Users\lgibaud\OneDrive - SystraGroup\Documents\Add-ins\ObjectsInsertion\ObjectsInsertion\bin\Debug\FamilyDBAPI.dll
+C:\Users\lgibaud\OneDrive - SystraGroup\Documents\Add-ins\ObjectsInsertion\ObjectsInsertion\bin\Debug\DetailDBAPI.dll
+C:\Users\lgibaud\OneDrive - SystraGroup\Documents\Add-ins\ObjectsInsertion\ObjectsInsertion\bin\Debug\CurtainGridFamilyDBAPI.dll
+C:\Users\lgibaud\OneDrive - SystraGroup\Documents\Add-ins\ObjectsInsertion\ObjectsInsertion\bin\Debug\ArrayElemsDBAPI.dll
+C:\Users\lgibaud\OneDrive - SystraGroup\Documents\Add-ins\ObjectsInsertion\ObjectsInsertion\bin\Debug\EnergyAnalysisDBAPI.dll
+C:\Users\lgibaud\OneDrive - SystraGroup\Documents\Add-ins\ObjectsInsertion\ObjectsInsertion\bin\Debug\BuildingSystemsDBAPI.dll
+C:\Users\lgibaud\OneDrive - SystraGroup\Documents\Add-ins\ObjectsInsertion\ObjectsInsertion\bin\Debug\HostObjDBAPI.dll
+C:\Users\lgibaud\OneDrive - SystraGroup\Documents\Add-ins\ObjectsInsertion\ObjectsInsertion\bin\Debug\RoomAreaPlanDBAPI.dll
+C:\Users\lgibaud\OneDrive - SystraGroup\Documents\Add-ins\ObjectsInsertion\ObjectsInsertion\bin\Debug\SiteDBAPI.dll
+C:\Users\lgibaud\OneDrive - SystraGroup\Documents\Add-ins\ObjectsInsertion\ObjectsInsertion\bin\Debug\SculptingDBAPI.dll
+C:\Users\lgibaud\OneDrive - SystraGroup\Documents\Add-ins\ObjectsInsertion\ObjectsInsertion\bin\Debug\StructuralDBAPI.dll
+C:\Users\lgibaud\OneDrive - SystraGroup\Documents\Add-ins\ObjectsInsertion\ObjectsInsertion\bin\Debug\InterfaceAPI.dll
+C:\Users\lgibaud\OneDrive - SystraGroup\Documents\Add-ins\ObjectsInsertion\ObjectsInsertion\bin\Debug\InterfaceUtilAPI.dll
+C:\Users\lgibaud\OneDrive - SystraGroup\Documents\Add-ins\ObjectsInsertion\ObjectsInsertion\bin\Debug\RebarDBAPI.dll
+C:\Users\lgibaud\OneDrive - SystraGroup\Documents\Add-ins\ObjectsInsertion\ObjectsInsertion\bin\Debug\StructuralAnalysisDBAPI.dll
+C:\Users\lgibaud\OneDrive - SystraGroup\Documents\Add-ins\ObjectsInsertion\ObjectsInsertion\bin\Debug\MassingDBAPI.dll
+C:\Users\lgibaud\OneDrive - SystraGroup\Documents\Add-ins\ObjectsInsertion\ObjectsInsertion\bin\Debug\AssemblyDBAPI.dll
+C:\Users\lgibaud\OneDrive - SystraGroup\Documents\Add-ins\ObjectsInsertion\ObjectsInsertion\bin\Debug\DPartDBAPI.dll
+C:\Users\lgibaud\OneDrive - SystraGroup\Documents\Add-ins\ObjectsInsertion\ObjectsInsertion\bin\Debug\NumberingDBAPI.dll
+C:\Users\lgibaud\OneDrive - SystraGroup\Documents\Add-ins\ObjectsInsertion\ObjectsInsertion\bin\Debug\PointCloudAccessAPI.dll
+C:\Users\lgibaud\OneDrive - SystraGroup\Documents\Add-ins\ObjectsInsertion\ObjectsInsertion\bin\Debug\StairRampDBAPI.dll
+C:\Users\lgibaud\OneDrive - SystraGroup\Documents\Add-ins\ObjectsInsertion\ObjectsInsertion\bin\Debug\AnalysisAppsDBAPI.dll
+C:\Users\lgibaud\OneDrive - SystraGroup\Documents\Add-ins\ObjectsInsertion\ObjectsInsertion\bin\Debug\DBManagedServices.dll
+C:\Users\lgibaud\OneDrive - SystraGroup\Documents\Add-ins\ObjectsInsertion\ObjectsInsertion\bin\Debug\AdWindows.dll
+C:\Users\lgibaud\OneDrive - SystraGroup\Documents\Add-ins\ObjectsInsertion\ObjectsInsertion\bin\Debug\RevitAddInUtility.dll
+C:\Users\lgibaud\OneDrive - SystraGroup\Documents\Add-ins\ObjectsInsertion\ObjectsInsertion\bin\Debug\APIInterop.dll
+C:\Users\lgibaud\OneDrive - SystraGroup\Documents\Add-ins\ObjectsInsertion\ObjectsInsertion\bin\Debug\UIFramework.dll
+C:\Users\lgibaud\OneDrive - SystraGroup\Documents\Add-ins\ObjectsInsertion\ObjectsInsertion\bin\Debug\AddInManager.dll
+C:\Users\lgibaud\OneDrive - SystraGroup\Documents\Add-ins\ObjectsInsertion\ObjectsInsertion\bin\Debug\RevitUIAPI.dll
+C:\Users\lgibaud\OneDrive - SystraGroup\Documents\Add-ins\ObjectsInsertion\ObjectsInsertion\bin\Debug\BuildingSystemsUIAPI.dll
+C:\Users\lgibaud\OneDrive - SystraGroup\Documents\Add-ins\ObjectsInsertion\ObjectsInsertion\bin\Debug\DesktopMFCAPI.dll
+C:\Users\lgibaud\OneDrive - SystraGroup\Documents\Add-ins\ObjectsInsertion\ObjectsInsertion\bin\Debug\APIUIAPI.dll
+C:\Users\lgibaud\OneDrive - SystraGroup\Documents\Add-ins\ObjectsInsertion\ObjectsInsertion\bin\Debug\RevitMFCAPI.dll
+C:\Users\lgibaud\OneDrive - SystraGroup\Documents\Add-ins\ObjectsInsertion\ObjectsInsertion\bin\Debug\EssentialsUIAPI.dll
+C:\Users\lgibaud\OneDrive - SystraGroup\Documents\Add-ins\ObjectsInsertion\ObjectsInsertion\bin\Debug\EnergyAnalysisUtilitiesAPI.dll
+C:\Users\lgibaud\OneDrive - SystraGroup\Documents\Add-ins\ObjectsInsertion\ObjectsInsertion\bin\Debug\DetailUIAPI.dll
+C:\Users\lgibaud\OneDrive - SystraGroup\Documents\Add-ins\ObjectsInsertion\ObjectsInsertion\bin\Debug\UIFrameworkServices.dll
+C:\Users\lgibaud\OneDrive - SystraGroup\Documents\Add-ins\ObjectsInsertion\ObjectsInsertion\bin\Debug\ManagedMC3.dll
+C:\Users\lgibaud\OneDrive - SystraGroup\Documents\Add-ins\ObjectsInsertion\ObjectsInsertion\bin\Debug\RevitAPI.xml
+C:\Users\lgibaud\OneDrive - SystraGroup\Documents\Add-ins\ObjectsInsertion\ObjectsInsertion\bin\Debug\RevitAPIUI.xml
+C:\Users\lgibaud\OneDrive - SystraGroup\Documents\Add-ins\ObjectsInsertion\ObjectsInsertion\bin\Debug\cs-CZ\AdWindows.resources.dll
+C:\Users\lgibaud\OneDrive - SystraGroup\Documents\Add-ins\ObjectsInsertion\ObjectsInsertion\bin\Debug\de-DE\AdWindows.resources.dll
+C:\Users\lgibaud\OneDrive - SystraGroup\Documents\Add-ins\ObjectsInsertion\ObjectsInsertion\bin\Debug\en-US\AdWindows.resources.dll
+C:\Users\lgibaud\OneDrive - SystraGroup\Documents\Add-ins\ObjectsInsertion\ObjectsInsertion\bin\Debug\es-ES\AdWindows.resources.dll
+C:\Users\lgibaud\OneDrive - SystraGroup\Documents\Add-ins\ObjectsInsertion\ObjectsInsertion\bin\Debug\fr-FR\AdWindows.resources.dll
+C:\Users\lgibaud\OneDrive - SystraGroup\Documents\Add-ins\ObjectsInsertion\ObjectsInsertion\bin\Debug\it-IT\AdWindows.resources.dll
+C:\Users\lgibaud\OneDrive - SystraGroup\Documents\Add-ins\ObjectsInsertion\ObjectsInsertion\bin\Debug\ja-JP\AdWindows.resources.dll
+C:\Users\lgibaud\OneDrive - SystraGroup\Documents\Add-ins\ObjectsInsertion\ObjectsInsertion\bin\Debug\ko-KR\AdWindows.resources.dll
+C:\Users\lgibaud\OneDrive - SystraGroup\Documents\Add-ins\ObjectsInsertion\ObjectsInsertion\bin\Debug\pl-PL\AdWindows.resources.dll
+C:\Users\lgibaud\OneDrive - SystraGroup\Documents\Add-ins\ObjectsInsertion\ObjectsInsertion\bin\Debug\pt-BR\AdWindows.resources.dll
+C:\Users\lgibaud\OneDrive - SystraGroup\Documents\Add-ins\ObjectsInsertion\ObjectsInsertion\bin\Debug\ru-RU\AdWindows.resources.dll
+C:\Users\lgibaud\OneDrive - SystraGroup\Documents\Add-ins\ObjectsInsertion\ObjectsInsertion\bin\Debug\zh-CN\AdWindows.resources.dll
+C:\Users\lgibaud\OneDrive - SystraGroup\Documents\Add-ins\ObjectsInsertion\ObjectsInsertion\bin\Debug\zh-TW\AdWindows.resources.dll
+C:\Users\lgibaud\OneDrive - SystraGroup\Documents\Add-ins\ObjectsInsertion\ObjectsInsertion\obj\Debug\ObjectsInsertion.csprojAssemblyReference.cache
+C:\Users\lgibaud\OneDrive - SystraGroup\Documents\Add-ins\ObjectsInsertion\ObjectsInsertion\obj\Debug\ObjectsInsertion.csproj.ResolveComReference.cache
+C:\Users\lgibaud\OneDrive - SystraGroup\Documents\Add-ins\ObjectsInsertion\ObjectsInsertion\obj\Debug\ObjectsInsertion.BIOC.resources
+C:\Users\lgibaud\OneDrive - SystraGroup\Documents\Add-ins\ObjectsInsertion\ObjectsInsertion\obj\Debug\ObjectsInsertion.csproj.GenerateResource.cache
+C:\Users\lgibaud\OneDrive - SystraGroup\Documents\Add-ins\ObjectsInsertion\ObjectsInsertion\obj\Debug\ObjectsInsertion.csproj.CoreCompileInputs.cache
+C:\Users\lgibaud\OneDrive - SystraGroup\Documents\Add-ins\ObjectsInsertion\ObjectsInsertion\obj\Debug\ObjectsInsertion.csproj.CopyComplete
+C:\Users\lgibaud\OneDrive - SystraGroup\Documents\Add-ins\ObjectsInsertion\ObjectsInsertion\obj\Debug\ObjectsInsertion.dll
+C:\Users\lgibaud\OneDrive - SystraGroup\Documents\Add-ins\ObjectsInsertion\ObjectsInsertion\obj\Debug\ObjectsInsertion.pdb
