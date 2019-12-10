@@ -17,6 +17,20 @@ class AlignmentsController {
         }
     }
 
+    async addPointOnAlignment(req, res, next) {
+        try {
+            if (req.body && req.params.id) {
+                const alignment = await alignmentsModel.addPointOnAlignement(req.body, req.params.id);
+                if (alignment) {
+                    res.status(200).json({ status: 200, data: alignment, message: "Succesfully add one alignment" });
+                }
+
+            }
+        } catch (error) {
+            next(error);
+        }
+    }
+
     async setAllAlignments(req, res, next) {
         try {
             if (req.body) {

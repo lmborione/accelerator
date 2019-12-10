@@ -73,6 +73,15 @@ function addNewAlignment(alignment) {
     return newAlignment;
 }
 
+function addPointOnAlignement(id, points) {
+    const alignments = readAlignments();
+    const index = alignments.indexOf(e => e.forgeId == alignment.dbid);
+    if (index >= 0) {
+        countAlignments.XYZs.push(points);
+    }
+    return id;
+}
+
 function setAllAlignments(dataset) {
     var tab_res = dataset.map((e, i) => {
         return {
@@ -91,5 +100,6 @@ module.exports = {
     getAlignmentByName,
     getAlignmentById,
     setAllAlignments,
-    addNewAlignment
+    addNewAlignment,
+    addPointOnAlignement
 };
