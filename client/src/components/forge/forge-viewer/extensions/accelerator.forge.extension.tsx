@@ -132,17 +132,15 @@ export class AIMSPainterForgeExtension extends Autodesk.Viewing.Extension {
 
 			var vb_array = frags.geometry.vb;
 
-			var tab_pos = [];
-
 			//loop through vb to get pos
-			tab_pos.push(new THREE.Vector3(vb_array[0], vb_array[1], vb_array[2]));
+			result.push(new THREE.Vector3(vb_array[0], vb_array[1], vb_array[2]));
 
 			var i = 6;
 			while (i < vb_array.length) {
 				var pos = new THREE.Vector3(vb_array[i], vb_array[i + 1], vb_array[i + 2]);
 				var world_pos = frags.localToWorld(pos);
 
-				tab_pos.push(world_pos);
+				result.push(world_pos);
 				i += 12;
 			}
 		});
