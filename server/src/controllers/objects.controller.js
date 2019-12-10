@@ -6,6 +6,8 @@ class ObjectsController {
     async getAllObjects(req, res) {
         var page = req.query.page ? parseInt(req.query.page) : 0;
         var limit = req.query.limit ? parseInt(req.query.limit) : 10;
+        console.log('getting all objects');
+
         const totalObjects = objectsModel.countObjects();
         const objects = await objectsModel.getAllObjects(page, limit);
         return res.status(200).json({ status: 200, data: objects, pages: Math.ceil(totalObjects / limit), message: "Succesfully Retrieved Assets" });

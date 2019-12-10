@@ -48,30 +48,29 @@ function getAlignmentById(id) {
 }
 
 function setAllAlignments(dataset) {
-    var tab_res = [];
-    if (dataset) {
-        for (var i = 0; i < dataset.length; i++) {
-            tab_res.push({
-                id: i,
-                ForgeId: dataset[i].dbid,
-                XYZs: dataset[i].XYZs
-            });
-        }
-    }
-
-
-    //delete file if exist
-    fs.unlink(path, () => { });
-
-    //create new file 
-    tab_res = JSON.stringify(tab_res)
-    fs.writeFile(path, tab_res, function (err) {
-        if (err) {
-            return console.log(err);
-        } else {
-            return tab_res;
+    var tab_res = dataset.map((e, i) => {
+        return {
+            id: i,
+            ForgeId: dataset[i].dbid,
+            XYZs: dataset[i].XYZs
         }
     });
+    console.log(tab_res);
+
+    fs.writeFileSync(path, JSON.stringify(tab_res));
+
+    // //delete file if exist
+    // fs.unlink(path, () => { });
+
+    // //create new file 
+    // tab_res = JSON.stringify(tab_res)
+    // fs.writeFile(path, tab_res, function (err) {
+    //     if (err) {
+    //         return console.log(err);
+    //     } else {
+    //         return tab_res;
+    //     }
+    // });
 
 }
 
