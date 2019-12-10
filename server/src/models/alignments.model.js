@@ -48,6 +48,7 @@ function getAlignmentById(id) {
 }
 
 function setAllAlignments(dataset) {
+    console.log("ok");
     var tab_res = [];
     if (dataset) {
         for (var i = 0; i < dataset.length; i++) {
@@ -61,7 +62,13 @@ function setAllAlignments(dataset) {
 
 
     //delete file if exist
-    fs.unlink(path, () => { });
+    fs.unlink(path, (err) => {
+        if (err) {
+            console.log("error on deletion");
+        } else {
+            console.log("file deleted");
+        }
+    });
 
     //create new file 
     tab_res = JSON.stringify(tab_res)

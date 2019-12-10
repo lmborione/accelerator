@@ -17,6 +17,7 @@ class AlignmentService {
 	}
 
 	async addAlignments(newData: any): Promise<any> {
+		console.log(newData);
 		try {
 			const response = await fetch('/api/alignments/add/all', {
 				method: 'POST',
