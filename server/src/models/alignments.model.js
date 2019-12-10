@@ -50,7 +50,7 @@ function getAlignmentById(id) {
 function addNewAlignment(alignment) {
     const alignments = readAlignments();
     let newAlignment = undefined;
-    const index = alignments.indexOf(e => e.forgeId == alignment.dbid);
+    const index = alignments.indexOf(e => e.forgeId === parseInt(alignment.dbid));
     if (index >= 0) {
         newAlignment = {
             id: index,
@@ -75,7 +75,7 @@ function addNewAlignment(alignment) {
 
 function addPointOnAlignement(id, points) {
     const alignments = readAlignments();
-    const index = alignments.indexOf(e => e.forgeId == alignment.dbid);
+    const index = alignments.indexOf(e => e.forgeId === parseInt(alignment.dbid));
     if (index >= 0) {
         countAlignments.XYZs.push(points);
     }
