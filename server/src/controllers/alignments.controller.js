@@ -4,7 +4,7 @@ class AlignmentsController {
     constructor() { }
 
     async setAllAlignments(req, res) {
-        const alignments = null;
+        let alignments = null;
         if (req.body) {
             alignments = await alignmentsModel.setAllAlignments(req.body);
         }
