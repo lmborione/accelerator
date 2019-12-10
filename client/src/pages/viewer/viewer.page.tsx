@@ -35,13 +35,17 @@ class Viewer extends Component<RouteComponentProps> {
 	render() {
 		return (
 			<SplitPane className="splitter" split="vertical" minSize={'30%'} defaultSize={'70%'}>
-				<ForgeViewer ref={this.forgeViewerRef} urn={`urn:${this.props.location.state.urn}`} />
-				<ObjectList
-					editable={false}
-					fetchData={true}
-					displayColumnIndexes={[ -1 ]}
-					getData={this.onGetObjects}
-				/>
+				<div>
+					<ForgeViewer ref={this.forgeViewerRef} urn={`urn:${this.props.location.state.urn}`} />
+				</div>
+				<div>
+					<ObjectList
+						editable={false}
+						fetchData={true}
+						displayColumnIndexes={[ -1 ]}
+						getData={this.onGetObjects}
+					/>
+				</div>
 			</SplitPane>
 		);
 	}

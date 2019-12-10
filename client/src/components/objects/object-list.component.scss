@@ -1,25 +1,26 @@
-.table-input{
+.table-input {
     border: 0px;
-    min-width:50px!important;
+    min-width: 50px !important;
     width: 100%;
     background: transparent;
 }
 
-.react-table{
+.react-table {
     overflow-y: hidden;
-    max-height: calc(100% - 60px) !important;
+    max-height: calc(100% - 200px) !important;
     width: 100%;
 }
 
-.inner-border { 
+.inner-border {
     height: 100%;
-    width: 100%;;
-} 
+    width: 100%;
+    ;
+}
 
-.inner-border::-webkit-scrollbar { 
-    display: none; 
-} 
+.inner-border::-webkit-scrollbar {
+    display: none;
+}
 
-.selected-row{
+.selected-row {
     background-color: rgb(255, 179, 179) !important;
-  }
+}

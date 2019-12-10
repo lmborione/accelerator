@@ -7,44 +7,52 @@ function readAlignments() {
     if (rowData) {
         return JSON.parse(rowData);
     } else {
-        return error;
+        throw new Error('cannot read file');
     }
 }
 
 function countAlignments() {
     const alignments = readAlignments();
-    if (alignments !== error) {
+    if (alignments) {
         return alignments.length
-    } else {
-        return error;
     }
 }
 
 function getAllAlignments(page, limit) {
     const alignments = readAlignments();
-    if (alignments !== error) {
-        return alignments.slice(page * limit, (page + 1) * limit);
-    } else {
-        return error;
-    }
+    return alignments.slice(page * limit, (page + 1) * limit);
 }
 
 function getAlignmentByName(name) {
     const alignments = readAlignments();
-    if (alignments !== error) {
-        return alignments.filter((e) => e.name == name);
-    } else {
-        return error;
+
+    let alignment = alignments.filter((e) => e.name == name);
+    if (alignement) {
+        delete alignment.XYZs;
+        return alignment;
     }
+    return null;
 }
 
 function getAlignmentById(id) {
     const alignments = readAlignments();
-    if (alignments !== error) {
-        return alignments.filter((e) => e.id == id);
-    } else {
-        return error;
+
+    let alignment = alignments.filter((e) => e.id == id);
+    if (alignment) {
+        delete alignment.XYZs;
+        return alignment;
     }
+    return null;
+}
+
+function getPointsOfAlignmentsById(id, page, limit) {
+    const alignments = readAlignments();
+
+    let alignment = alignments.filter((e) => e.id == id);
+    if (alignment) {
+        return alignment.XYZs.slice(page * limit, (page + 1) * limit);;
+    }
+    return null;
 }
 
 function addNewAlignment(alignment) {
@@ -104,5 +112,6 @@ module.exports = {
     getAlignmentById,
     setAllAlignments,
     addNewAlignment,
-    addPointOnAlignement
+    addPointOnAlignement,
+    getPointsOfAlignmentsById
 };
