@@ -12,6 +12,10 @@ dotenv.config();
 
 const app = express();
 app.use(bodyParser.json());
+
+app.use(bodyParser.json({ limit: '10mb' }));
+app.use(bodyParser.urlencoded({ extended: true, limit: '10mb' }));
+
 app.use(methodOverride());
 
 const port = process.env.PORT || 5000;
