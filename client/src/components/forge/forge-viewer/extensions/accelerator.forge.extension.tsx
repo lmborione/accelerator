@@ -13,6 +13,7 @@ export class AIMSPainterForgeExtension extends Autodesk.Viewing.Extension {
 	_group: Autodesk.Viewing.UI.ControlGroup | null;
 	_btnUploadAlignment: Autodesk.Viewing.UI.Button | null;
 	_toolbar: Autodesk.Viewing.UI.ToolBar | null;
+	_alignmentService: any = ServiceManager.getService('AlignmentService');
 
 	constructor(viewer: Autodesk.Viewing.GuiViewer3D, options: any) {
 		super(viewer, options);
@@ -107,47 +108,46 @@ export class AIMSPainterForgeExtension extends Autodesk.Viewing.Extension {
 			for (var i = 0; i < ids.length; i++) {
 				data.push({
 					dbid: ids[i],
-					XYZs: "bonjour"
-					//XYZs: this.XYZPointsfromID(ids[i])
+					//XYZs: "bonjour"
+					XYZs: this.XYZPointsfromID(ids[i])
 				});
 			}
 
 			if (data) {
-				const alignments = ServiceManager.getService('AlignmentService').addAlignments(data);
+				const alignments = this._alignmentService.addAlignments(data);
 				console.log(alignments);
 			}
 		});
 	}
 
-	// XYZPointsfromID = (nodeId: number) => {
-	// 	var result = [] as THREE.Vector3[];
-	// 	const myviewer = this.viewer;
+	XYZPointsfromID = (nodeId: number) => {
+		var result = [] as THREE.Vector3[];
+		const myviewer = this.viewer;
 
-	// 	this.viewer.model.getInstanceTree().enumNodeFragments(nodeId, (frag) => {
-	// 		let fragProxy = myviewer.impl.getFragmentProxy(myviewer.model, frag);
+		this.viewer.model.getInstanceTree().enumNodeFragments(nodeId, (frag) => {
+			let impl = myviewer.impl as any
+			let fragProxy = impl.getFragmentProxy(myviewer.model, frag);
 
-	// 		var frags = fragProxy.frags.getVizmesh(fragProxy.fragId);
+			var frags = fragProxy.frags.getVizmesh(fragProxy.fragId);
 
-	// 		var vb_array = frags.geometry.vb;
+			var vb_array = frags.geometry.vb;
 
-	// 		var tab_pos = [];
+			var tab_pos = [];
 
-	// 		//loop through vb to get pos
-	// 		tab_pos.push(new THREE.Vector3(vb_array[0], vb_array[1], vb_array[2]));
+			//loop through vb to get pos
+			tab_pos.push(new THREE.Vector3(vb_array[0], vb_array[1], vb_array[2]));
 
-	// 		var i = 6;
-	// 		while (i < vb_array.length) {
-	// 			var pos = new THREE.Vector3(vb_array[i], vb_array[i + 1], vb_array[i + 2]);
-	// 			var world_pos = frags.localToWorld(pos);
+			var i = 6;
+			while (i < vb_array.length) {
+				var pos = new THREE.Vector3(vb_array[i], vb_array[i + 1], vb_array[i + 2]);
+				var world_pos = frags.localToWorld(pos);
 
-	// 			tab_pos.push(world_pos);
-	// 			i += 12;
-	// 		}
-
-
-	// 	});
-	// 	return result;
-	// }
+				tab_pos.push(world_pos);
+				i += 12;
+			}
+		});
+		return result;
+	}
 }
 
 
