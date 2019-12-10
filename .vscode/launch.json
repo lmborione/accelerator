@@ -7,10 +7,10 @@
         "type": "node",
         "request": "launch",
         "name": "Start server",
-        "program": "${workspaceFolder}\\server\\src\\test.js",
+        "program": "${workspaceFolder}\\server\\src\\services\\forge.service.js",
         "env": {
-            "CONSUMER_KEY": "W2I80AOTn5pnEnaThJbECN2t6gSsh1HV",
-            "CONSUMER_SECRET": "FFqMpVKwwCmWxiKR",
+            "CLIENT_ID": "W2I80AOTn5pnEnaThJbECN2t6gSsh1HV",
+            "CLIENT_SECRET": "FFqMpVKwwCmWxiKR",
             "NODE_TLS_REJECT_UNAUTHORIZED": "0"
         }
     }]

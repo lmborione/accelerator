@@ -1,4 +1,5 @@
 var alignmentsModel = require('../models/alignments.model');
+const svcMng = require('../services/manager.service').ServiceManager;
 
 class AlignmentsController {
     constructor() { }
@@ -51,6 +52,26 @@ class AlignmentsController {
             return res.status(200).json({ status: 200, data: alignments, message: "Succesfully Retrieved alignment of asset" });
         }
     }
+
+    async parsePointOnServer(req, res, next) {
+        console.log('here');
+        try {
+            console.log(req.query.urn);
+
+            if (req.query.urn) {
+                const dbIds = req.body;
+                const forgeSvc = svcMng.getService('ForgeService');
+                const alignments = await forgeSvc.getPointsFromAlignements(req.query.urn, dbIds);
+                await alignmentsModel.setAllAlignments(alignments);
+                return res.status(200).json({ status: 200, data: alignments.length, message: "Succesfully Retrieved alignment of asset" });
+            }
+        } catch (error) {
+            next(error)
+        }
+
+    }
+
+
 }
 
 module.exports = {

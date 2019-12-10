@@ -94,15 +94,8 @@ function addPointOnAlignement(id, points) {
 }
 
 function setAllAlignments(dataset) {
-    var tab_res = dataset.map((e, i) => {
-        return {
-            id: i,
-            ForgeId: dataset[i].dbid,
-            XYZs: dataset[i].XYZs
-        }
-    });
-    fs.writeFileSync(path, JSON.stringify(tab_res));
-    return tab_res;
+    fs.writeFileSync(path, JSON.stringify(dataset));
+    return dataset;
 }
 
 module.exports = {

@@ -5,6 +5,9 @@ const methodOverride = require("method-override");
 const routes = require('./routes/index');
 
 const authSvc = require('./services/auth.service');
+const alignSvc = require('./services/align.service');
+const forgeSvc = require('./services/forge.service');
+
 const SvcMng = require('./services/manager.service').ServiceManager;
 
 const dotenv = require('dotenv');
@@ -65,9 +68,16 @@ var allowCrossDomain = function (req, res, next) {
 const authService = new authSvc.AuthService();
 SvcMng.registerService(authService);
 
+const alignService = new alignSvc.AlignService();
+SvcMng.registerService(alignService);
+
+const forgeService = new forgeSvc.ForgeService();
+SvcMng.registerService(forgeService);
+
 // app.use(allowCrossDomain);
 
 app.use('/home', express.static(`${__dirname}/../client`));
+
 
 app.use('/api', routes);
 app.use(errorHandler);

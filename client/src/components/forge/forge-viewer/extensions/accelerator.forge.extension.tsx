@@ -17,6 +17,7 @@ export class AIMSPainterForgeExtension extends Autodesk.Viewing.Extension {
 
 	constructor(viewer: Autodesk.Viewing.GuiViewer3D, options: any) {
 		super(viewer, options);
+
 		this._group = null;
 		this._btnUploadAlignment = null;
 		this._toolbar = null;
@@ -24,6 +25,7 @@ export class AIMSPainterForgeExtension extends Autodesk.Viewing.Extension {
 
 	load() {
 		console.log(`${ExtensionId} has been loaded`);
+
 		return true;
 	}
 
@@ -84,18 +86,17 @@ export class AIMSPainterForgeExtension extends Autodesk.Viewing.Extension {
 				);
 			}
 		}
-	}
-
+	};
 
 	onAddAlignmentData = () => {
-		this.viewer.model.getObjectTree(instanceTree => {
+		this.viewer.model.getObjectTree((instanceTree) => {
 			var myviewer = this.viewer;
 
 			//Get all the objects IDs
 			const ids = [] as any[];
 			instanceTree.enumNodeChildren(
 				instanceTree.getRootId(),
-				id => {
+				(id) => {
 					if (instanceTree.getChildCount(id) === 0) {
 						ids.push(id);
 					}
@@ -103,30 +104,31 @@ export class AIMSPainterForgeExtension extends Autodesk.Viewing.Extension {
 				true
 			);
 
-			//get XYZ points from alignments and add in data
-			var data = [];
-			for (var i = 0; i < ids.length; i++) {
-				data.push({
-					dbid: ids[i],
-					XYZs: this.XYZPointsfromID(ids[i])
-				});
-			}
+			// //get XYZ points from alignments and add in data
+			// var data = [];
+			// for (var i = 0; i < ids.length; i++) {
+			// 	data.push({
+			// 		dbid: ids[i],
+			// 		// XYZs: this.XYZPointsfromID(ids[i])
+			// 	});
+			// }
 
-			if (data) {
-				this._alignmentService.addAlignment(data);
+			if (ids && ids.length > 0) {
+				this._alignmentService.addAlignment(this.viewer.getState().seedURN, ids);
 			}
 		});
-	}
+	};
 
 	XYZPointsfromID = (nodeId: number) => {
 		var result = [] as THREE.Vector3[];
 		const myviewer = this.viewer;
 
 		this.viewer.model.getInstanceTree().enumNodeFragments(nodeId, (frag) => {
-			let impl = myviewer.impl as any
+			let impl = myviewer.impl as any;
 			let fragProxy = impl.getFragmentProxy(myviewer.model, frag);
 
 			var frags = fragProxy.frags.getVizmesh(fragProxy.fragId);
+			console.log(frags);
 
 			var vb_array = frags.geometry.vb;
 
@@ -139,14 +141,17 @@ export class AIMSPainterForgeExtension extends Autodesk.Viewing.Extension {
 			while (i < vb_array.length) {
 				var pos = new THREE.Vector3(vb_array[i], vb_array[i + 1], vb_array[i + 2]);
 				var world_pos = frags.localToWorld(pos);
-				world_pos = new THREE.Vector3(parseFloat(world_pos.x.toFixed(3)), parseFloat(world_pos.y.toFixed(3)), parseFloat(world_pos.z.toFixed(3)));
+				world_pos = new THREE.Vector3(
+					parseFloat(world_pos.x.toFixed(3)),
+					parseFloat(world_pos.y.toFixed(3)),
+					parseFloat(world_pos.z.toFixed(3))
+				);
 				result.push(world_pos);
 				i += 12;
 			}
 		});
 		return result;
-	}
+	};
 }
-
 
 Autodesk.Viewing.theExtensionManager.registerExtension(ExtensionId, AIMSPainterForgeExtension);
