@@ -108,14 +108,12 @@ export class AIMSPainterForgeExtension extends Autodesk.Viewing.Extension {
 			for (var i = 0; i < ids.length; i++) {
 				data.push({
 					dbid: ids[i],
-					//XYZs: "bonjour"
 					XYZs: this.XYZPointsfromID(ids[i])
 				});
 			}
 
 			if (data) {
-				const alignments = this._alignmentService.addAlignments(data);
-				console.log(alignments);
+				this._alignmentService.addAlignment(data);
 			}
 		});
 	}
@@ -133,13 +131,15 @@ export class AIMSPainterForgeExtension extends Autodesk.Viewing.Extension {
 			var vb_array = frags.geometry.vb;
 
 			//loop through vb to get pos
-			result.push(new THREE.Vector3(vb_array[0], vb_array[1], vb_array[2]));
+			var pos0 = new THREE.Vector3(vb_array[0], vb_array[1], vb_array[2]);
+
+			result.push(frags.localToWorld(pos0).multiplyScalar(1000).round().multiplyScalar(0.001));
 
 			var i = 6;
 			while (i < vb_array.length) {
 				var pos = new THREE.Vector3(vb_array[i], vb_array[i + 1], vb_array[i + 2]);
 				var world_pos = frags.localToWorld(pos);
-
+				world_pos = new THREE.Vector3(parseFloat(world_pos.x.toFixed(3)), parseFloat(world_pos.y.toFixed(3)), parseFloat(world_pos.z.toFixed(3)));
 				result.push(world_pos);
 				i += 12;
 			}

@@ -16,19 +16,51 @@ class AlignmentService {
 		}
 	}
 
-	async addAlignments(newData: any): Promise<any> {
+	async addAlignment(newData: any): Promise<any> {
 		console.log(newData);
 		try {
-			const response = await fetch('/api/alignments/add/all', {
-				method: 'POST',
-				headers: {
-					Accept: 'application/json',
-					'Content-Type': 'application/json'
-				},
-				body: JSON.stringify(newData)
-			});
-			const resp = await response.json();
-			return resp.data;
+			var chunk_size = 1000;
+			for (var i = 0; i < newData.length; i++) {
+				if (newData[i].XYZs.length > chunk_size) {
+
+					//create new align with a point
+					const response = await fetch('/api/alignments/add', {
+						method: 'POST',
+						headers: {
+							Accept: 'application/json',
+							'Content-Type': 'application/json'
+						},
+						body: JSON.stringify({
+							dbid: newData[i].dbid
+						})
+					});
+					await response.json();
+
+					for (var j = 0; j < newData[i].XYZs.length; j += chunk_size) {
+						var chunk = newData[i].XYZs.slice(j, j + chunk_size);
+
+						const response = await fetch(`/api/alignments/get/id/${i}/points/add`, {
+							method: 'POST',
+							headers: {
+								Accept: 'application/json',
+								'Content-Type': 'application/json'
+							},
+							body: JSON.stringify(chunk)
+						});
+						await response.json();
+					}
+				} else {
+					const response = await fetch('/api/alignments/add', {
+						method: 'POST',
+						headers: {
+							Accept: 'application/json',
+							'Content-Type': 'application/json'
+						},
+						body: JSON.stringify(newData[i])
+					});
+					await response.json();
+				}
+			}
 		} catch (error) {
 			console.log(error);
 			throw error;

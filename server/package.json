@@ -4,7 +4,7 @@
   "version": "1.0.0",
   "main": "server/server.js",
   "scripts": {
-    "start": "nodemon src/server.js",
+    "start": "node src/server.js",
     "exec": "node src/server.js"
   },
   "engines": {
