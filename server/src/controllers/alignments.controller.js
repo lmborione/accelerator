@@ -3,12 +3,26 @@ var alignmentsModel = require('../models/alignments.model');
 class AlignmentsController {
     constructor() { }
 
+    async addAlignment(req, res, next) {
+        try {
+            if (req.body) {
+                const alignment = await alignmentsModel.addNewAlignment(req.body);
+                if (alignment) {
+                    res.status(200).json({ status: 200, data: alignment, message: "Succesfully add one alignment" });
+                }
+
+            }
+        } catch (error) {
+            next(error);
+        }
+    }
+
     async setAllAlignments(req, res, next) {
         try {
             if (req.body) {
                 const alignments = await alignmentsModel.setAllAlignments(req.body);
                 if (alignments && alignments.length > 0) {
-                    res.status(200).json({ status: 200, data: alignments, message: "Succesfully Retrieved alignment of asset" });
+                    res.status(200).json({ status: 200, data: alignments, message: "Succesfully add all alignments" });
                 }
 
             }

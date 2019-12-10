@@ -47,6 +47,32 @@ function getAlignmentById(id) {
     }
 }
 
+function addNewAlignment(alignment) {
+    const alignments = readAlignments();
+    let newAlignment = undefined;
+    const index = alignments.indexOf(e => e.forgeId == alignment.dbid);
+    if (index >= 0) {
+        newAlignment = {
+            id: index,
+            forgeId: alignment.dbid,
+            XYZs: alignment.XYZs
+        };
+        alignments[index] = newAlignment;
+    }
+    else {
+        const i = alignments.length;
+        newAlignment = {
+            id: i,
+            forgeId: alignment.dbid,
+            XYZs: alignment.XYZs
+        };
+        alignments.push(newAlignment)
+    }
+
+    fs.writeFileSync(path, JSON.stringify(alignments));
+    return newAlignment;
+}
+
 function setAllAlignments(dataset) {
     var tab_res = dataset.map((e, i) => {
         return {
@@ -55,8 +81,6 @@ function setAllAlignments(dataset) {
             XYZs: dataset[i].XYZs
         }
     });
-    console.log(tab_res);
-
     fs.writeFileSync(path, JSON.stringify(tab_res));
     return tab_res;
 }
@@ -66,5 +90,6 @@ module.exports = {
     getAllAlignments,
     getAlignmentByName,
     getAlignmentById,
-    setAllAlignments
+    setAllAlignments,
+    addNewAlignment
 };
