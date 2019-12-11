@@ -47,14 +47,12 @@ namespace ObjectsInsertion
 
             //Revit file path and open document
             string modelPath = data.FilePath;
-            //string modelPath = "RevitInput.rvt";
             if (String.IsNullOrWhiteSpace(modelPath)) throw new InvalidDataException(nameof(modelPath));
             Document doc = data.RevitDoc;
             if (doc == null) throw new InvalidOperationException("Could not open document.");
 
             //Params from JSON file
             List< InputParams.BaseStruct> inputParams = InputParams.Parse("params.json");
-            //InputParams inputParams = InputParams.Parse("params.json");
             if (inputParams == null) throw new InvalidOperationException("Cannot parse JSON");
 
             using (Transaction tr = new Transaction(doc, "SubTransactionUses"))
@@ -204,6 +202,9 @@ namespace ObjectsInsertion
                 }
                 tr.Commit();
             }
+
+            ModelPath path = ModelPathUtils.ConvertUserVisiblePathToModelPath("result.rvt");
+            doc.SaveAs(path, new SaveAsOptions());
         }
 
         //private static bool GetOnDemandFile(string name, string suffix, string headers, string responseFile)
