@@ -6,8 +6,9 @@ const routes = require('./routes/index');
 
 const authSvc = require('./services/auth.service');
 const alignSvc = require('./services/align.service');
-const forgeSvc = require('./services/forge.service');
-const revitSrv = require('./services/revit.service')
+const svfSvc = require('./services/svf.service');
+const revitSvc = require('./services/revit.service')
+const bucketSvc = require('./services/bucket.service')
 
 const SvcMng = require('./services/manager.service').ServiceManager;
 
@@ -76,11 +77,16 @@ SvcMng.registerService(authService);
 const alignService = new alignSvc.AlignService();
 SvcMng.registerService(alignService);
 
-const forgeService = new forgeSvc.ForgeService();
-SvcMng.registerService(forgeService);
+const svfService = new svfSvc.SVFService();
+SvcMng.registerService(svfService);
 
-const revitService = new revitSrv.RevitService();
+const revitService = new revitSvc.RevitService();
 SvcMng.registerService(revitService);
+
+const bucketService = new bucketSvc.BucketService();
+SvcMng.registerService(bucketService);
+
+
 
 // app.use(allowCrossDomain);
 
