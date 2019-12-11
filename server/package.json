@@ -4,7 +4,7 @@
   "version": "1.0.0",
   "main": "server/server.js",
   "scripts": {
-    "start": "node src/server.js",
+    "start": "nodemon src/server.js",
     "exec": "node src/server.js"
   },
   "engines": {
@@ -16,12 +16,14 @@
     "body-parser": "^1.19.0",
     "dotenv": "^8.2.0",
     "express": "^4.16.3",
+    "express-fileupload": "^1.1.6",
     "firebase-admin": "^8.2.0",
     "forge-apis": "^0.5.0",
     "forge-convert-utils": "^1.1.2",
     "method-override": "^3.0.0",
     "moment": "^2.24.0",
     "nodemon": "^1.19.3",
-    "three": "^0.111.0"
+    "three": "^0.111.0",
+    "zip-dir": "^1.0.2"
   }
 }

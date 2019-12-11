@@ -1,12 +1,13 @@
 const express = require('express');
 const bodyParser = require("body-parser");
 const methodOverride = require("method-override");
-
+const fileUpload = require('express-fileupload');
 const routes = require('./routes/index');
 
 const authSvc = require('./services/auth.service');
 const alignSvc = require('./services/align.service');
 const forgeSvc = require('./services/forge.service');
+const revitSrv = require('./services/revit.service')
 
 const SvcMng = require('./services/manager.service').ServiceManager;
 
@@ -15,6 +16,10 @@ dotenv.config();
 
 const app = express();
 app.use(bodyParser.json());
+
+app.use(fileUpload({
+    createParentPath: true
+}));
 
 app.use(bodyParser.json({ limit: '50mb' }));
 app.use(bodyParser.urlencoded({ extended: true, limit: '50mb', parameterLimit: 50000 }));
@@ -73,6 +78,9 @@ SvcMng.registerService(alignService);
 
 const forgeService = new forgeSvc.ForgeService();
 SvcMng.registerService(forgeService);
+
+const revitService = new revitSrv.RevitService();
+SvcMng.registerService(revitService);
 
 // app.use(allowCrossDomain);
 
