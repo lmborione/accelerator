@@ -51,8 +51,30 @@ namespace ObjectsInsertion
             Document doc = data.RevitDoc;
             if (doc == null) throw new InvalidOperationException("Could not open document.");
 
+            //Load all families in the model
+            List<FamilyParams.BaseStruct> famParams = FamilyParams.Parse(@"families/list.json");
+            using (Transaction tr_fam = new Transaction(doc, "SubTansactionLaodFamilies"))
+            {
+                tr_fam.Start();
+                foreach (FamilyParams.BaseStruct _fam_params in famParams)
+                {
+                    using (SubTransaction subTr_fam = new SubTransaction(doc))
+                    {
+                        subTr_fam.Start();
+
+                        string famName = _fam_params.path;
+
+                        bool isLoaded = LoadFamily(doc, @"families/"+famName, famName.Replace(".rfa",""));
+
+                        subTr_fam.Commit();
+                    }
+                }
+                tr_fam.Commit();
+            }
+
+
             //Params from JSON file
-            List< InputParams.BaseStruct> inputParams = InputParams.Parse("params.json");
+            List<InputParams.BaseStruct> inputParams = InputParams.Parse("params.json");
             if (inputParams == null) throw new InvalidOperationException("Cannot parse JSON");
 
             using (Transaction tr = new Transaction(doc, "SubTransactionUses"))
@@ -207,39 +229,18 @@ namespace ObjectsInsertion
             doc.SaveAs(path, new SaveAsOptions());
         }
 
-        //private static bool GetOnDemandFile(string name, string suffix, string headers, string responseFile)
-        //{
-        //    // writing a string (formatted according to ACESAPI format) to trace
-        //    // invokes the onDemand call to get the desired optional input file
-        //    LogTrace("!ACESAPI:acesHttpOperation({0},{1},{2},{3},{4})",
-        //        name ?? "", suffix ?? "", headers ?? "", "", responseFile ?? "");
+        public static bool LoadFamily(Document doc, string filePath, string _family_name)
+        {
+            Family family = null;
 
-        //    // waiting for a control character indicating
-        //    // that the download has successfully finished
-        //    int idx = 0;
-        //    while (true)
-        //    {
-        //        char ch = Convert.ToChar(Console.Read());
-        //        // error
-        //        if (ch == '\x3')
-        //        {
-        //            return false;
-        //        }
-        //        // success
-        //        else if (ch == '\n')
-        //        {
-        //            return true;
-        //        }
+            FilteredElementCollector a = new FilteredElementCollector(doc).OfClass(typeof(Family));
 
-        //        // to many unexpected characters already read from console,
-        //        // treating as other error / timeout
-        //        if (idx >= 16)
-        //        {
-        //            return false;
-        //        }
-        //        idx++;
-        //    }
-        //}
+            int n = a.Count<Element>(e => e.Name.Equals(_family_name));
+
+            bool isLaoded = doc.LoadFamily(filePath, new MyFamilyLoadOptions(), out family);
+
+            return isLaoded;
+        }
     }
 
     /// <summary>
@@ -307,7 +308,7 @@ namespace ObjectsInsertion
     /// <summary>
     /// InputParams is used to parse the input Json parameters
     /// </summary>
-    internal class FamilyList
+    internal class FamilyParams
     {
         public class BaseStruct
         {
@@ -315,7 +316,7 @@ namespace ObjectsInsertion
             {
 
             }
-            public string familyName { get; set; }
+            public string path { get; set; }
         }
 
         static public List<BaseStruct> Parse(string jsonPath)
@@ -332,6 +333,28 @@ namespace ObjectsInsertion
                 Console.WriteLine("Exception when parsing json file: " + ex);
                 return null;
             }
+        }
+    }
+
+    class MyFamilyLoadOptions : IFamilyLoadOptions
+    {
+        public bool OnFamilyFound(
+          bool familyInUse,
+          out bool overwriteParameterValues)
+        {
+            overwriteParameterValues = true;
+            return true;
+        }
+
+        public bool OnSharedFamilyFound(
+          Family sharedFamily,
+          bool familyInUse,
+          out FamilySource source,
+          out bool overwriteParameterValues)
+        {
+            source = FamilySource.Family;
+            overwriteParameterValues = true;
+            return true;
         }
     }
 }
