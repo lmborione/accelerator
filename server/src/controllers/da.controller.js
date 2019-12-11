@@ -102,6 +102,35 @@ class DesignAutomationController {
         }
     }
 
+    async addJsonToBucket(req, res, next) {
+        try {
+            if (req.params.projectId && req.params.alignId) {
+
+                const bucketService = svcMng.getService('BucketService');
+                const alignService = svcMng.getService('AlignService');
+
+                const alignId = parseInt(req.params.alignId);
+                const result = await Promise.all(req.body.map(async (obj) => {
+                    const geom = await alignService.pkToXYZ(alignId, parseFloat(obj.pk));
+                    obj.insertionPoint = geom.insertionPoint;
+                    obj.angle = geom.angle;
+                    obj.rotAxis = geom.rotAxis;
+
+                    return obj;
+                }));
+
+
+
+                const bucket = await bucketService.uploadJSONToBucket(parseInt(req.params.projectId), result);
+                res.status(200).json(result);
+            }
+        } catch (error) {
+            next(error)
+        }
+    }
+
+
+
 
     async postWorkItem(req, res, next) {
 

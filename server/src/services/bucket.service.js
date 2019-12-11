@@ -40,27 +40,9 @@ class BucketService extends BaseService {
     }
 
     async addTemplateToBucket(projectId) {
-        const token = await svcMng.getService('AuthService').get2LeggedToken();
         const bucketInfo = bucketsModel.getBucketByProjectId(projectId);
         const fileData = fs.readFileSync(process.env.TEMPLATE_PATH);
-
-        console.log(bucketInfo);
-
-        var stats = fs.statSync(process.env.TEMPLATE_PATH)
-        var fileSizeInBytes = stats["size"]
-
-        const objectaApi = new forge.ObjectsApi();
-
-        const res = await objectaApi.uploadObject(
-            bucketInfo.bucketKey,
-            'ObjectsInsertion_Template.rvt',
-            fileSizeInBytes,
-            fileData,
-            {},
-            { autoRefresh: false },
-            token)
-
-        console.log(res);
+        const res = await this.uploadToBucket(bucketInfo.bucketKey, 'ObjectsInsertion_Template.rvt', fileData)
 
         if (res.statusCode === 200) {
             daModelsModel.setLastRevitModel(projectId, 'ObjectsInsertion_Template.rvt');
@@ -108,7 +90,37 @@ class BucketService extends BaseService {
         }
     }
 
+    async uploadJSONToBucket(projectId, jsonData) {
+        const bucketInfo = bucketsModel.getBucketByProjectId(projectId);
 
+        const fileData = fs.writeFileSync(process.env.TEMP_PATH + '/params.json', JSON.stringify(jsonData));
+        const fileData = fs.readFileSync(process.env.TEMP_PATH + '/params.json');
+        const res = await this.uploadToBucket(bucketInfo.bucketKey, 'ObjectsInsertion_Template.rvt', fileData)
+
+        if (res.statusCode === 200) {
+            daModelsModel.setLastJSON(projectId, jsonData);
+        }
+        return res;
+    }
+
+    async uploadToBucket(bucketKey, fileName, file) {
+        const token = await svcMng.getService('AuthService').get2LeggedToken();
+
+        var stats = fs.statSync(file)
+        var fileSizeInBytes = stats["size"]
+
+        const objectaApi = new forge.ObjectsApi();
+
+        const res = await objectaApi.uploadObject(
+            bucketKey,
+            fileName,
+            fileSizeInBytes,
+            file,
+            {},
+            { autoRefresh: false },
+            token)
+        return res;
+    }
 }
 
 module.exports = {

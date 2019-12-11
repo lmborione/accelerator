@@ -33,10 +33,10 @@ function setLastRevitModel(projectId, rvtFile) {
     return models[index];
 }
 
-function setLastJSON(projectId, jsonFile) {
+function setLastJSON(projectId, jsonData) {
     const index = models.findIndex(e => parseInt(e.projectId) === parseInt(projectId));
     if (index >= 0) {
-        models[index].lastJsonFile = jsonFile;
+        models[index].lastJsonFile = jsonData;
     }
     fs.writeFileSync(path, JSON.stringify(models));
     return models[index];

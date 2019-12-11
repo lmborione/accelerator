@@ -49,15 +49,13 @@ class AlignmentsController {
     async getAlignmentById(req, res) {
         if (req.params.id) {
             const alignments = await alignmentsModel.getAlignmentById(req.params.id);
+            delete alignments.XYZs
             return res.status(200).json({ status: 200, data: alignments, message: "Succesfully Retrieved alignment of asset" });
         }
     }
 
     async parsePointOnServer(req, res, next) {
-        console.log('here');
         try {
-            console.log(req.query.urn);
-
             if (req.query.urn) {
                 const dbIds = req.body;
                 const forgeSvc = svcMng.getService('SVFService');
@@ -70,6 +68,24 @@ class AlignmentsController {
         }
 
     }
+
+    async getXYZForPK(req, res, next) {
+        try {
+            if (req.params.id && req.body.pk && req.body.pk.length > 0) {
+                const alignId = parseInt(req.params.id);
+                const XYZs = await Promise.all(req.body.pk.map(async (pk) => {
+                    return await svcMng.getService('AlignService').pkToXYZ(alignId, parseFloat(pk))
+                }));
+
+                res.status(200).json(XYZs)
+            }
+        } catch (error) {
+            next(error)
+        }
+
+    }
+
+
 
 
 }

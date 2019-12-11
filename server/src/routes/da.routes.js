@@ -12,6 +12,9 @@ router.get('/project/:projectId/bucket/get', daCtrl.getProjectDABucket);
 router.get('/project/:projectId/object/template/add', daCtrl.addTemplateToBucket);
 
 
+router.post('/project/:projectId/alignment/:alignId/json', daCtrl.addJsonToBucket);
+
+
 // router.post('/bucket/create', daCtrl.createDaBucket);
 
 // router.post('/bucket/:bucketKey/addItem', daCtrl.addItemToBucket);

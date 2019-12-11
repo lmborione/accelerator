@@ -37,10 +37,9 @@ function getAlignmentByName(name) {
 function getAlignmentById(id) {
     const alignments = readAlignments();
 
-    let alignment = alignments.filter((e) => e.id == id);
-    if (alignment) {
-        delete alignment.XYZs;
-        return alignment;
+    let alignment = alignments.filter((e) => parseInt(e.id) == parseInt(id));
+    if (alignment && alignment.length > 0) {
+        return alignment[0];
     }
     return null;
 }
