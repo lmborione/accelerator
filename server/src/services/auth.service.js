@@ -8,11 +8,20 @@ const moment = require('moment');
 class AuthService extends BaseService {
     constructor(config) {
         super(config)
+        this._2LeggedToken = null;
         this._config = {
             oauth: {
                 clientId: process.env.CLIENT_ID,
                 clientSecret: process.env.CLIENT_SECRET,
-                scope: ['bucket:read', 'data:read', 'viewables:read']
+                //scope: ['bucket:read', 'bucket:create', 'data:read', 'viewables:read']
+                scope: ['bucket:create',
+                    'bucket:read',
+                    'bucket:update',
+                    'data:read',
+                    'data:write',
+                    'data:create',
+                    'viewables:read',
+                ]
             }
         }
     }

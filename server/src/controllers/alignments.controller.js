@@ -60,7 +60,7 @@ class AlignmentsController {
 
             if (req.query.urn) {
                 const dbIds = req.body;
-                const forgeSvc = svcMng.getService('ForgeService');
+                const forgeSvc = svcMng.getService('SVFService');
                 const alignments = await forgeSvc.getPointsFromAlignements(req.query.urn, dbIds);
                 await alignmentsModel.setAllAlignments(alignments);
                 return res.status(200).json({ status: 200, data: alignments.length, message: "Succesfully Retrieved alignment of asset" });

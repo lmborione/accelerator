@@ -8,7 +8,7 @@ const BaseService = require('./base.service').BaseService;
 var alignmentsModel = require('../models/alignments.model');
 
 
-class ForgeService extends BaseService {
+class SVFService extends BaseService {
     constructor(config) {
         super(config)
         this._config = {
@@ -20,7 +20,7 @@ class ForgeService extends BaseService {
     }
 
     name() {
-        return 'ForgeService'
+        return 'SVFService'
     }
 
     async getPointsFromAlignements(urn, dbIds) {
@@ -77,5 +77,5 @@ class ForgeService extends BaseService {
 
 
 module.exports = {
-    ForgeService
+    SVFService
 }
