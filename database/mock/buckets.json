@@ -1,12 +1,1 @@
-[
-    {
-        "bucketKey": "objectsinsertion",
-        "projectId": "1",
-        "projectName": "OLP3"
-    },
-    {
-        "bucketKey": "da_test",
-        "projectId": 2,
-        "getBucketByProjectId": "test"
-    }
-]
+[]

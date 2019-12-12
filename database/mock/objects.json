@@ -1,65 +1,62 @@
 [
     {
+        "projectId": 0,
         "id": "0",
-        "objectId": "132",
+        "status": "new",
+        "RevitId": "-1",
         "align-id": "5",
         "pk": "135.68",
-        "name": "panneau SIG 1"
+        "famName": "Pile_type.rfa",
+        "typeName": "Pile_type",
+        "paramDict": [
+            {
+                "key": "Hauteur_poteau",
+                "value": 50
+            },
+            {
+                "key": "Diametre_poteau",
+                "value": 3
+            }
+        ]
     },
     {
+        "projectId": 0,
         "id": "1",
-        "objectId": "132",
+        "status": "new",
+        "RevitId": "-1",
         "align-id": "5",
         "pk": "147.68",
-        "name": "panneau SIG 2"
+        "famName": "Pile_type.rfa",
+        "typeName": "Pile_type",
+        "paramDict": [
+            {
+                "key": "Hauteur_poteau",
+                "value": 10
+            },
+            {
+                "key": "Diametre_poteau",
+                "value": 2
+            }
+        ]
     },
     {
+        "projectId": 0,
         "id": "2",
-        "objectId": "132",
+        "status": "new",
+        "RevitId": "-1",
         "align-id": "5",
         "pk": "135.68",
-        "name": "panneau SIG 3"
-    },
-    {
-        "id": "3",
-        "objectId": "132",
-        "align-id": "5",
-        "pk": "135.68",
-        "name": "panneau SIG 3"
-    },
-    {
-        "id": "4",
-        "objectId": "132",
-        "align-id": "5",
-        "pk": "135.68",
-        "name": "panneau SIG 3"
-    },
-    {
-        "id": "5",
-        "objectId": "132",
-        "align-id": "5",
-        "pk": "135.68",
-        "name": "panneau SIG 3"
-    },
-    {
-        "id": "6",
-        "objectId": "132",
-        "align-id": "5",
-        "pk": "135.68",
-        "name": "panneau SIG 3"
-    },
-    {
-        "id": "7",
-        "objectId": "132",
-        "align-id": "5",
-        "pk": "135.68",
-        "name": "panneau SIG 3"
-    },
-    {
-        "id": "8",
-        "objectId": "132",
-        "align-id": "5",
-        "pk": "135.68",
-        "name": "panneau SIG 3"
+        "famName": "Pile_typerfa",
+        "typeName": "Pile_type",
+        "paramDict": [
+            {
+                "key": "Hauteur_poteau",
+                "value": 20
+            },
+            {
+                "key": "Diametre_poteau",
+                "value": 2.5
+            }
+        ]
     }
 ]
