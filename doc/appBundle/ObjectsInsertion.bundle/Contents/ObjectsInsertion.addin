@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RevitAddIns>
+  <AddIn Type="DBApplication">
+    <Name>ObjectsInsertion</Name>
+    <Assembly>.\ObjectsInsertion.dll</Assembly>
+    <AddInId>e1280f91-f05a-4eec-9dfa-0779d4269a2b</AddInId>
+    <FullClassName>ObjectsInsertion.BIOC_ObjectsInsertion</FullClassName>
+    <Description>"ObjectsInsertion"</Description>
+    <VendorId>Autodesk</VendorId>
+    <VendorDescription>Autodesk</VendorDescription>
+  </AddIn>
+</RevitAddIns>
