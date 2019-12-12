@@ -8,41 +8,40 @@ var objectsModel = require('../models/objects.model');
 var projectFamilies = require('../models/project_families.model');
 
 class DesignAutomationController {
-    constructor() { }
+    constructor() {
+        this.launchDA.bind(this);
+    }
 
     launchDA(req, res, next) {
+        const revitService = svcMng.getService('RevitService');
 
         if (req.params.projectId) {
             const projectId = req.params.projectId
             // Recupérer la liste des objets depuis la DB (object_id, pk, family, type, paramDicts, alignment_id, revit_id)
-            const projObjects = this.getObjectsOfProject(projectId);
-            console.log('projObjects');
-            console.log(projObjects);
+            const projObjects = getObjectsOfProject(projectId);
 
             // Récupérer la liste des familles chargés dans le projet
-            const projFamilies = this.getFamiliesOfProject(projectId);
+            const projFamilies = getFamiliesOfProject(projectId);
             // Déterminer les familles à ajouter
-
-            const famOfObjects = projObjects.reduce((acc, curr) => {
-                if (!projFamilies.includes(curr.famName)) {
-                    acc.push(curr.famName)
+            const familyToAdd = projObjects.reduce((acc, curr) => {
+                if (projFamilies.findIndex(e => e.path === curr.famName) < 0 && acc.findIndex(e => e.path === curr.famName) < 0) {
+                    acc.push({
+                        path: curr.famName
+                    })
                 }
+                return acc;
             }, []);
 
-            console.log('famOfObjects');
-            console.log(famOfObjects);
-
-
             // zipper les familles
+            const familiesPath = familyToAdd.map((item) => {
+                return `${librarypath}/${item.path}`;
+            });
+            const zipPath = revitService.createFamilyZip(familiesPath);
 
         }
         else {
             throw new Error('ProjectId not found')
         }
-
-
-
-
 
         // Récupérer les coordonnées de chaque PK + angle + rotaxis
 
@@ -72,25 +71,26 @@ class DesignAutomationController {
         // Return urn
     }
 
-    getObjectsOfProject(projectId) {
-        const projObjects = await objectsModel.getObjectsOfProject(projectId);
-        if (projObjects && projObjects.length > 0) {
-            return projObjects
-        } else {
-            throw new Error('Project not found or project has no objects')
-        }
+}
 
+function getObjectsOfProject(projectId) {
+    const projObjects = objectsModel.getObjectsOfProject(projectId);
+    if (projObjects && projObjects.length > 0) {
+        return projObjects
+    } else {
+        throw new Error('Project not found or project has no objects')
     }
 
-    getFamiliesOfProject(projectId) {
-        const familyList = await projectFamilies.getFamilies(projectId);
-        if (familyList) {
-            return familyList;
-        } else {
-            throw new Error('Project not found');
-        }
+}
 
+function getFamiliesOfProject(projectId) {
+    const familyList = projectFamilies.getFamilies(projectId);
+    if (familyList) {
+        return familyList;
+    } else {
+        throw new Error('Project not found');
     }
+
 }
 
 module.exports = {
