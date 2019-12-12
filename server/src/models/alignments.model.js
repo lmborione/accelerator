@@ -1,5 +1,5 @@
 const fs = require('fs');
-const path = 'src/mock/alignments.json';
+const path = `${process.env.DATABASE_PATH}/mock/alignments.json`;
 
 function readAlignments() {
     const rowData = fs.readFileSync(path);
