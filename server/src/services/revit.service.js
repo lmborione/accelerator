@@ -19,7 +19,7 @@ class RevitService extends BaseService {
     createFamilyZip(files) {
         var dir = '../doc/tmp';
         var famDir = dir + '/library';
-
+        const outputPath = dir + '/families.zip';
         if (!fs.existsSync(famDir)) {
             fs.mkdirSync(famDir);
         }
@@ -38,18 +38,15 @@ class RevitService extends BaseService {
 
         fs.writeFileSync(famDir + '/list.json', JSON.stringify(outFiles));
 
-        zipdir(famDir, { saveTo: dir + '/tmp.zip' }, err => {
+        zipdir(famDir, { saveTo: outputPath }, err => {
             if (err) throw err;
             else {
                 fse.removeSync(famDir)
             }
         });
 
-        return dir + '/tmp.zip';
+        return outputPath;
     }
-
-
-
 }
 
 module.exports = {

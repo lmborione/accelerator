@@ -2,6 +2,10 @@ const express = require('express');
 const bodyParser = require("body-parser");
 const methodOverride = require("method-override");
 const fileUpload = require('express-fileupload');
+
+const dotenv = require('dotenv');
+dotenv.config();
+
 const routes = require('./routes/index');
 
 const authSvc = require('./services/auth.service');
@@ -12,8 +16,6 @@ const bucketSvc = require('./services/bucket.service')
 
 const SvcMng = require('./services/manager.service').ServiceManager;
 
-const dotenv = require('dotenv');
-dotenv.config();
 
 const app = express();
 app.use(bodyParser.json());

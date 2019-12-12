@@ -1,4 +1,6 @@
 const svcMng = require('../services/manager.service').ServiceManager;
+const daModelsModel = require('../models/daModels.model');
+const axios = require('axios');
 
 const librarypath = process.env.LIBRARY_PATH;
 
@@ -8,13 +10,15 @@ class DesignAutomationController {
 
     async createFamiliesZip(req, res, next) {
         const revitService = svcMng.getService('RevitService');
+        if (req.body && req.body.length > 0) {
+            const familiesPath = req.body.map((item) => {
+                return librarypath + '/' + item.path;
+            });
 
-        const path = revitService.createFamilyZip([
-            librarypath + '/SYS_SEQ_R16_Signalisation Type A.rfa',
-            librarypath + '/SYS_SEQ_R16_Signalisation Type C.rfa',
-            librarypath + '/SYS_SEQ_R16_Signalisation Type F.rfa'
-        ]);
-        res.status(200).json(path);
+            const path = revitService.createFamilyZip(familiesPath);
+            res.status(200).json(path);
+        }
+        res.status(200).send();
     }
 
     async uploadRevitFamily(req, res, next) {
@@ -29,6 +33,7 @@ class DesignAutomationController {
 
                 req.files.families.forEach(family => {
                     console.log(family);
+                    console.log(librarypath);
                     //move photo to uploads directory
                     family.mv(librarypath + '/' + family.name);
 
@@ -51,7 +56,6 @@ class DesignAutomationController {
             res.status(500).send(err);
         }
     }
-
 
 
     async getProjectDABucket(req, res, next) {
@@ -119,9 +123,42 @@ class DesignAutomationController {
                     return obj;
                 }));
 
-
-
                 const bucket = await bucketService.uploadJSONToBucket(parseInt(req.params.projectId), result);
+                res.status(200).json(result);
+            }
+        } catch (error) {
+            next(error)
+        }
+    }
+
+
+    async addFamiliesToBucket(req, res, next) {
+        try {
+            if (req.params.projectId) {
+
+                const revitService = svcMng.getService('RevitService');
+                const bucketService = svcMng.getService('BucketService');
+
+                if (req.body && req.body.length > 0) {
+                    const familiesPath = req.body.map((item) => {
+                        return librarypath + '/' + item.path;
+                    });
+
+                    const tempZipPath = revitService.createFamilyZip(familiesPath);
+                    const bucket = await bucketService.uploadZipToBucket(parseInt(req.params.projectId), tempZipPath);
+                    res.status(200).json(bucket);
+                }
+            }
+        } catch (error) {
+            next(error)
+        }
+    }
+
+    async createSignedResources(req, res, next) {
+        try {
+            if (req.params.projectId) {
+                const bucketService = svcMng.getService('BucketService');
+                const result = await bucketService.createAllSignedResources(parseInt(req.params.projectId));
                 res.status(200).json(result);
             }
         } catch (error) {
@@ -132,38 +169,89 @@ class DesignAutomationController {
 
 
 
+
     async postWorkItem(req, res, next) {
+        try {
+            if (req.params.projectId) {
 
+                const token = await svcMng.getService('AuthService').get2LeggedToken();
 
-        axios({
-            method: 'post',
-            url: 'https://developer.api.autodesk.com/da/us-east/v3/workitems',
-            data: {
-                activityId: "W2I80AOTn5pnEnaThJbECN2t6gSsh1HV.ObjectsInsertion+v1",
-                arguments: {
-                    rvtFile: {
-                        verb: "get",
-                        url: 'https://developer.api.autodesk.com/oss/v2/signedresources/4441797e-d5e9-4930-872e-523371558fb2?region=US'
+                const pId = parseInt(req.params.projectId);
+                const args = daModelsModel.getTempUrl(pId)
+                let result = await axios({
+                    method: 'post',
+                    url: 'https://developer.api.autodesk.com/da/us-east/v3/workitems',
+                    headers: {
+                        Authorization: `Bearer ${token.access_token}`
                     },
-                    json: {
-                        verb: "get",
-                        url: 'http://localhost:'
-                    },
-                    result: {
-                        verb: "put",
-                        url: req.body.destUrl
+                    data: {
+                        activityId: "W2I80AOTn5pnEnaThJbECN2t6gSsh1HV.ObjectsInsertionActivity+act_v1",
+                        arguments: args
                     }
-                }
-            }
-        });
+                });
+                console.log(result.data);
 
+
+
+                if (result.data.status === 'cancelled' ||
+                    result.data.status === 'failedLimitDataSize' ||
+                    result.data.status === 'failedLimitProcessingTime' ||
+                    result.data.status === 'failedDownload' ||
+                    result.data.status === 'failedInstructions' ||
+                    result.data.status === 'failedUpload') {
+                    next(result.data.status);
+                }
+
+                while (result.data.status === 'inprogress' || result.data.status === 'pending') {
+                    await sleep(5000);
+
+                    result = await axios({
+                        method: 'get',
+                        url: `https://developer.api.autodesk.com/da/us-east/v3/workitems/${result.data.id}`,
+                        headers: {
+                            Authorization: `Bearer ${token.access_token}`
+                        }
+                    });
+                }
+                res.status(200).json(result.data);
+            }
+        } catch (error) {
+            next(error);
+        }
 
     }
 
+    async checkStatus(req, res, next) {
+        if (req.params.projectId) {
+            const pId = parseInt(req.params.projectId);
+            const id = daModelsModel.getWorkItem(pId).id;
+
+            const token = await svcMng.getService('AuthService').get2LeggedToken();
+
+            const result = await axios({
+                method: 'get',
+                url: `https://developer.api.autodesk.com/da/us-east/v3/workitems/${id}`,
+                headers: {
+                    Authorization: `Bearer ${token.access_token}`
+                }
+            });
+            daModelsModel.setWorkItem(pId, {
+                id: result.data.id,
+                status: result.data.status
+            })
+            res.status(200).json(result.data);
+        }
+    }
 
 
 }
 
+
+function sleep(ms) {
+    return new Promise(function (resolve, reject) {
+        setTimeout(function () { resolve(); }, ms);
+    });
+}
 
 module.exports = {
     DesignAutomationController
