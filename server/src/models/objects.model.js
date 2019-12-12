@@ -12,6 +12,10 @@ function getAllObjects(page, limit) {
     return objects.slice(page * limit, (page + 1) * limit);
 }
 
+function getObjectsOfProject(projectId) {
+    return objects.filter((e) => e.projectId == projectId);
+}
+
 function getObjectByName(name) {
     return objects.filter((e) => e.name == name);
 }
@@ -22,6 +26,7 @@ function getObjectById(id) {
 
 module.exports = {
     countObjects,
+    getObjectsOfProject,
     getAllObjects,
     getObjectByName,
     getObjectById
