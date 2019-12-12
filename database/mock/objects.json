@@ -4,8 +4,8 @@
         "id": "0",
         "status": "new",
         "RevitId": "-1",
-        "align-id": "5",
-        "pk": "135.68",
+        "alignId": "5",
+        "pk": "1012",
         "famName": "Pile_type.rfa",
         "typeName": "Pile_type",
         "paramDict": [
@@ -24,8 +24,8 @@
         "id": "1",
         "status": "new",
         "RevitId": "-1",
-        "align-id": "5",
-        "pk": "147.68",
+        "alignId": "5",
+        "pk": "2000.87",
         "famName": "Pile_type.rfa",
         "typeName": "Pile_type",
         "paramDict": [
@@ -44,8 +44,8 @@
         "id": "2",
         "status": "new",
         "RevitId": "-1",
-        "align-id": "5",
-        "pk": "135.68",
+        "alignId": "5",
+        "pk": "3564.87",
         "famName": "Pile_type.rfa",
         "typeName": "Pile_type",
         "paramDict": [
