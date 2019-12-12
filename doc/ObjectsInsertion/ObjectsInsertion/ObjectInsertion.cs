@@ -77,6 +77,10 @@ namespace ObjectsInsertion
             List<InputParams.BaseStruct> inputParams = InputParams.Parse("params.json");
             if (inputParams == null) throw new InvalidOperationException("Cannot parse JSON");
 
+
+            //Prepare output params
+            List<OutputParams.BaseStruct> list_outputs = new List<OutputParams.BaseStruct>();
+
             using (Transaction tr = new Transaction(doc, "SubTransactionUses"))
             {
                 tr.Start();
@@ -219,12 +223,40 @@ namespace ObjectsInsertion
                                 }
                             }
                         }
+
+                        //fill output params
+                        OutputParams.BaseStruct outputParams = new OutputParams.BaseStruct();
+                        outputParams.id = _params.id;
+                        outputParams.RevitID = elt_create.Id.IntegerValue;
+
+                        if (_params.creation)
+                        {
+                            outputParams.status = "new";
+                        }
+                        else
+                        {
+                            if (_params.positionModif)
+                            {
+                                outputParams.status = "position";
+                            }
+                            else
+                            {
+                                outputParams.status = "parameters";
+                            }
+                        }
+                        list_outputs.Add(outputParams);
                         subTr.Commit();
                     }
                 }
                 tr.Commit();
             }
 
+            //Save JSON file
+            string jsonContent = JsonConvert.SerializeObject(list_outputs);
+            //write string to file
+            File.WriteAllText("result.json", jsonContent);
+
+            //Save Revit file
             ModelPath path = ModelPathUtils.ConvertUserVisiblePathToModelPath("result.rvt");
             doc.SaveAs(path, new SaveAsOptions());
         }
@@ -254,6 +286,7 @@ namespace ObjectsInsertion
             {
 
             }
+            public int id { get; set; }
             public bool creation { get; set; }
             public bool positionModif { get; set; }
             public string RevitID { get; set; }
@@ -333,6 +366,23 @@ namespace ObjectsInsertion
                 Console.WriteLine("Exception when parsing json file: " + ex);
                 return null;
             }
+        }
+    }
+
+    /// <summary>
+    /// InputParams is used to parse the input Json parameters
+    /// </summary>
+    internal class OutputParams
+    {
+        public class BaseStruct
+        {
+            public BaseStruct()
+            {
+
+            }
+            public int id { get; set; }
+            public int RevitID { get; set; }
+            public string status { get; set; }
         }
     }
 
