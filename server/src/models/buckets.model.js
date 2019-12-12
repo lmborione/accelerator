@@ -1,5 +1,5 @@
 const fs = require('fs');
-const path = 'src/mock/buckets.json';
+const path = `${process.env.DATABASE_PATH}/mock/buckets.json`;
 
 const rowData = fs.readFileSync(path);
 let buckets = JSON.parse(rowData);
