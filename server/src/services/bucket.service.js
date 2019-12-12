@@ -19,27 +19,32 @@ class BucketService extends BaseService {
 
     async createBucket(projectId, projectName) {
         const token = await svcMng.getService('AuthService').get2LeggedToken();
-        const bucketKey = `${projectName}`;
         const bucketApi = new forge.BucketsApi();
 
         var postBuckets = {
-            bucketKey: bucketKey,
+            bucketKey: `${projectName}`,
             access: "full",
             policyKey: "persistent"
         }
-        const res = await bucketApi.createBucket(postBuckets, `US`, { autoRefresh: false }, token);
+        const res1 = await bucketApi.createBucket(postBuckets, `US`, { autoRefresh: false }, token);
 
-        if (res.statusCode === 200) {
+        var postBuckets = {
+            bucketKey: `da_${projectName}`,
+            access: "full",
+            policyKey: "persistent"
+        }
+        const res2 = await bucketApi.createBucket(postBuckets, `US`, { autoRefresh: false }, token);
+
+        if (res1.statusCode === 200 && res2.statusCode === 200) {
             bucketsModel.addBucket({
-                bucketKey: bucketKey,
+                bucketKey: `${projectName}`,
+                da_bucketKey: `da_${projectName}`,
                 projectId: projectId,
                 getBucketByProjectId: projectName
             });
         }
         return res;
     }
-
-
 
     async getBucket(projectId) {
         try {
@@ -56,27 +61,15 @@ class BucketService extends BaseService {
         }
     }
 
-    async getFilesUrl(projectId) {
+    async getDaBucket(projectId) {
         try {
             const token = await svcMng.getService('AuthService').get2LeggedToken();
-            const daModelsInfo = daModelsModel.getDaModel(projectId);
+            const bucketInfo = bucketsModel.getBucketByProjectId(projectId);
 
-            console.log(daModelsInfo);
+            const bucketApi = new forge.BucketsApi();
+            const res = await bucketApi.getBucketDetails(bucketInfo.da_bucketKey, { autoRefresh: false }, token);
 
-
-        } catch (error) {
-            return error
-        }
-    }
-
-    async setFilesUrl(projectId) {
-        try {
-            const token = await svcMng.getService('AuthService').get2LeggedToken();
-            const daModelsInfo = daModelsModel.getDaModel(projectId);
-
-            console.log(daModelsInfo);
-
-
+            return res
         } catch (error) {
             return error
         }
@@ -87,7 +80,7 @@ class BucketService extends BaseService {
         const outputRvtPath = `${process.env.TEMP_PATH}/input.rvt`;
         fs.copyFileSync(process.env.TEMPLATE_PATH, outputRvtPath);
 
-        const res = await this.uploadToBucket(bucketInfo.bucketKey, outputRvtPath)
+        const res = await this.uploadToBucket(bucketInfo.da_bucketKey, outputRvtPath)
 
         if (res.statusCode === 200) {
             daModelsModel.setLastRevitModel(projectId, 'input.rvt');
@@ -99,9 +92,7 @@ class BucketService extends BaseService {
         const bucketInfo = bucketsModel.getBucketByProjectId(projectId);
 
         fs.writeFileSync(process.env.TEMP_PATH + '/params.json', JSON.stringify(jsonData));
-        const res = await this.uploadToBucket(bucketInfo.bucketKey, process.env.TEMP_PATH + '/params.json')
-
-        console.log(res);
+        const res = await this.uploadToBucket(bucketInfo.da_bucketKey, process.env.TEMP_PATH + '/params.json')
 
         if (res.statusCode === 200) {
             daModelsModel.setLastJSON(projectId, jsonData);
@@ -111,7 +102,9 @@ class BucketService extends BaseService {
 
     async uploadZipToBucket(projectId, zipPath) {
         const bucketInfo = bucketsModel.getBucketByProjectId(projectId);
-        const res = await this.uploadToBucket(bucketInfo.bucketKey, zipPath)
+        console.log(bucketInfo);
+
+        const res = await this.uploadToBucket(bucketInfo.da_bucketKey, zipPath)
         return res;
     }
 
@@ -120,21 +113,21 @@ class BucketService extends BaseService {
 
         daModelsModel.setTempUrl(projectId, {
             rvtFile: {
-                url: await this.createSignedResource(bucketInfo.bucketKey, "input.rvt")
+                url: await this.createSignedResource(bucketInfo.da_bucketKey, "input.rvt")
             },
             json: {
-                url: await this.createSignedResource(bucketInfo.bucketKey, "params.json")
+                url: await this.createSignedResource(bucketInfo.da_bucketKey, "params.json")
             },
             families: {
-                url: await this.createSignedResource(bucketInfo.bucketKey, "families.zip"),
+                url: await this.createSignedResource(bucketInfo.da_bucketKey, "families.zip"),
             },
             result: {
                 verb: "put",
-                url: await this.createSignedResource(bucketInfo.bucketKey, "result.rvt")
+                url: await this.createSignedResource(bucketInfo.da_bucketKey, "result.rvt")
             },
             output: {
                 verb: "put",
-                url: await this.createSignedResource(bucketInfo.bucketKey, "result.json")
+                url: await this.createSignedResource(bucketInfo.da_bucketKey, "result.json")
             }
         });
         return true;
@@ -142,17 +135,28 @@ class BucketService extends BaseService {
 
     async createSignedResource(bucketKey, objectName) {
         const token = await svcMng.getService('AuthService').get2LeggedToken();
+        // const result = await axios({
+        //     url: `https://developer.api.autodesk.com/oss/v2/buckets/${bucketKey}/objects/${objectName}/signed?access=readwrite`,
+        //     method: 'post',
+        //     headers: {
+        //         Authorization: `Bearer ${token.access_token}`
+        //     },
+        //     data: {}
+        // });
 
-        const result = await axios({
-            url: `https://developer.api.autodesk.com/oss/v2/buckets/${bucketKey}/objects/${objectName}/signed?access=readwrite`,
-            method: 'post',
-            headers: {
-                Authorization: `Bearer ${token.access_token}`
-            },
-            data: {}
-        });
+        const objAPi = new forge.ObjectsApi();
+        const result = await objAPi.createSignedResource(bucketKey,
+            objectName,
+            {},
+            'readwrite',
+            { autoRefresh: false },
+            token);
+        console.log(objectName);
+        console.log(result.body.signedUrl);
 
-        return result.data.signedUrl;
+        return result.body.signedUrl;
+
+        // return result.data.signedUrl;
     }
 
     async uploadToBucket(bucketKey, filePath) {
