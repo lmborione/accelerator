@@ -2,10 +2,11 @@
     {
         "projectId": 0,
         "id": "0",
-        "objectId": "132",
+        "status": "new",
+        "RevitId": "-1",
         "align-id": "5",
         "pk": "135.68",
-        "famName": "Pile_type",
+        "famName": "Pile_type.rfa",
         "typeName": "Pile_type",
         "paramDict": [
             {
@@ -21,10 +22,11 @@
     {
         "projectId": 0,
         "id": "1",
-        "objectId": "132",
+        "status": "new",
+        "RevitId": "-1",
         "align-id": "5",
         "pk": "147.68",
-        "famName": "Pile_type",
+        "famName": "Pile_type.rfa",
         "typeName": "Pile_type",
         "paramDict": [
             {
@@ -40,10 +42,11 @@
     {
         "projectId": 0,
         "id": "2",
-        "objectId": "132",
+        "status": "new",
+        "RevitId": "-1",
         "align-id": "5",
         "pk": "135.68",
-        "famName": "Pile_type",
+        "famName": "Pile_typerfa",
         "typeName": "Pile_type",
         "paramDict": [
             {
