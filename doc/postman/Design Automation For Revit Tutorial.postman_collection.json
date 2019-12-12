@@ -1,0 +1,1463 @@
+{
+	"info": {
+		"_postman_id": "a2157218-a072-44f8-b183-f915f9831fae",
+		"name": "Design Automation For Revit Tutorial copy",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "Task 2 - Obtain an Access Token",
+			"item": [
+				{
+					"name": "Get an Access Token",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "623d8f30-9a58-4362-9671-27df529560ad",
+								"exec": [
+									"var body = JSON.parse(responseBody);",
+									"pm.environment.set(\"dasApiToken\", body[\"access_token\"]);",
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"name": "Content-Type",
+								"value": "application/x-www-form-urlencoded",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "urlencoded",
+							"urlencoded": [
+								{
+									"key": "client_id",
+									"value": "{{client_id}}",
+									"type": "text"
+								},
+								{
+									"key": "client_secret",
+									"value": "{{client_secret}}",
+									"type": "text"
+								},
+								{
+									"key": "grant_type",
+									"value": "client_credentials",
+									"type": "text"
+								},
+								{
+									"key": "scope",
+									"value": "code:all data:write data:read bucket:create bucket:delete bucket:read",
+									"type": "text"
+								}
+							]
+						},
+						"url": {
+							"raw": "{{baseUrl}}/authentication/v1/authenticate",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"authentication",
+								"v1",
+								"authenticate"
+							]
+						},
+						"description": "This request to the Authentication API obtains an access token with the scope required for this tutorial. This token is used inside the Authorization header to authorize all the subsequent requests.\n\n&nbsp;\n\nBefore you send this request:\n 1. Follow the instructions on [Get Started with Forge in Three Steps](https://forge.autodesk.com/developer/start-now/signup) to create a Forge App and obtain a Client ID and Client Secret. \n At the *Add Services to Forge* stage, make sure that you select **Design Automation API V3** and **Data Management API**. \n\n 2.  Jot down the Client ID and Client Secret, and specify them as the values for the Postman Environment Variables `client_id` and `client_secret` respectively.\n\n&nbsp;\n\nOnce you send this request, Postman parses the response and extracts the access token. Thereafter a script specified in the **Tests** tab below saves the access token to a Postman Variable named `dasApiToken`. This Postman Collection uses this variable to authenticate all subsequent requests you send to Forge. The token expires in one hour. If it expires before you are able to complete this tutorial, you can send this request again to obtain a fresh token."
+					},
+					"response": []
+				}
+			],
+			"description": "You must use the Client ID and Client Secret of the Forge App you registered to obtain an access token. Edit the Environment Variables....... The access token acts as your security credentials, which authenticates the requests you send Forge for the remainder of this tutorial.\n\n",
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"id": "385138ac-9b48-44b9-9f76-856f7d72bead",
+						"type": "text/javascript",
+						"exec": [
+							""
+						]
+					}
+				},
+				{
+					"listen": "test",
+					"script": {
+						"id": "66258766-05ae-4411-a575-eebf05572527",
+						"type": "text/javascript",
+						"exec": [
+							""
+						]
+					}
+				}
+			],
+			"protocolProfileBehavior": {}
+		},
+		{
+			"name": "Task 3 - Create a Nickname",
+			"item": [
+				{
+					"name": "Create Nickname",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "5b993251-5b30-4bab-bc41-2f15cc54d56e",
+								"exec": [
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "PATCH",
+						"header": [
+							{
+								"key": "Content-Type",
+								"name": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							},
+							{
+								"key": "Authorization",
+								"value": "Bearer {{dasApiToken}}"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n\t\"nickname\": \"{{dasNickName}}\"\r\n}"
+						},
+						"url": {
+							"raw": "{{dasApiRoot}}/forgeapps/me",
+							"host": [
+								"{{dasApiRoot}}"
+							],
+							"path": [
+								"forgeapps",
+								"me"
+							]
+						},
+						"description": "This request to the Design Automation API sets a Nickname for your Forge App.\n\n&nbsp;\n\nBefore you send the request:\n - Specify the Nickname as the value of the Postman Variable `dasNickName`. This enables the Nickname to be used in subsequent requests as well.\n\n&nbsp;\n\n**Notes:**\n\n- Once your add data to a Forge App, you are not allowed to set a Nickname for the app. The only way you can assign a Nickname to an app with data is by first calling the `[DELETE] /forgeapps/me` endpoint and deleting all data associated with that app (including any existing nickname). The request **Delete Forge App Data in Design Automation** in this Postman Collection calls this endpoint (`[DELETE] /forgeapps/me`) and clears the app of all data.\n\n- If you get stuck while working on this tutorial, and are unable to proceed, use this request to clear all data from the app, and restart from Task 1.\n\n- Nicknames must be globally unique.  If the Nickname is already in use, even by someone else, Forge returns a `409 Conflict` error when you try to set the Nickname. If you encounter this error, change the Nickname and try again."
+					},
+					"response": []
+				}
+			],
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"id": "6c939284-91cc-4682-9294-b7b0d9160df0",
+						"type": "text/javascript",
+						"exec": [
+							""
+						]
+					}
+				},
+				{
+					"listen": "test",
+					"script": {
+						"id": "e07b6aed-6f9b-4610-a4cd-6215080466ce",
+						"type": "text/javascript",
+						"exec": [
+							""
+						]
+					}
+				}
+			],
+			"protocolProfileBehavior": {}
+		},
+		{
+			"name": "Task 4 - Upload AppBundle",
+			"item": [
+				{
+					"name": "Register the AppBundle",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "4021abd2-aa98-4862-85eb-ee741698d6c4",
+								"exec": [
+									"var body = JSON.parse(responseBody);",
+									"pm.environment.set(\"deleteWallsAppUrl\", body[\"uploadParameters\"][\"endpointURL\"]);",
+									"pm.environment.set(\"deleteWallsAppVersion\", body[\"version\"]);",
+									"pm.environment.set(\"deleteWallsAppFormDataKey\", body[\"uploadParameters\"][\"formData\"][\"key\"]);",
+									"pm.environment.set(\"deleteWallsAppFormDataPolicy\", body[\"uploadParameters\"][\"formData\"][\"policy\"]);",
+									"pm.environment.set(\"deleteWallsAppFormDataSignature\", body[\"uploadParameters\"][\"formData\"][\"x-amz-signature\"]);",
+									"pm.environment.set(\"deleteWallsAppFormDataCredential\", body[\"uploadParameters\"][\"formData\"][\"x-amz-credential\"]);",
+									"pm.environment.set(\"deleteWallsAppFormDataDate\", body[\"uploadParameters\"][\"formData\"][\"x-amz-date\"]);",
+									"pm.environment.set(\"deleteWallsAppFormDataToken\", body[\"uploadParameters\"][\"formData\"][\"x-amz-security-token\"]);",
+									"pm.environment.set(\"deleteWallsAppFormRedirect\", body[\"uploadParameters\"][\"formData\"][\"success_action_redirect\"]);",
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							},
+							{
+								"key": "Authorization",
+								"value": "Bearer {{dasApiToken}}"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n\t\"id\": \"ObjectsInsertion\",\r\n\t\"engine\": \"Autodesk.Revit+2019\",\r\n\t\"description\": \"Object insertion along alignment for Revit 2019\"\r\n}"
+						},
+						"url": {
+							"raw": "{{dasApiRoot}}/appbundles",
+							"host": [
+								"{{dasApiRoot}}"
+							],
+							"path": [
+								"appbundles"
+							]
+						},
+						"description": "This request to the Design Automation API creates an AppBundle.\n\n&nbsp;\n\nAn AppBundle is a package of binaries and supporting files that make up a Revit add-in. See the corresponding [task in the Step-by-Step tutorial on the Forge Portal](https://forge.autodesk.com/en/docs/design-automation/v3/tutorials/revit/step4-publish-appbundle/) for an explanantion of AppBundles and learn how to create an AppBundle. For the purpose of this Postman tutorial,  download *DeletWallsApp.zip*, which is stored in the [*tutorial_data* folder of this repository](https://github.com/Autodesk-Forge/forge-tutorial-postman/tree/master/DA4Revit/tutorial_data). The file *DeleteWalls.dll* that is contained within this AppBundle is designed to run on Revit 2018.\n\n&nbsp;\n\nOnce you send the request to Forge, the response provides all the parameters required to upload the AppBundle *DeletWallsApp.zip*, to Forge. A script saves the values of all these parameters to a number of Postman Variables (see **Tests** tab below)."
+					},
+					"response": []
+				},
+				{
+					"name": "Upload the AppBundle",
+					"event": [
+						{
+							"listen": "prerequest",
+							"script": {
+								"id": "f15df6e5-8f98-4ea7-8e21-9b68875f57aa",
+								"exec": [
+									""
+								],
+								"type": "text/javascript"
+							}
+						},
+						{
+							"listen": "test",
+							"script": {
+								"id": "6029064c-c08c-43db-a281-b30edd1689fa",
+								"exec": [
+									"//pm.environment.unset(\"deleteWallsAppFormDataKey\");",
+									"//pm.environment.unset(\"deleteWallsAppFormDataPolicy\");",
+									"//pm.environment.unset(\"deleteWallsAppFormDataSignature\");",
+									"//pm.environment.unset(\"deleteWallsAppFormDataCredential\");",
+									"//pm.environment.unset(\"deleteWallsAppFormDataDate\");",
+									"//pm.environment.unset(\"deleteWallsAppFormDataToken\");"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "formdata",
+							"formdata": [
+								{
+									"key": "key",
+									"value": "{{deleteWallsAppFormDataKey}}",
+									"type": "text"
+								},
+								{
+									"key": "content-type",
+									"value": "application/octet-stream",
+									"type": "text"
+								},
+								{
+									"key": "policy",
+									"value": "{{deleteWallsAppFormDataPolicy}}",
+									"type": "text"
+								},
+								{
+									"key": "success_action_status",
+									"value": "200",
+									"type": "text"
+								},
+								{
+									"key": "x-amz-signature",
+									"value": "{{deleteWallsAppFormDataSignature}}",
+									"type": "text"
+								},
+								{
+									"key": "x-amz-credential",
+									"value": "{{deleteWallsAppFormDataCredential}}",
+									"type": "text"
+								},
+								{
+									"key": "x-amz-algorithm",
+									"value": "AWS4-HMAC-SHA256",
+									"type": "text"
+								},
+								{
+									"key": "x-amz-date",
+									"value": "{{deleteWallsAppFormDataDate}}",
+									"type": "text"
+								},
+								{
+									"key": "x-amz-server-side-encryption",
+									"value": "AES256",
+									"type": "text"
+								},
+								{
+									"key": "x-amz-security-token",
+									"value": "{{deleteWallsAppFormDataToken}}",
+									"type": "text"
+								},
+								{
+									"key": "success_action_redirect",
+									"value": "{{deleteWallsAppFormRedirect}}",
+									"type": "text"
+								},
+								{
+									"key": "file",
+									"type": "file",
+									"src": "/C:/DATA/Forge/accelerator/doc/appBundle/ObjectsInsertion.zip"
+								}
+							]
+						},
+						"url": {
+							"raw": "{{deleteWallsAppUrl}}",
+							"host": [
+								"{{deleteWallsAppUrl}}"
+							]
+						},
+						"description": "This request to the Design Automation API uploads an AppBundle to Forge.\n\n&nbsp;\n\nBefore you send this request: \n\n  1. Download the file *DeletWallsApp.zip* from the [*tutorial_data* folder of this repository](https://github.com/Autodesk-Forge/forge-tutorial-postman/tree/master/DA4Revit/tutorial_data)\n  2. Go to the **Body** tab below.\n  3. Scroll down so that the **File** row is visible.\n  4. Close any boxes that appear against **File**.\n  4. Click **Select** and pick the file *DeletWallsApp.zip*, which you downloaded in step 1."
+					},
+					"response": []
+				},
+				{
+					"name": "Create an Alias for the AppBundle",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "",
+								"value": "",
+								"disabled": true
+							},
+							{
+								"key": "Authorization",
+								"value": "Bearer {{dasApiToken}}"
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"version\": {{deleteWallsAppVersion}},\r\n  \"id\": \"v2\"\r\n}"
+						},
+						"url": {
+							"raw": "{{dasApiRoot}}/appbundles/:app/aliases",
+							"host": [
+								"{{dasApiRoot}}"
+							],
+							"path": [
+								"appbundles",
+								":app",
+								"aliases"
+							],
+							"variable": [
+								{
+									"key": "app",
+									"value": "ObjectsInsertion"
+								}
+							]
+						},
+						"description": "This request to the Design Automation API creates an alias for the AppBundle.\n\n&nbsp;\n\nWhen you registered the AppBundle earlier, it was registered as version 1 of the AppBundle (The version was saved to the Postman Variable `deleteWallsAppVersion` when you registered the AppBundle). With this request, you create an alias named *test* to reference that version. Check the **Body** tab below to inspect the JSON payload."
+					},
+					"response": []
+				},
+				{
+					"name": "Update an Existing AppBundle",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "8b2b078f-a702-4864-8384-41cce70efee6",
+								"exec": [
+									"var body = JSON.parse(responseBody);",
+									"pm.environment.set(\"deleteWallsAppUrl\", body[\"uploadParameters\"][\"endpointURL\"]);",
+									"pm.environment.set(\"deleteWallsAppVersion\", body[\"version\"]);",
+									"pm.environment.set(\"deleteWallsAppFormDataKey\", body[\"uploadParameters\"][\"formData\"][\"key\"]);",
+									"pm.environment.set(\"deleteWallsAppFormDataPolicy\", body[\"uploadParameters\"][\"formData\"][\"policy\"]);",
+									"pm.environment.set(\"deleteWallsAppFormDataSignature\", body[\"uploadParameters\"][\"formData\"][\"x-amz-signature\"]);",
+									"pm.environment.set(\"deleteWallsAppFormDataCredential\", body[\"uploadParameters\"][\"formData\"][\"x-amz-credential\"]);",
+									"pm.environment.set(\"deleteWallsAppFormDataDate\", body[\"uploadParameters\"][\"formData\"][\"x-amz-date\"]);",
+									"pm.environment.set(\"deleteWallsAppFormDataToken\", body[\"uploadParameters\"][\"formData\"][\"x-amz-security-token\"]);",
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							},
+							{
+								"key": "Authorization",
+								"value": "Bearer {{dasApiToken}}"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n\t\"engine\": \"Autodesk.Revit+2019\",\r\n\t\"description\": \"Delete Walls app based on Revit 2019\"\r\n}"
+						},
+						"url": {
+							"raw": "{{dasApiRoot}}/appbundles/:app/versions",
+							"host": [
+								"{{dasApiRoot}}"
+							],
+							"path": [
+								"appbundles",
+								":app",
+								"versions"
+							],
+							"variable": [
+								{
+									"key": "app",
+									"value": "ObjectsInsertion"
+								}
+							]
+						},
+						"description": "To update an existing AppBundle, you must register a new version of it and then upload the updated AppBundle for that version. If you try to overwrite an existing AppBundle, Design Automation for Revit throws a `409 Conflict` error."
+					},
+					"response": []
+				},
+				{
+					"name": "Upload the Updated AppBundle",
+					"event": [
+						{
+							"listen": "prerequest",
+							"script": {
+								"id": "f15df6e5-8f98-4ea7-8e21-9b68875f57aa",
+								"exec": [
+									""
+								],
+								"type": "text/javascript"
+							}
+						},
+						{
+							"listen": "test",
+							"script": {
+								"id": "6029064c-c08c-43db-a281-b30edd1689fa",
+								"exec": [
+									"//pm.environment.unset(\"deleteWallsAppFormDataKey\");",
+									"//pm.environment.unset(\"deleteWallsAppFormDataPolicy\");",
+									"//pm.environment.unset(\"deleteWallsAppFormDataSignature\");",
+									"//pm.environment.unset(\"deleteWallsAppFormDataCredential\");",
+									"//pm.environment.unset(\"deleteWallsAppFormDataDate\");",
+									"//pm.environment.unset(\"deleteWallsAppFormDataToken\");"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "formdata",
+							"formdata": [
+								{
+									"key": "key",
+									"value": "{{deleteWallsAppFormDataKey}}",
+									"type": "text"
+								},
+								{
+									"key": "content-type",
+									"value": "application/octet-stream",
+									"type": "text"
+								},
+								{
+									"key": "policy",
+									"value": "{{deleteWallsAppFormDataPolicy}}",
+									"type": "text"
+								},
+								{
+									"key": "success_action_status",
+									"value": "200",
+									"type": "text"
+								},
+								{
+									"key": "x-amz-signature",
+									"value": "{{deleteWallsAppFormDataSignature}}",
+									"type": "text"
+								},
+								{
+									"key": "x-amz-credential",
+									"value": "{{deleteWallsAppFormDataCredential}}",
+									"type": "text"
+								},
+								{
+									"key": "x-amz-algorithm",
+									"value": "AWS4-HMAC-SHA256",
+									"type": "text"
+								},
+								{
+									"key": "x-amz-date",
+									"value": "{{deleteWallsAppFormDataDate}}",
+									"type": "text"
+								},
+								{
+									"key": "x-amz-server-side-encryption",
+									"value": "AES256",
+									"type": "text"
+								},
+								{
+									"key": "x-amz-security-token",
+									"value": "{{deleteWallsAppFormDataToken}}",
+									"type": "text"
+								},
+								{
+									"key": "success_action_redirect",
+									"value": "{{deleteWallsAppFormRedirect}}",
+									"type": "text"
+								},
+								{
+									"key": "file",
+									"type": "file",
+									"src": "/C:/DATA/Forge/accelerator/doc/appBundle/ObjectsInsertion.zip"
+								}
+							]
+						},
+						"url": {
+							"raw": "{{deleteWallsAppUrl}}",
+							"host": [
+								"{{deleteWallsAppUrl}}"
+							]
+						},
+						"description": "This request to the Design Automation API uploads an AppBundle as version 2 of the AppBundle.\n\n&nbsp;\n\nBefore you send this request: \n\n  1. Download the file *DeletWallsApp.zip* from the [*tutorial_data* folder of this repository](https://github.com/Autodesk-Forge/forge-tutorial-postman/tree/master/DA4Revit/tutorial_data)\n  2. Go to the **Body** tab below.\n  3. Scroll down so that the **File** row is visible.\n  4. Close any boxes that appear against **File**.\n  4. Click **Select** and pick the file *DeletWallsApp.zip*, which you downloaded in step 1."
+					},
+					"response": []
+				},
+				{
+					"name": "Assign an Existing Alias to the Updated AppBundle",
+					"request": {
+						"method": "PATCH",
+						"header": [
+							{
+								"key": "",
+								"value": "",
+								"disabled": true
+							},
+							{
+								"key": "Authorization",
+								"value": "Bearer {{dasApiToken}}"
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"version\": {{deleteWallsAppVersion}}\r\n}"
+						},
+						"url": {
+							"raw": "{{dasApiRoot}}/appbundles/DeleteWallsApp/aliases/test",
+							"host": [
+								"{{dasApiRoot}}"
+							],
+							"path": [
+								"appbundles",
+								"DeleteWallsApp",
+								"aliases",
+								"test"
+							]
+						},
+						"description": "This request to the Design Automation API creates an alias for the latest version of the AppBundle.\n\n&nbsp;\n\nWhen you updated the AppBundle earlier, it was registered as version 2 of the AppBundle (The version was saved to the Postman Variable `deleteWallsAppVersion` when you registered the AppBundle). With this request, you reassign the alias named *test* to reference that version. Check the **Body** tab below to inspect the JSON payload."
+					},
+					"response": []
+				}
+			],
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"id": "5af8f30b-a5df-4b7b-bc0f-e98df6a4bfd6",
+						"type": "text/javascript",
+						"exec": [
+							""
+						]
+					}
+				},
+				{
+					"listen": "test",
+					"script": {
+						"id": "c8ccf77a-f88d-4338-aaa8-2cc53661dc54",
+						"type": "text/javascript",
+						"exec": [
+							""
+						]
+					}
+				}
+			],
+			"protocolProfileBehavior": {}
+		},
+		{
+			"name": "Task 5 - Publish an Activity",
+			"item": [
+				{
+					"name": "Create a New Activity",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "a1eda547-e6c7-4073-a773-0fc897166bfa",
+								"exec": [
+									"var body = JSON.parse(responseBody);",
+									"pm.environment.set(\"deleteWallsActivityVersion\", body[\"version\"]);",
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							},
+							{
+								"key": "Authorization",
+								"value": "Bearer {{dasApiToken}}"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n\t\"id\": \"ObjectsInsertionActivity\",\r\n\t\"commandLine\": [ \"$(engine.path)\\\\\\\\revitcoreconsole.exe /i $(args[rvtFile].path) /al $(appbundles[ObjectsInsertion].path)\" ],\r\n\t\"parameters\": {\r\n\t  \"rvtFile\": {\r\n\t\t\"zip\": false,\r\n\t\t\"ondemand\": false,\r\n\t\t\"verb\": \"get\",\r\n\t\t\"description\": \"Input Revit model\",\r\n\t\t\"required\": true,\r\n\t\t\"localName\": \"input.rvt\"\r\n\t  }, \r\n\t  \"json\": {\r\n\t\t\"zip\": false,\r\n\t\t\"ondemand\": false,\r\n\t\t\"verb\": \"get\",\r\n\t\t\"description\": \"Input Json parameters\",\r\n\t\t\"required\": true,\r\n\t\t\"localName\": \"params.json\"\r\n\t  },\r\n\t   \"families\": {\r\n\t\t\"zip\": true,\r\n\t\t\"ondemand\": false,\r\n\t\t\"verb\": \"get\",\r\n\t\t\"description\": \"Input Revit families\",\r\n\t\t\"required\": true,\r\n\t\t\"localName\": \"families\"\r\n\t  },\r\n\t  \"result\": {\r\n\t\t\"zip\": false,\r\n\t\t\"ondemand\": false,\r\n\t\t\"verb\": \"put\",\r\n\t\t\"description\": \"Results\",\r\n\t\t\"required\": true,\r\n\t\t\"localName\": \"result.rvt\"\r\n\t  }\r\n\t},\r\n\t\"engine\": \"Autodesk.Revit+2020\",\r\n\t\"appbundles\": [ \"{{dasNickName}}.ObjectsInsertion+v2\" ],\r\n\t\"description\": \"Objects insertion in Revit file.\"\r\n}"
+						},
+						"url": {
+							"raw": "{{dasApiRoot}}/activities",
+							"host": [
+								"{{dasApiRoot}}"
+							],
+							"path": [
+								"activities"
+							]
+						},
+						"description": "This request to the Design Automation API creates an Activity. An Activity is an action that can be executed in Design Automation. This request creates an Activity that runs the DeleteWalls add-in.\r\n\r\n&nbsp;\r\n\r\n**Notes:**\r\n - The JSON payload for this request contains several key attributes. See the description of these attributes in the [corresponding task on the Forge Portal](https://forge.autodesk.com/en/docs/design-automation/v3/tutorials/revit/step5-publish-activity/)."
+					},
+					"response": []
+				},
+				{
+					"name": "Create an Alias to the Activity",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							},
+							{
+								"key": "Authorization",
+								"value": "Bearer {{dasApiToken}}"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"id\": \"act_v2\",\r\n    \"version\": {{deleteWallsActivityVersion}}\r\n}"
+						},
+						"url": {
+							"raw": "{{dasApiRoot}}/activities/:act/aliases",
+							"host": [
+								"{{dasApiRoot}}"
+							],
+							"path": [
+								"activities",
+								":act",
+								"aliases"
+							],
+							"variable": [
+								{
+									"key": "act",
+									"value": "ObjectsInsertionActivity"
+								}
+							]
+						},
+						"description": "This request creates an alias named test, which refers to version 1 of the DeleteWallsActivity.\n\n&nbsp;\n\nThe id of an Activity alone is not sufficient when you instruct Design Automation to execute it. You must use an Alias to specify which version of the Activity to execute. You can think of an Alias as a tag that points to a particular version of an Activity.\nThe version an Alias points to can be changed as you develop more versions of a given activity.\nThe request **Task 5 - Publish Activity > Create New Activity** created the version 1 of the Activity.\nThis request will now create an Alias named \"test\" to reference version 1."
+					},
+					"response": []
+				},
+				{
+					"name": "Update an Existing Activity",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "5abe3c11-e6c8-4b4d-bf62-e0de9fee29a4",
+								"exec": [
+									"var body = JSON.parse(responseBody);",
+									"pm.environment.set(\"deleteWallsActivityVersion\", body[\"version\"]);",
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							},
+							{
+								"key": "Authorization",
+								"value": "Bearer {{dasApiToken}}"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n\t\"commandLine\": [ \"$(engine.path)\\\\\\\\revitcoreconsole.exe /i $(args[rvtFile].path) /al $(appbundles[ObjectsInsertion].path)\" ],\r\n\t\"parameters\": {\r\n\t \"rvtFile\": {\r\n\t\t\"zip\": false,\r\n\t\t\"ondemand\": false,\r\n\t\t\"verb\": \"get\",\r\n\t\t\"description\": \"Input Revit model\",\r\n\t\t\"required\": true,\r\n\t\t\"localName\": \"input.rvt\"\r\n\t  }, \r\n\t  \"json\": {\r\n\t\t\"zip\": false,\r\n\t\t\"ondemand\": false,\r\n\t\t\"verb\": \"get\",\r\n\t\t\"description\": \"Input Json parameters\",\r\n\t\t\"required\": true,\r\n\t\t\"localName\": \"params.json\"\r\n\t  },\r\n\t   \"families\": {\r\n\t\t\"zip\": true,\r\n\t\t\"ondemand\": false,\r\n\t\t\"verb\": \"get\",\r\n\t\t\"description\": \"Input Revit families\",\r\n\t\t\"required\": true,\r\n\t\t\"localName\": \"families\"\r\n\t  },\r\n\t  \"result\": {\r\n\t\t\"zip\": false,\r\n\t\t\"ondemand\": false,\r\n\t\t\"verb\": \"put\",\r\n\t\t\"description\": \"Results\",\r\n\t\t\"required\": true,\r\n\t\t\"localName\": \"result.rvt\"\r\n\t  }\r\n\t},\r\n\t\"engine\": \"Autodesk.Revit+2019\",\r\n\t\"appbundles\": [ \"{{dasNickName}}.ObjectsInsertion+v2\" ],\r\n\t\"description\": \"insertion objects in Revit file.\"\r\n}"
+						},
+						"url": {
+							"raw": "{{dasApiRoot}}/activities/:act/versions",
+							"host": [
+								"{{dasApiRoot}}"
+							],
+							"path": [
+								"activities",
+								":act",
+								"versions"
+							],
+							"variable": [
+								{
+									"key": "act",
+									"value": "ObjectsInsertionActivity"
+								}
+							]
+						},
+						"description": "Design Automation does not let you overwrite an Activity once you have created it. If you want to modify/update an existing Activity, you must update it as a new version. If you try to overwrite an existing Activity, Design Automation for Revit throws a `409 Conflict` error.\n\n&nbsp;\n\nThis request creates a new version of an Activity."
+					},
+					"response": []
+				},
+				{
+					"name": "Assign an Existing Alias to the Updated Activity",
+					"request": {
+						"method": "PATCH",
+						"header": [
+							{
+								"key": "",
+								"value": "",
+								"disabled": true
+							},
+							{
+								"key": "Authorization",
+								"value": "Bearer {{dasApiToken}}"
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"version\": {{deleteWallsActivityVersion}}\r\n}"
+						},
+						"url": {
+							"raw": "{{dasApiRoot}}/activities/DeleteWallsActivity/aliases/test",
+							"host": [
+								"{{dasApiRoot}}"
+							],
+							"path": [
+								"activities",
+								"DeleteWallsActivity",
+								"aliases",
+								"test"
+							]
+						},
+						"description": "Currently, the alias *test* points to version 1 of the Activity. \nYou can reassign the alias *test* to point to version 2 of the Activity.\n\nTo update the alias, you can either:\n\n-  Delete the existing alias and recreate it with the version you want to label.\n-  Send a PATCH request.\n \n\nThis request sends a PATCH request to update the alias."
+					},
+					"response": []
+				}
+			],
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"id": "4d168347-e031-4bdc-b287-e028e6f23ba2",
+						"type": "text/javascript",
+						"exec": [
+							""
+						]
+					}
+				},
+				{
+					"listen": "test",
+					"script": {
+						"id": "54a9b3a1-f9ad-4f4b-ae6a-f48c5e044459",
+						"type": "text/javascript",
+						"exec": [
+							""
+						]
+					}
+				}
+			],
+			"protocolProfileBehavior": {}
+		},
+		{
+			"name": "Task 6 - Prepare Cloud Storage",
+			"item": [
+				{
+					"name": "List buckets",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "82f5a338-28fe-43cf-b4c3-17f521d2cd1f",
+								"exec": [
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{dasApiToken}}"
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"url": {
+							"raw": "{{baseUrl}}/oss/v2/buckets",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"oss",
+								"v2",
+								"buckets"
+							]
+						},
+						"description": "<a href=\"https://developer.autodesk.com/en/docs/data/v2/reference/http/buckets-GET/\">Documentation</a>"
+					},
+					"response": []
+				},
+				{
+					"name": "Create a Bucket",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{dasApiToken}}",
+								"type": "text"
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n\t\"bucketKey\": \"{{ossBucketKey}}\",\n    \"access\": \"full\",\n    \"policyKey\": \"transient\"\n}"
+						},
+						"url": {
+							"raw": "{{baseUrl}}/oss/v2/buckets",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"oss",
+								"v2",
+								"buckets"
+							]
+						},
+						"description": "This request to the Data Management API creates a Bucket in the Object Storage Service (OSS) to store the input dwg file and the resulting text file.\n\n&nbsp;\n\nBefore you send the request:\n - Specify the name of the Bucket as the value of the Postman Variable `ossBucketKey`\n \n&nbsp;\n\n**Notes:**\n - The Bucket name must be unique throughout the OSS service. If a Bucket with the name you specified already exists you will recieve a `409 Conflict` error. If so, retry after specifying another name.\n - The Bucket name must consist of only lower case characters, the numbers 0-9, and the underscore (_) character."
+					},
+					"response": []
+				},
+				{
+					"name": "Upload Input File to OSS",
+					"request": {
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{dasApiToken}}",
+								"type": "text"
+							},
+							{
+								"key": "Accept-Encoding",
+								"value": "gzip, deflate",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "file",
+							"file": {
+								"src": "/C:/DATA/Forge/accelerator/doc/template/ObjectsInsertion_Template.rvt"
+							}
+						},
+						"url": {
+							"raw": "{{baseUrl}}/oss/v2/buckets/:BUCKET_KEY/objects/:OBJECT_KEY",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"oss",
+								"v2",
+								"buckets",
+								":BUCKET_KEY",
+								"objects",
+								":OBJECT_KEY"
+							],
+							"variable": [
+								{
+									"key": "BUCKET_KEY",
+									"value": "{{ossBucketKey}}"
+								},
+								{
+									"key": "OBJECT_KEY",
+									"value": "{{ossInputFileObjectKey}}"
+								}
+							]
+						},
+						"description": "This request to the Data Management API uploads a zip file containing the *rvt* file to the Bucket you just created.\r\n\r\n&nbsp;\r\n\r\nBefore sending the request:\r\n\r\n 1. Download the file *DeleteWalls.rvt* from the [tutorial_data folder](https://github.com/Autodesk-Forge/forge-tutorial-postman/tree/master/DA4Revit/tutorial_data) of the repository that contained this Postman Collection.\r\n 2. Specify an Object Key (a name to identify the input file, once it is uploaded to OSS) as the value of the Postman Variable `ossInputFileObjectKey`.\r\n 3. Go to the **Body** tab below.\r\n 4. Click **Select Files**.\r\n 5. Pick the rvt file you downloaded in step 1.\r\n \r\n&nbsp;"
+					},
+					"response": []
+				},
+				{
+					"name": "Upload JSON File to OSS",
+					"request": {
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Authorization",
+								"type": "text",
+								"value": "Bearer {{dasApiToken}}"
+							},
+							{
+								"key": "Accept-Encoding",
+								"type": "text",
+								"value": "gzip, deflate"
+							}
+						],
+						"body": {
+							"mode": "file",
+							"file": {
+								"src": "/C:/DATA/Forge/accelerator/doc/json/params.json"
+							}
+						},
+						"url": {
+							"raw": "{{baseUrl}}/oss/v2/buckets/:BUCKET_KEY/objects/:OBJECT_KEY",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"oss",
+								"v2",
+								"buckets",
+								":BUCKET_KEY",
+								"objects",
+								":OBJECT_KEY"
+							],
+							"variable": [
+								{
+									"key": "BUCKET_KEY",
+									"value": "{{ossBucketKey}}"
+								},
+								{
+									"key": "OBJECT_KEY",
+									"value": "{{ossJSONInputFileObjectKey}}"
+								}
+							]
+						},
+						"description": "This request to the Data Management API uploads a zip file containing the *rvt* file to the Bucket you just created.\r\n\r\n&nbsp;\r\n\r\nBefore sending the request:\r\n\r\n 1. Download the file *DeleteWalls.rvt* from the [tutorial_data folder](https://github.com/Autodesk-Forge/forge-tutorial-postman/tree/master/DA4Revit/tutorial_data) of the repository that contained this Postman Collection.\r\n 2. Specify an Object Key (a name to identify the input file, once it is uploaded to OSS) as the value of the Postman Variable `ossInputFileObjectKey`.\r\n 3. Go to the **Body** tab below.\r\n 4. Click **Select Files**.\r\n 5. Pick the rvt file you downloaded in step 1.\r\n \r\n&nbsp;"
+					},
+					"response": []
+				},
+				{
+					"name": "Upload Families File to OSS",
+					"request": {
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Authorization",
+								"type": "text",
+								"value": "Bearer {{dasApiToken}}"
+							},
+							{
+								"key": "Accept-Encoding",
+								"type": "text",
+								"value": "gzip, deflate"
+							}
+						],
+						"body": {
+							"mode": "file",
+							"file": {
+								"src": "/C:/DATA/Forge/accelerator/doc/tmp/families.zip"
+							}
+						},
+						"url": {
+							"raw": "{{baseUrl}}/oss/v2/buckets/:BUCKET_KEY/objects/:OBJECT_KEY",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"oss",
+								"v2",
+								"buckets",
+								":BUCKET_KEY",
+								"objects",
+								":OBJECT_KEY"
+							],
+							"variable": [
+								{
+									"key": "BUCKET_KEY",
+									"value": "{{ossBucketKey}}"
+								},
+								{
+									"key": "OBJECT_KEY",
+									"value": "{{ossFamiliesInputFileObjectKey}}"
+								}
+							]
+						},
+						"description": "This request to the Data Management API uploads a zip file containing the *rvt* file to the Bucket you just created.\r\n\r\n&nbsp;\r\n\r\nBefore sending the request:\r\n\r\n 1. Download the file *DeleteWalls.rvt* from the [tutorial_data folder](https://github.com/Autodesk-Forge/forge-tutorial-postman/tree/master/DA4Revit/tutorial_data) of the repository that contained this Postman Collection.\r\n 2. Specify an Object Key (a name to identify the input file, once it is uploaded to OSS) as the value of the Postman Variable `ossInputFileObjectKey`.\r\n 3. Go to the **Body** tab below.\r\n 4. Click **Select Files**.\r\n 5. Pick the rvt file you downloaded in step 1.\r\n \r\n&nbsp;"
+					},
+					"response": []
+				},
+				{
+					"name": "Get Temporary Download URL",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "65d0ec49-0122-43d6-bf5d-a84e43e04e3d",
+								"exec": [
+									"var body = JSON.parse(responseBody);",
+									"pm.environment.set(\"ossDownloadURL\", body[\"signedUrl\"]);"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{dasApiToken}}",
+								"type": "text"
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{}"
+						},
+						"url": {
+							"raw": "{{baseUrl}}/oss/v2/buckets/:BUCKET_KEY/objects/:OBJECT_KEY/signed",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"oss",
+								"v2",
+								"buckets",
+								":BUCKET_KEY",
+								"objects",
+								":OBJECT_KEY",
+								"signed"
+							],
+							"variable": [
+								{
+									"key": "BUCKET_KEY",
+									"value": "{{ossBucketKey}}"
+								},
+								{
+									"key": "OBJECT_KEY",
+									"value": "{{ossInputFileObjectKey}}"
+								}
+							]
+						},
+						"description": "This request to the Data Management API creates a temporary download URL for the input file. The URL expires in 60 minutes.\n\n&nbsp;\n\nOnce you send the request, the script specified in the **Tests** tab parses the response and writes the upload URL to a variable `ossDownloadURL`."
+					},
+					"response": []
+				},
+				{
+					"name": "Get Temporary JSON URL",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "65d0ec49-0122-43d6-bf5d-a84e43e04e3d",
+								"exec": [
+									"var body = JSON.parse(responseBody);",
+									"pm.environment.set(\"ossJSONDownloadURL\", body[\"signedUrl\"]);"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Authorization",
+								"type": "text",
+								"value": "Bearer {{dasApiToken}}"
+							},
+							{
+								"key": "Content-Type",
+								"type": "text",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{}"
+						},
+						"url": {
+							"raw": "{{baseUrl}}/oss/v2/buckets/:BUCKET_KEY/objects/:OBJECT_KEY/signed",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"oss",
+								"v2",
+								"buckets",
+								":BUCKET_KEY",
+								"objects",
+								":OBJECT_KEY",
+								"signed"
+							],
+							"variable": [
+								{
+									"key": "BUCKET_KEY",
+									"value": "{{ossBucketKey}}"
+								},
+								{
+									"key": "OBJECT_KEY",
+									"value": "{{ossJSONInputFileObjectKey}}"
+								}
+							]
+						},
+						"description": "This request to the Data Management API creates a temporary download URL for the input file. The URL expires in 60 minutes.\n\n&nbsp;\n\nOnce you send the request, the script specified in the **Tests** tab parses the response and writes the upload URL to a variable `ossDownloadURL`."
+					},
+					"response": []
+				},
+				{
+					"name": "Get Temporary Families URL",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "65d0ec49-0122-43d6-bf5d-a84e43e04e3d",
+								"exec": [
+									"var body = JSON.parse(responseBody);",
+									"pm.environment.set(\"ossFamiliesDownloadURL\", body[\"signedUrl\"]);"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Authorization",
+								"type": "text",
+								"value": "Bearer {{dasApiToken}}"
+							},
+							{
+								"key": "Content-Type",
+								"type": "text",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{}"
+						},
+						"url": {
+							"raw": "{{baseUrl}}/oss/v2/buckets/:BUCKET_KEY/objects/:OBJECT_KEY/signed",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"oss",
+								"v2",
+								"buckets",
+								":BUCKET_KEY",
+								"objects",
+								":OBJECT_KEY",
+								"signed"
+							],
+							"variable": [
+								{
+									"key": "BUCKET_KEY",
+									"value": "{{ossBucketKey}}"
+								},
+								{
+									"key": "OBJECT_KEY",
+									"value": "{{ossFamiliesInputFileObjectKey}}"
+								}
+							]
+						},
+						"description": "This request to the Data Management API creates a temporary download URL for the input file. The URL expires in 60 minutes.\n\n&nbsp;\n\nOnce you send the request, the script specified in the **Tests** tab parses the response and writes the upload URL to a variable `ossDownloadURL`."
+					},
+					"response": []
+				},
+				{
+					"name": "Get Temporary Upload URL",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "98b626f6-40d1-49e2-b121-6ed5a089934c",
+								"exec": [
+									"var body = JSON.parse(responseBody);",
+									"pm.environment.set(\"ossUploadURL\", body[\"signedUrl\"]);"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{dasApiToken}}",
+								"type": "text"
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{}"
+						},
+						"url": {
+							"raw": "{{baseUrl}}/oss/v2/buckets/:BUCKET_KEY/objects/:OBJECT_KEY/signed?access=readwrite",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"oss",
+								"v2",
+								"buckets",
+								":BUCKET_KEY",
+								"objects",
+								":OBJECT_KEY",
+								"signed"
+							],
+							"query": [
+								{
+									"key": "access",
+									"value": "readwrite"
+								}
+							],
+							"variable": [
+								{
+									"key": "BUCKET_KEY",
+									"value": "{{ossBucketKey}}"
+								},
+								{
+									"key": "OBJECT_KEY",
+									"value": "{{ossOutputFileObjectKey}}"
+								}
+							]
+						},
+						"description": "This request to the Data Management API creates a temporary upload URL to enable Design Automation to upload the output of the Activity you created earlier.\n\n&nbsp;\n\nBefore you send this request:\n - Specify an Object Key (a name to identify the output file, once it is uploaded to OSS) as the value of the Postman Variable  `ossOutputFileObjectKey`\n\n&nbsp;\n \nOnce you send the request, the script specified in the **Tests** tab parses the response and writes the upload URL to a variable `ossUploadURL`."
+					},
+					"response": []
+				}
+			],
+			"protocolProfileBehavior": {}
+		},
+		{
+			"name": "Task 7 - Submit a WorkItem",
+			"item": [
+				{
+					"name": "Create a  WorkItem",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "bba6b291-c09f-4f45-b6a3-f7b727b6b38c",
+								"exec": [
+									"var body = JSON.parse(responseBody);",
+									"pm.environment.set(\"deleteWallsWorkitemId\", body[\"id\"]);",
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							},
+							{
+								"key": "Authorization",
+								"value": "Bearer {{dasApiToken}}"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"activityId\": \"{{dasNickName}}.ObjectsInsertionActivity+act_v2\",\r\n  \"arguments\": {\r\n    \"rvtFile\": {\r\n      \"url\": \"{{ossDownloadURL}}\"\r\n    },\r\n    \"json\": {\r\n      \"url\": \"{{ossJSONDownloadURL}}\"\r\n    },\r\n    \"families\": {\r\n      \"url\": \"{{ossFamiliesDownloadURL}}\"\r\n    },\r\n    \"result\": {\r\n      \"verb\": \"put\",\r\n      \"url\": \"{{ossUploadURL}}\"\r\n    }\r\n  }\r\n}"
+						},
+						"url": {
+							"raw": "{{dasApiRoot}}/workitems",
+							"host": [
+								"{{dasApiRoot}}"
+							],
+							"path": [
+								"workitems"
+							]
+						},
+						"description": "This request to the Design Automation API creates a WorkItem that kicks off the execution of the Activity that you created in Task 5.\n\n&nbsp;\n\nThe relationship between an Activity and a WorkItem can be thought of as the relationship between a “function definition” and “function call”. Named parameters of the Activity have corresponding named arguments of the WorkItem. Like in function calls, optional parameters of the Activity can be skipped and left unspecified while posting a WorkItem.\n\n&nbsp;\n\nInspect the **Body** tab below to see how values for the parameters specified while defining the Activity are supplied as arguments in the WorkItem.\n\n&nbsp;\n\nOnce you send the request, the script specified in the **Tests** tab parses the response and writes the WorkItem Id to a variable `deleteWallsWorkitemId`."
+					},
+					"response": []
+				},
+				{
+					"name": "Check Status of a  WorkItem",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							},
+							{
+								"key": "Authorization",
+								"value": "Bearer {{dasApiToken}}"
+							}
+						],
+						"url": {
+							"raw": "{{dasApiRoot}}/workitems/{{deleteWallsWorkitemId}}",
+							"host": [
+								"{{dasApiRoot}}"
+							],
+							"path": [
+								"workitems",
+								"{{deleteWallsWorkitemId}}"
+							]
+						},
+						"description": "This request to the Design Automation API queries the status of the WorkItem."
+					},
+					"response": []
+				}
+			],
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"id": "bad3703f-6685-49d9-8c83-eceaef228418",
+						"type": "text/javascript",
+						"exec": [
+							""
+						]
+					}
+				},
+				{
+					"listen": "test",
+					"script": {
+						"id": "6a1136ea-bcee-45df-9ca1-c6a096d2675f",
+						"type": "text/javascript",
+						"exec": [
+							""
+						]
+					}
+				}
+			],
+			"protocolProfileBehavior": {}
+		},
+		{
+			"name": "Delete Forge App",
+			"request": {
+				"auth": {
+					"type": "noauth"
+				},
+				"method": "DELETE",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "Bearer {{dasApiToken}}",
+						"type": "text"
+					},
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"url": {
+					"raw": "{{dasApiRoot}}/forgeapps/me",
+					"host": [
+						"{{dasApiRoot}}"
+					],
+					"path": [
+						"forgeapps",
+						"me"
+					]
+				},
+				"description": "This request to the Design Automation API deletes all Design Automation related information owned by your Forge app."
+			},
+			"response": []
+		}
+	],
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"id": "ab27f2fc-10e2-41ed-a2d5-8afe563ea9bb",
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"id": "a2e66a46-744f-4fc6-9652-e6a43bee76ae",
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		}
+	],
+	"protocolProfileBehavior": {}
+}
