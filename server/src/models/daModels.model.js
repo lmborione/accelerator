@@ -51,11 +51,43 @@ function setLastZip(projectId, zipFile) {
     return models[index];
 }
 
+function getTempUrl(projectId) {
+    return models.filter((e) => parseInt(e.projectId) === parseInt(projectId))[0].tempUrl;
+}
+
+function setTempUrl(projectId, tempUrls) {
+    const index = models.findIndex(e => parseInt(e.projectId) === parseInt(projectId));
+    if (index >= 0) {
+        models[index].tempUrl = tempUrls;
+    }
+    fs.writeFileSync(path, JSON.stringify(models));
+    return models[index];
+}
+
+function getWorkItem(projectId) {
+    return models.filter((e) => parseInt(e.projectId) === parseInt(projectId))[0].workItem;
+}
+
+function setWorkItem(projectId, workItem) {
+    const index = models.findIndex(e => parseInt(e.projectId) === parseInt(projectId));
+    if (index >= 0) {
+        models[index].workItem = workItem;
+    }
+    fs.writeFileSync(path, JSON.stringify(models));
+    return models[index];
+}
+
+
+
 module.exports = {
     addProject,
     getAllModels,
     getDaModel,
     setLastRevitModel,
     setLastJSON,
-    setLastZip
+    setLastZip,
+    getTempUrl,
+    setTempUrl,
+    getWorkItem,
+    setWorkItem
 };
