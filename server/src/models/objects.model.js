@@ -9,6 +9,9 @@ function countObjects() {
 }
 
 function getAllObjects(page, limit) {
+    if (page === -1 && limit === -1) {
+        return objects;
+    }
     return objects.slice(page * limit, (page + 1) * limit);
 }
 
