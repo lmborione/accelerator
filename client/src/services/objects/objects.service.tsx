@@ -5,7 +5,7 @@ class ObjectsService {
 
 	async getObjects(page: number, pageSize: number): Promise<any> {
 		try {
-			const response = await fetch(`/api/objects/get/all?page=${page}&limit=${pageSize}`);
+			const response = await fetch(`/api/objects/get/all?page=${page}&limit=${pageSize}&pretty=true`);
 			const resp = await response.json();
 			return {
 				data: resp.data,

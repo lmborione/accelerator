@@ -3,7 +3,7 @@ import { BrowserRouter as Router, Switch, Route, Redirect } from 'react-router-d
 
 import { Header } from '../components';
 
-import { HomeView, PageNotFoundView, GalleryView, Viewer } from '../pages';
+import { HomeView, PageNotFoundView, GalleryView, Viewer, ObjectView } from '../pages';
 
 class Routes extends React.Component {
 	render() {
@@ -15,6 +15,7 @@ class Routes extends React.Component {
 					<Route exact path="/home" component={HomeView} />
 					<Route exact path="/gallery" component={GalleryView} />
 					<Route exact path="/viewer" component={Viewer} />
+					<Route exact path="/objects" component={ObjectView} />
 					<Route component={PageNotFoundView} />
 				</Switch>
 			</Router>

@@ -1,1 +1,128 @@
-[{"projectId":0,"id":"0","status":"updated","RevitId":444964,"alignId":"0","pk":"1012","familyName":"Pile_type","typeName":"Pile_type","paramDict":[{"key":"Hauteur_poteau","value":50},{"key":"Diametre_poteau","value":3}],"insertionPoint":{"x":160296.57541526365,"y":5226524.587821286,"z":53.21490173993408},"angle":2.3002969060811473,"rotAxis":{"x":0,"y":0,"z":1}},{"projectId":0,"id":"1","status":"updated","RevitId":444965,"alignId":"0","pk":"2000.87","familyName":"Pile_type","typeName":"Pile_type","paramDict":[{"key":"Hauteur_poteau","value":10},{"key":"Diametre_poteau","value":2}],"insertionPoint":{"x":182262.84123474377,"y":5964149.817229646,"z":51.17646639650992},"angle":2.280794305666083,"rotAxis":{"x":0,"y":0,"z":1}},{"projectId":0,"id":"2","status":"updated","RevitId":444967,"alignId":"0","pk":"3564.87","familyName":"Pile_type","typeName":"Pile_type","paramDict":[{"key":"Hauteur_poteau","value":20},{"key":"Diametre_poteau","value":2.5}],"insertionPoint":{"x":101765.27003372373,"y":3350687.381978396,"z":16.316682320581148},"angle":2.161866301531264,"rotAxis":{"x":0,"y":0,"z":1}},{"projectId":0,"id":"3","status":"updated","RevitId":444970,"alignId":"0","pk":"2000","familyName":"Pile_type","typeName":"Pile_type","paramDict":[{"key":"Hauteur_poteau","value":35},{"key":"Diametre_poteau","value":6}],"insertionPoint":{"x":199630.8840060304,"y":6532478.4394535,"z":51.1878712096466},"angle":2.280794305666083,"rotAxis":{"x":0,"y":0,"z":1},"creation":true,"positionModif":false}]
+[
+    {
+        "projectId": 0,
+        "id": "0",
+        "status": "updated",
+        "RevitId": 444964,
+        "alignId": "0",
+        "pk": "1012",
+        "familyName": "Pile_type",
+        "typeName": "Pile_type",
+        "paramDict": [
+            {
+                "key": "Hauteur_poteau",
+                "value": 50
+            },
+            {
+                "key": "Diametre_poteau",
+                "value": 3
+            }
+        ],
+        "insertionPoint": {
+            "x": 160296.57541526365,
+            "y": 5226524.587821286,
+            "z": 53.21490173993408
+        },
+        "angle": 2.3002969060811473,
+        "rotAxis": {
+            "x": 0,
+            "y": 0,
+            "z": 1
+        }
+    },
+    {
+        "projectId": 0,
+        "id": "1",
+        "status": "updated",
+        "RevitId": 444965,
+        "alignId": "0",
+        "pk": "2000.87",
+        "familyName": "Pile_type",
+        "typeName": "Pile_type",
+        "paramDict": [
+            {
+                "key": "Hauteur_poteau",
+                "value": 10
+            },
+            {
+                "key": "Diametre_poteau",
+                "value": 2
+            }
+        ],
+        "insertionPoint": {
+            "x": 182262.84123474377,
+            "y": 5964149.817229646,
+            "z": 51.17646639650992
+        },
+        "angle": 2.280794305666083,
+        "rotAxis": {
+            "x": 0,
+            "y": 0,
+            "z": 1
+        }
+    },
+    {
+        "projectId": 0,
+        "id": "2",
+        "status": "updated",
+        "RevitId": 444967,
+        "alignId": "0",
+        "pk": "3564.87",
+        "familyName": "Pile_type",
+        "typeName": "Pile_type",
+        "paramDict": [
+            {
+                "key": "Hauteur_poteau",
+                "value": 20
+            },
+            {
+                "key": "Diametre_poteau",
+                "value": 2.5
+            }
+        ],
+        "insertionPoint": {
+            "x": 101765.27003372373,
+            "y": 3350687.381978396,
+            "z": 16.316682320581148
+        },
+        "angle": 2.161866301531264,
+        "rotAxis": {
+            "x": 0,
+            "y": 0,
+            "z": 1
+        }
+    },
+    {
+        "projectId": 0,
+        "id": "3",
+        "status": "updated",
+        "RevitId": 444970,
+        "alignId": "0",
+        "pk": "2000",
+        "familyName": "Pile_type",
+        "typeName": "Pile_type",
+        "paramDict": [
+            {
+                "key": "Hauteur_poteau",
+                "value": 35
+            },
+            {
+                "key": "Diametre_poteau",
+                "value": 6
+            }
+        ],
+        "insertionPoint": {
+            "x": 199630.8840060304,
+            "y": 6532478.4394535,
+            "z": 51.1878712096466
+        },
+        "angle": 2.280794305666083,
+        "rotAxis": {
+            "x": 0,
+            "y": 0,
+            "z": 1
+        },
+        "creation": true,
+        "positionModif": false
+    }
+]
