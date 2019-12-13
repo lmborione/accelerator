@@ -1,18 +1,17 @@
-const BaseService = require('./base.service').BaseService;
-const svcMng = require('../services/manager.service').ServiceManager;
-const bucketsModel = require('../models/buckets.model');
-const daModelsModel = require('../models/daModels.model');
+const BaseService = require('../base.service').BaseService;
+const svcMng = require('../manager.service').ServiceManager;
+const bucketsModel = require('../../models/buckets.model');
+const daModelsModel = require('../../models/daModels.model');
+
 const axios = require('axios');
 const fs = require('fs');
 const path = require('path');
 const forge = require('forge-apis');
-
 const forgeServerUtils = require('forge-server-utils')
 
 class BucketService extends BaseService {
     constructor(config) {
         super(config)
-
     }
 
     name() {
@@ -20,34 +19,40 @@ class BucketService extends BaseService {
     }
 
     async createBuckets(projectId, projectName) {
-        const token = await svcMng.getService('AuthService').get2LeggedToken();
-        const bucketApi = new forge.BucketsApi();
-        //TODO avoid fordidden char in projectName and also MyProject
-        const bucketKey = projectName.toLowerCase();
+        try {
+            const token = await svcMng.getService('AuthService').get2LeggedToken();
+            const bucketApi = new forge.BucketsApi();
+            //TODO avoid fordidden char in projectName and also MyProject
+            const bucketKey = projectName.toLowerCase();
 
-        var postBuckets1 = {
-            bucketKey: bucketKey,
-            access: "full",
-            policyKey: "persistent"
-        }
-        const res1 = await bucketApi.createBucket(postBuckets1, `US`, { autoRefresh: false }, token);
+            var postBuckets1 = {
+                bucketKey: bucketKey,
+                access: "full",
+                policyKey: "persistent"
+            }
+            const res1 = await bucketApi.createBucket(postBuckets1, `US`, { autoRefresh: false }, token);
 
-        var postBuckets2 = {
-            bucketKey: `da_${bucketKey}`,
-            access: "full",
-            policyKey: "persistent"
-        }
-        const res2 = await bucketApi.createBucket(postBuckets2, `US`, { autoRefresh: false }, token);
+            var postBuckets2 = {
+                bucketKey: `da_${bucketKey}`,
+                access: "full",
+                policyKey: "persistent"
+            }
+            const res2 = await bucketApi.createBucket(postBuckets2, `US`, { autoRefresh: false }, token);
 
-        if (res1.statusCode === 200 && res2.statusCode === 200) {
-            bucketsModel.addBucket({
-                bucketKey: `${bucketKey}`,
-                da_bucketKey: `da_${bucketKey}`,
-                projectId: projectId
-            });
-            return true;
+            if (res1.statusCode === 200 && res2.statusCode === 200) {
+                console.log(`Buckets for project ${projectId} created: ${res1.body.bucketKey} ${res2.body.bucketKey}`);
+                bucketsModel.addBucket({
+                    bucketKey: `${res1.body.bucketKey}`,
+                    da_bucketKey: `${res2.body.bucketKey}`,
+                    projectId: projectId
+                });
+                return true;
+            } else {
+                throw new Error(`Status bucket 1: ${res1.statusCode} - bucket 2: ${res2.statusCode}`)
+            }
+        } catch (error) {
+            throw error;
         }
-        return false;
     }
 
     async getBucket(projectId) {
@@ -58,7 +63,7 @@ class BucketService extends BaseService {
             const bucketApi = new forge.BucketsApi();
             const res = await bucketApi.getBucketDetails(bucketInfo.bucketKey, { autoRefresh: false }, token);
 
-            return res
+            return res.body;
         } catch (error) {
             return error
         }
@@ -72,10 +77,49 @@ class BucketService extends BaseService {
             const bucketApi = new forge.BucketsApi();
             const res = await bucketApi.getBucketDetails(bucketInfo.da_bucketKey, { autoRefresh: false }, token);
 
-            return res
+            return res;
         } catch (error) {
             return error
         }
+    }
+
+    async cleanBucket(projectId) {
+        try {
+            const token = await svcMng.getService('AuthService').get2LeggedToken(true);
+            const bucketInfo = bucketsModel.getBucketByProjectId(projectId);
+            const objApi = new forge.ObjectsApi();
+
+            const bucketInfoRes = await objApi.getObjects(bucketInfo.bucketKey, {}, { autoRefresh: false }, token);
+
+            bucketInfoRes.body.items.map(i => {
+                objApi.deleteObject(bucketInfo.bucketKey, i.objectKey, { autoRefresh: false }, token);
+
+            });
+            return true;
+        } catch (error) {
+            console.log(error);
+        }
+    }
+
+    async deleteBuckets(projectId) {
+        try {
+            const token = await svcMng.getService('AuthService').get2LeggedToken(true);
+            const bucketInfo = bucketsModel.getBucketByProjectId(projectId);
+            const bucketApi = new forge.BucketsApi();
+            const res1 = await bucketApi.deleteBucket(bucketInfo.bucketKey, { autoRefresh: false }, token);
+            const res2 = await bucketApi.deleteBucket(bucketInfo.da_bucketKey, { autoRefresh: false }, token);
+
+            if (res1.statusCode === 200 && res2.statusCode === 200) {
+                console.log(`Buckets for project ${projectId} deleted`);
+                bucketsModel.deleteAllBuckets(projectId);
+                return true;
+            } else {
+                throw new Error(`Delete Status bucket 1: ${res1.statusCode} - bucket 2: ${res2.statusCode}`)
+            }
+        } catch (error) {
+            console.log(error);
+        }
+
     }
 
     async addTemplateToBucket(projectId) {
@@ -84,27 +128,16 @@ class BucketService extends BaseService {
         fs.copyFileSync(process.env.TEMPLATE_PATH, outputRvtPath);
 
         const res = await this.uploadToBucket(bucketInfo.da_bucketKey, outputRvtPath)
-
-        if (res.statusCode === 200) {
-            daModelsModel.setLastRevitModel(projectId, 'input.rvt');
-        }
         return res;
     }
 
     async uploadJSONToBucket(bucketKey, jsonData) {
         fs.writeFileSync(process.env.TEMP_PATH + '/params.json', JSON.stringify(jsonData));
         const res = await this.uploadToBucket(bucketKey, process.env.TEMP_PATH + '/params.json')
-        console.log('here');
-
-        if (res.statusCode === 200) {
-            daModelsModel.setLastJSON(projectId, jsonData);
-        }
         return res;
     }
 
     async uploadZipToBucket(bucketKey, zipPath) {
-        console.log(bucketKey);
-
         const res = await this.uploadToBucket(bucketKey, zipPath)
         return res;
     }
@@ -140,7 +173,6 @@ class BucketService extends BaseService {
 
     async createSignedResource(bucketKey, objectName) {
         const token = await svcMng.getService('AuthService').get2LeggedToken();
-
         const result = await axios({
             url: `https://developer.api.autodesk.com/oss/v2/buckets/${bucketKey}/objects/${objectName}/signed?access=readwrite`,
             method: 'post',
@@ -151,7 +183,6 @@ class BucketService extends BaseService {
         });
         return result.data.signedUrl;
 
-
         // const objAPi = new forge.ObjectsApi();
         // const result = await objAPi.createSignedResource(bucketKey,
         //     objectName,
@@ -160,8 +191,6 @@ class BucketService extends BaseService {
         //     { autoRefresh: false },
         //     token);
         //return result.body.signedUrl;
-
-
     }
 
     async uploadToBucket(bucketKey, filePath) {

@@ -6,17 +6,17 @@ const fse = require('fs-extra');
 
 const BaseService = require('./base.service').BaseService;
 
-class RevitService extends BaseService {
+class ZipService extends BaseService {
     constructor(config) {
         super(config)
 
     }
 
     name() {
-        return 'RevitService'
+        return 'ZipService'
     }
 
-    createFamilyZip(files) {
+    createZip(files, ext) {
         var dir = '../doc/tmp';
         var famDir = dir + '/library';
         const outputPath = dir + '/families.zip';
@@ -27,7 +27,7 @@ class RevitService extends BaseService {
         const outFiles = [];
         files.forEach(f => {
             if (fs.existsSync(f)) {
-                if (path.extname(f) === '.rfa') {
+                if (path.extname(f) === ext) {
                     outFiles.push({
                         path: path.basename(f)
                     });
@@ -50,5 +50,5 @@ class RevitService extends BaseService {
 }
 
 module.exports = {
-    RevitService
+    ZipService
 }

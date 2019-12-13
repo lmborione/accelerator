@@ -19,7 +19,6 @@ class ServiceManagerClass {
 
 var ServiceManager = new ServiceManagerClass();
 
-
 module.exports = {
     ServiceManager
 }

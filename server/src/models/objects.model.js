@@ -4,6 +4,13 @@ const path = `${process.env.DATABASE_PATH}/mock/objects.json`;
 const rowData = fs.readFileSync(path);
 let objects = JSON.parse(rowData);
 
+//Object status
+//new
+//changedPK
+//changedParam
+//deleted
+//up-to-date
+
 function countObjects() {
     return objects.length
 }
@@ -32,7 +39,7 @@ function updateStatus(data) {
         const index = objects.findIndex(e => parseInt(e.id) === parseInt(d.id));
         if (index >= 0) {
             objects[index].RevitId = d.RevitID
-            objects[index].status = 'updated'
+            objects[index].status = 'up-to-date'
         }
     });
     fs.writeFileSync(path, JSON.stringify(objects));

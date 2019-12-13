@@ -2,11 +2,7 @@ const { ModelDerivativeClient, ManifestHelper } = require('forge-server-utils');
 const { SvfReader } = require('forge-convert-utils');
 const THREE = require('three');
 
-const { CLIENT_ID, CLIENT_SECRET } = process.env;
-
-const BaseService = require('./base.service').BaseService;
-var alignmentsModel = require('../models/alignments.model');
-
+const BaseService = require('../base.service').BaseService;
 
 class SVFService extends BaseService {
     constructor(config) {
@@ -32,13 +28,13 @@ class SVFService extends BaseService {
         const helper = new ManifestHelper(await modelDerivativeClient.getManifest(urn));
         const derivatives = helper.search({ type: 'resource', role: 'graphics' });
 
+        //URN need no equal sign
+        urn = urn.replace(/\=/gi, '');
         for (const derivative of derivatives.filter(d => d.mime === 'application/autodesk-svf')) {
-
             const reader = await SvfReader.FromDerivativeService(urn, derivative.guid, this._config.oauth);
             const svf = await reader.read();
             let index = 0;
             for await (const fragment of reader.enumerateFragments()) {
-
 
                 if (dbIds.includes(fragment.dbID)) {
 
@@ -54,7 +50,7 @@ class SVFService extends BaseService {
                     var pos0 = new THREE.Vector3(fragVertices[0], fragVertices[1], fragVertices[2]).add(fragTransform);
                     ptArr.push(pos0);
 
-                    let i = 0;
+                    let i = 3;
                     while (i < fragVertices.length) {
                         var pos = new THREE.Vector3(fragVertices[i], fragVertices[i + 1], fragVertices[i + 2]).add(fragTransform);
                         ptArr.push(pos);
@@ -74,7 +70,6 @@ class SVFService extends BaseService {
         return result;
     }
 }
-
 
 module.exports = {
     SVFService

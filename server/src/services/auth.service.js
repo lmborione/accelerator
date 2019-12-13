@@ -21,6 +21,16 @@ class AuthService extends BaseService {
                     'data:write',
                     'data:create',
                     'viewables:read',
+                ],
+                adminScope: [
+                    'bucket:delete',
+                    'bucket:create',
+                    'bucket:read',
+                    'bucket:update',
+                    'data:read',
+                    'data:write',
+                    'data:create',
+                    'viewables:read',
                 ]
             }
         }
@@ -30,12 +40,12 @@ class AuthService extends BaseService {
         return 'AuthService'
     }
 
-    async get2LeggedToken() {
+    async get2LeggedToken(admin) {
         try {
-            var token = this._2LeggedToken;
+            var token = admin ? this._admin2LeggedToken : this._2LeggedToken;
             if (!token || this.getExpiry(token) < 60) {
-                token = await this.request2LeggedToken();
-                this.set2LeggedToken(token);
+                token = await this.request2LeggedToken(admin);
+                this.set2LeggedToken(token, admin);
             }
             return token;
 
@@ -44,13 +54,14 @@ class AuthService extends BaseService {
         }
     }
 
-    async request2LeggedToken() {
+
+    async request2LeggedToken(admin) {
 
         try {
             const oAuth2TwoLegged = new forge.AuthClientTwoLegged(
                 this._config.oauth.clientId,
                 this._config.oauth.clientSecret,
-                this._config.oauth.scope);
+                admin ? this._config.oauth.adminScope : this._config.oauth.scope);
 
             return oAuth2TwoLegged.authenticate();
         } catch (error) {
@@ -59,10 +70,16 @@ class AuthService extends BaseService {
         }
     }
 
-    set2LeggedToken(token) {
+    set2LeggedToken(token, admin) {
         //store current time
         token.time_stamp = moment().format();
-        this._2LeggedToken = token;
+
+        if (admin) {
+            this._admin2LeggedToken = token;
+        } else {
+            this._2LeggedToken = token;
+        }
+
     }
 
     getExpiry(token) {

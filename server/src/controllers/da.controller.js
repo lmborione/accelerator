@@ -7,7 +7,7 @@ const librarypath = process.env.LIBRARY_PATH;
 var objectsModel = require('../models/objects.model');
 var bucketsModel = require('../models/buckets.model');
 var projectFamilies = require('../models/project_families.model');
-var projectsModel = require('../models/projects.model');
+var daModelModel = require('../models/daModels.model')
 
 class DesignAutomationController {
     constructor() {
@@ -18,12 +18,6 @@ class DesignAutomationController {
         try {
             if (req.params.projectId) {
                 const projectId = req.params.projectId;
-
-
-
-
-
-
 
                 // Verifier si la bucket et la da_bucket existe sinon les créer et les sauvegarder en DB
                 // et ajouter le template dans da_bucket créer le daModel sur la DB 
@@ -39,8 +33,7 @@ class DesignAutomationController {
                         const zipPath = getFamilyZipPath(projectId, projObjects);
 
                         // Récupérer les coordonnées de chaque PK + angle + rotaxis
-                        const params = createParamJson(projObjects)
-
+                        const params = createParamJson(projObjects);
                         uploadAndSignFilesToBucket(projectId, da_bucketKey, params, zipPath, postWorkItem)
                             .then((postWorkItemResult) => {
                                 if (postWorkItemResult.status === 'success') {
@@ -68,6 +61,20 @@ class DesignAutomationController {
         }
     }
 
+    getlastRvtUrn(req, res, next) {
+        try {
+            if (req.params.projectId) {
+                const urn = daModelModel.getLastRevitModel(parseInt(req.params.projectId));
+                console.log(urn);
+
+                res.status(200).send(urn);
+            }
+        } catch (error) {
+            next(error)
+        }
+
+    }
+
 }
 
 function getObjectsOfProject(projectId) {
@@ -85,25 +92,11 @@ function getObjectsOfProject(projectId) {
 function createParamJson(objects) {
     const alignService = svcMng.getService('AlignService');
     return objects.map(obj => {
-        const geom = alignService.pkToXYZ(parseInt(obj.alignId), parseFloat(obj.pk));
-
-        obj.insertionPoint = geom.insertionPoint;
-        obj.angle = geom.angle;
-        obj.rotAxis = geom.rotAxis;
-
-        if (obj.status === 'new') {
-            obj.creation = true;
-            obj.positionModif = false;
-            return obj;
-        }
-        else if (obj.status === 'position') {
-            obj.creation = false;
-            obj.positionModif = true;
-            return obj;
-        }
-        else if (obj.status === 'parameters') {
-            obj.creation = false;
-            obj.positionModif = false;
+        if (obj.status !== 'up-to-date') {
+            const geom = alignService.pkToXYZ(parseInt(obj.alignId), parseFloat(obj.pk));
+            obj.insertionPoint = geom.insertionPoint;
+            obj.angle = geom.angle;
+            obj.rotAxis = geom.rotAxis;
             return obj;
         }
         return null;
@@ -113,25 +106,14 @@ function createParamJson(objects) {
 async function getBuckets(projectId) {
     try {
         if (bucketsModel.bucketExists(projectId)) {
+            console.log(`Buckets for project ${projectId} already created`);
+
             const bucketInfo = bucketsModel.getBucketByProjectId(projectId);
 
             bucketKey = bucketInfo.bucketKey;
             da_bucketKey = bucketInfo.da_bucketKey;
         } else {
-            const bucketService = svcMng.getService('BucketService');
-            const pname = projectsModel.getProjectById(projectId).projectName;
-            if (await bucketService.createBuckets(projectId, pname)) {
-                const bucketInfo = bucketsModel.getBucketByProjectId(projectId);
-                bucketKey = bucketInfo.bucketKey;
-                da_bucketKey = bucketInfo.da_bucketKey;
 
-                //TODO verify if template is in bucket
-                await bucketService.addTemplateToBucket(projectId);
-                daModelsModel.addProject(projectId);
-            }
-            else {
-                throw new Error('error creating buckets')
-            }
         }
         return [bucketKey, da_bucketKey]
     } catch (error) {
@@ -141,7 +123,7 @@ async function getBuckets(projectId) {
 
 function getFamilyZipPath(projectId, projObjects) {
 
-    const revitService = svcMng.getService('RevitService');
+    const zipService = svcMng.getService('ZipService');
 
     // Récupérer la liste des familles chargés dans le projet
     const projFamilies = getFamiliesOfProject(projectId);
@@ -161,7 +143,7 @@ function getFamilyZipPath(projectId, projObjects) {
     const familiesPath = familyToAdd.map((item) => {
         return `${librarypath}/${item.path}`;
     });
-    return revitService.createFamilyZip(familiesPath);
+    return zipService.createZip(familiesPath, '.rfa');
 }
 
 
@@ -267,7 +249,6 @@ async function parseResult(projectId, bucketKey, da_BucketKey) {
     const newFileName = `${Date.now()}.rvt`;
 
     const tempLink = daModelsModel.getTempUrl(projectId);
-    const rvtFileURL = tempLink.result.url;
     const jsonFileURL = tempLink.output.url;
 
     const jsonresponse = await axios.get(jsonFileURL)
@@ -289,8 +270,10 @@ async function parseResult(projectId, bucketKey, da_BucketKey) {
             await sleep(5000);
             manifest = await bucketService.getManifest(urn);
             console.log(manifest);
-
         };
+        if (manifest.status === 'success') {
+            daModelsModel.setLastRevitModel(manifest.urn)
+        }
 
         return manifest;
     } else {

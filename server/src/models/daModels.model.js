@@ -25,6 +25,25 @@ function getDaModel(projectId) {
     return models.filter((e) => parseInt(e.projectId) === parseInt(projectId))[0];
 }
 
+function setLastRevitModel(projectId, urn) {
+    const index = models.findIndex(e => parseInt(e.projectId) === parseInt(projectId));
+    if (index >= 0) {
+        models[index].lastRvtUrn = urn;
+    }
+    fs.writeFileSync(path, JSON.stringify(models));
+}
+
+function getLastRevitModel(projectId) {
+    const index = models.findIndex(e => parseInt(e.projectId) === parseInt(projectId));
+    if (index >= 0) {
+        return models[index].lastRvtUrn;
+    }
+
+}
+
+
+
+
 // function setLastRevitModel(projectId, rvtFile) {
 //     console.log(projectId);
 
@@ -87,7 +106,8 @@ module.exports = {
     daprojectExists,
     getAllModels,
     getDaModel,
-    //setLastRevitModel,
+    setLastRevitModel,
+    getLastRevitModel,
     //setLastJSON,
     //setLastZip,
     getTempUrl,

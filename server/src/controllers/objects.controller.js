@@ -12,13 +12,21 @@ class ObjectsController {
         var objects = await objectsModel.getAllObjects(page, limit);
 
         if (req.query.pretty) {
+            const readOnlyFields = ['projectId', 'projectName', 'id', 'RevitId']
             objects = objects.map(o => {
                 o.projectName = projectModel.getProjectById(o.projectId).projectName;
-                delete o.projectId
+                //delete o.projectId
+                //delete o.status
                 return o;
             })
 
-            return res.status(200).json({ status: 200, data: objects, pages: Math.ceil(totalObjects / objects.length), message: "Succesfully Retrieved Assets" });
+            return res.status(200).json({
+                status: 200,
+                data: objects,
+                readOnlyFields: readOnlyFields,
+                pages: Math.ceil(totalObjects / objects.length),
+                message: "Succesfully Retrieved Assets"
+            });
         }
         return res.status(200).json({ status: 200, data: objects, pages: Math.ceil(totalObjects / objects.length), message: "Succesfully Retrieved Assets" });
     }

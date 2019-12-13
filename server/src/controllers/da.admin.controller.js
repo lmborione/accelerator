@@ -7,20 +7,77 @@ const librarypath = process.env.LIBRARY_PATH;
 class AdminDesignAutomationController {
     constructor() { }
 
+    async createProjectBucket(req, res, next) {
+        try {
+            if (req.params.projectId) {
+                const bucketService = svcMng.getService('BucketService');
+                const pname = projectsModel.getProjectById(projectId).projectName;
+                const b = await bucketService.createBuckets(projectId, pname)
+                if (b) {
+                    const bucketInfo = bucketsModel.getBucketByProjectId(projectId);
+                    bucketKey = bucketInfo.bucketKey;
+                    da_bucketKey = bucketInfo.da_bucketKey;
 
+                    await bucketService.addTemplateToBucket(projectId);
+                    daModelsModel.addProject(projectId);
+                    res.status(200).json("created")
+                }
+                else {
+                    throw new Error('error creating buckets')
+                }
+            }
+
+        } catch (error) {
+            next(error)
+        }
+    }
+
+    async cleanProjectBucket(req, res, next) {
+        try {
+            if (req.params.projectId) {
+                const bucketService = svcMng.getService('BucketService');
+
+                const b = await bucketService.cleanBucket(parseInt(req.params.projectId))
+                res.status(200).json(b)
+            }
+
+        } catch (error) {
+            next(error)
+        }
+    }
+
+    async deleteProjectBuckets(req, res, next) {
+        try {
+            if (req.params.projectId) {
+                const bucketService = svcMng.getService('BucketService');
+                bucketService.deleteBuckets(parseInt(req.params.projectId))
+                res.status(200).json(true);
+            }
+
+        } catch (error) {
+            next(error)
+        }
+    }
+
+    /**
+     * @deprecated
+     */
     async createFamiliesZip(req, res, next) {
-        const revitService = svcMng.getService('RevitService');
+        const zipService = svcMng.getService('ZipService');
         if (req.body && req.body.length > 0) {
             const familiesPath = req.body.map((item) => {
                 return librarypath + '/' + item.path;
             });
 
-            const path = revitService.createFamilyZip(familiesPath);
+            const path = zipService.createFamilyZip(familiesPath);
             res.status(200).json(path);
         }
         res.status(200).send();
     }
 
+    /**
+     * @deprecated
+     */
     async uploadRevitFamily(req, res, next) {
         try {
             if (!req.files) {
@@ -57,7 +114,9 @@ class AdminDesignAutomationController {
         }
     }
 
-
+    /**
+     * @deprecated
+     */
     async getProjectDABucket(req, res, next) {
         try {
             if (req.params.projectId) {
@@ -70,6 +129,9 @@ class AdminDesignAutomationController {
         }
     }
 
+    /**
+     * @deprecated
+     */
     async addTemplateToBucket(req, res, next) {
         try {
             if (req.params.projectId) {
@@ -82,6 +144,9 @@ class AdminDesignAutomationController {
         }
     }
 
+    /**
+     * @deprecated
+     */
     async createProjectDABucket(req, res, next) {
         try {
             if (req.params.projectId && req.body.projectName) {
@@ -94,6 +159,9 @@ class AdminDesignAutomationController {
         }
     }
 
+    /**
+     * @deprecated
+     */
     async uploadRevitInDaBucket(req, res, next) {
         try {
             if (req.params.projectId && req.body.projectName) {
@@ -107,6 +175,9 @@ class AdminDesignAutomationController {
     }
 
 
+    /**
+     * @deprecated
+     */
     async addJsonToBucket(req, res, next) {
         try {
             if (req.params.projectId && req.params.alignId) {
@@ -133,11 +204,14 @@ class AdminDesignAutomationController {
     }
 
 
+    /**
+     * @deprecated
+     */
     async addFamiliesToBucket(req, res, next) {
         try {
             if (req.params.projectId) {
 
-                const revitService = svcMng.getService('RevitService');
+                const zipService = svcMng.getService('ZipService');
                 const bucketService = svcMng.getService('BucketService');
 
                 if (req.body && req.body.length > 0) {
@@ -145,7 +219,7 @@ class AdminDesignAutomationController {
                         return librarypath + '/' + item.path;
                     });
 
-                    const tempZipPath = revitService.createFamilyZip(familiesPath);
+                    const tempZipPath = zipService.createFamilyZip(familiesPath);
                     const bucket = await bucketService.uploadZipToBucket(parseInt(req.params.projectId), tempZipPath);
                     res.status(200).json(bucket);
                 }
@@ -155,6 +229,9 @@ class AdminDesignAutomationController {
         }
     }
 
+    /**
+     * @deprecated
+     */
     async createSignedResources(req, res, next) {
         try {
             if (req.params.projectId) {
@@ -170,7 +247,9 @@ class AdminDesignAutomationController {
 
 
 
-
+    /**
+         * @deprecated
+         */
     async postWorkItem(req, res, next) {
         try {
             if (req.params.projectId) {
@@ -221,6 +300,9 @@ class AdminDesignAutomationController {
 
     }
 
+    /**
+         * @deprecated
+         */
     async checkStatus(req, res, next) {
         if (req.params.projectId) {
             const pId = parseInt(req.params.projectId);
@@ -242,8 +324,6 @@ class AdminDesignAutomationController {
             res.status(200).json(result.data);
         }
     }
-
-
 }
 
 

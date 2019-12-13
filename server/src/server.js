@@ -8,14 +8,7 @@ dotenv.config();
 
 const routes = require('./routes/index');
 
-const authSvc = require('./services/auth.service');
-const alignSvc = require('./services/align.service');
-const svfSvc = require('./services/svf.service');
-const revitSvc = require('./services/revit.service')
-const bucketSvc = require('./services/bucket.service')
-
-const SvcMng = require('./services/manager.service').ServiceManager;
-
+const regService = require('./services/register-service')
 
 const app = express();
 app.use(bodyParser.json());
@@ -72,28 +65,11 @@ var allowCrossDomain = function (req, res, next) {
     }
 };
 
-// Register all services instances
-const authService = new authSvc.AuthService();
-SvcMng.registerService(authService);
-
-const alignService = new alignSvc.AlignService();
-SvcMng.registerService(alignService);
-
-const svfService = new svfSvc.SVFService();
-SvcMng.registerService(svfService);
-
-const revitService = new revitSvc.RevitService();
-SvcMng.registerService(revitService);
-
-const bucketService = new bucketSvc.BucketService();
-SvcMng.registerService(bucketService);
-
-
+regService.registerAllService();
 
 // app.use(allowCrossDomain);
 
 app.use('/home', express.static(`${__dirname}/../client`));
-
 
 app.use('/api', routes);
 app.use(errorHandler);
