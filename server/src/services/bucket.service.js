@@ -7,6 +7,8 @@ const fs = require('fs');
 const path = require('path');
 const forge = require('forge-apis');
 
+const forgeServerUtils = require('forge-server-utils')
+
 class BucketService extends BaseService {
     constructor(config) {
         super(config)
@@ -204,12 +206,38 @@ class BucketService extends BaseService {
         }
     }
 
+    async copyToBucket(sourceBucketKey, destinationBucketKey, objectName, newName) {
+        try {
+
+            const data = new forgeServerUtils.DataManagementClient(
+                { client_id: process.env.CLIENT_ID, client_secret: process.env.CLIENT_SECRET }
+            );
+            console.log(sourceBucketKey);
+            console.log(objectName);
+
+            const stream = await data.downloadObjectStream(sourceBucketKey, objectName);
+            console.log('stream');
+
+            const uploadStream = await data.uploadObjectStream(destinationBucketKey, newName, "application/octet-stream", stream);
+            console.log(uploadStream.location);
+
+            return uploadStream.objectId;
+        } catch (error) {
+            console.log(error);
+            return null;
+        }
+    }
+
+
     async convertObject(bucketKey, objectName) {
         try {
 
             const token = await svcMng.getService('AuthService').get2LeggedToken();
             const derivativesApi = new forge.DerivativesApi();
             const objectaApi = new forge.ObjectsApi();
+
+            console.log(`try convert: ${bucketKey} - ${objectName}`);
+
             const objDetails = await objectaApi.getObjectDetails(bucketKey, objectName, {}, { autoRefresh: false }, token);
 
             console.log(objDetails.body);

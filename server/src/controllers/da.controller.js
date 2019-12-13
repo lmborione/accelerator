@@ -21,6 +21,10 @@ class DesignAutomationController {
 
 
 
+
+
+
+
                 // Verifier si la bucket et la da_bucket existe sinon les créer et les sauvegarder en DB
                 // et ajouter le template dans da_bucket créer le daModel sur la DB 
                 getBuckets(projectId).then((buckets) => {
@@ -270,11 +274,14 @@ async function parseResult(projectId, bucketKey, da_BucketKey) {
     objectsModel.updateStatus(jsonresponse.data)
 
     const bucketService = svcMng.getService('BucketService');
-    bucketService.copyObject(da_BucketKey, 'result.rvt', 'input.rvt');
+    console.log('copy result to input in da_bucket');
 
-    const rvtresponse = await axios.get(rvtFileURL)
-    await bucketService.uploadBufferToBucket(bucketKey, newFileName, rvtresponse.data, rvtresponse.data.length);
+    await bucketService.copyObject(da_BucketKey, 'result.rvt', 'input.rvt');
 
+    console.log('copy result to bucket: ' + newFileName);
+    await bucketService.copyToBucket(da_BucketKey, bucketKey, 'result.rvt', newFileName);
+
+    console.log('translate to svf');
     const urn = await bucketService.convertObject(bucketKey, newFileName);
     if (urn) {
         let manifest = await bucketService.getManifest(urn);
