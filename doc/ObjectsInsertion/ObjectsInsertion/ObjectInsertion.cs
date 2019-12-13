@@ -90,161 +90,53 @@ namespace ObjectsInsertion
                     {
                         subTr.Start();
 
-                        int elt_ID;
-                        Element elt_create = null;
-                        bool creation = true;
-
-                        //Check if creation, if modification with PK or if modification without PK
-                        if (!_params.creation)
-                        {
-                            elt_ID = (int)double.Parse(_params.RevitID, System.Globalization.CultureInfo.InvariantCulture);
-                            
-                            if (_params.positionModif) {
-                                //PK and Properties modification => delete and create
-                                doc.Delete(new ElementId(elt_ID));
-                                creation = true;
-                            }
-                            else
-                            {
-                                elt_create = doc.GetElement(new ElementId(elt_ID));
-                                creation = false;
-
-                                if(elt_create == null) throw new InvalidOperationException("Revit ID is wrong !");
-                            }
-                        }
-
-                        if (creation)
-                        {
-                            double x = double.Parse(_params.insertionPoint.x, System.Globalization.CultureInfo.InvariantCulture);
-                            double y = double.Parse(_params.insertionPoint.y, System.Globalization.CultureInfo.InvariantCulture);
-                            double z = double.Parse(_params.insertionPoint.z, System.Globalization.CultureInfo.InvariantCulture);
-
-                            XYZ location = new XYZ(x / 0.3048, y / 0.3048, z / 0.3048);
-
-                            Trace.WriteLine(location.ToString());
-
-                            string familyName = _params.familyName;
-                            string symbolName = _params.typeName;
-
-                            Family family = null;
-                            FamilySymbol symbol = null;
-
-                            //Filter Element Collector
-                            FilteredElementCollector FamiliesCollector = new FilteredElementCollector(doc);
-                            FamiliesCollector.OfClass(typeof(Family));
-
-                            var families = from m_family in FamiliesCollector
-                                           where m_family.Name.ToLower() == familyName.ToLower()
-                                           select m_family;
-                            family = families.Cast<Family>().FirstOrDefault<Family>();
-
-                            //If the family is not found in the document
-                            if (family == null) throw new InvalidOperationException("The family " + familyName + " have not been found in the working document !");
-
-
-                            //choose the familysymbol
-                            if (symbolName != "")
-                            {
-                                //Symbol requested by the user
-                                foreach (ElementId id in family.GetFamilySymbolIds())
-                                {
-                                    FamilySymbol tmp_symbol = doc.GetElement(id) as FamilySymbol;
-                                    if (tmp_symbol.Name == symbolName)
-                                    {
-                                        symbol = tmp_symbol;
-                                        break;
-                                    }
-                                }
-                            }
-                            else
-                            {
-                                //No symbol requested by the user so pick the first one
-                                foreach (ElementId id in family.GetFamilySymbolIds())
-                                {
-                                    symbol = doc.GetElement(id) as FamilySymbol;
-                                    break;
-                                }
-                            }
-
-                            //Check if the symbol have been found
-                            if (symbol == null) throw new InvalidOperationException("The symbol (.i.e. family type) " + symbolName + " have not been found in the family " + familyName);
-
-                            //Activate the symbol
-                            if (!symbol.IsActive)
-                            { symbol.Activate(); doc.Regenerate(); }
-
-                            //place the familyinstance   
-                            elt_create = doc.Create.NewFamilyInstance(location, symbol, Autodesk.Revit.DB.Structure.StructuralType.NonStructural);
-
-                            //Plan rotation
-                            double angle_rotation = double.Parse(_params.angle, System.Globalization.CultureInfo.InvariantCulture);
-
-                            //Rotation axis
-                            double x_axis = double.Parse(_params.rotAxis.x, System.Globalization.CultureInfo.InvariantCulture);
-                            double y_axis = double.Parse(_params.rotAxis.y, System.Globalization.CultureInfo.InvariantCulture);
-                            double z_axis = double.Parse(_params.rotAxis.z, System.Globalization.CultureInfo.InvariantCulture);
-
-                            XYZ axis_plan = new XYZ(x_axis / 0.3048, y_axis / 0.3048, z_axis / 0.3048);
-
-                            Trace.WriteLine(axis_plan.ToString());
-
-                            XYZ deb_plan = location;
-                            XYZ fin_plan = deb_plan + axis_plan;
-                            Line axis_plan_line = Line.CreateBound(deb_plan, fin_plan);
-                            ElementTransformUtils.RotateElement(doc, elt_create.Id, axis_plan_line, -angle_rotation);
-                        }
-
-
-                        //SET THE PARAMETERS
-                        if (_params.paramDict != null && _params.paramDict.Length > 0)
-                        {
-                            Trace.WriteLine(_params.paramDict[0].key.ToString());
-
-                            for (int j = 0; j < _params.paramDict.Length; j++)
-                            {
-                                IList<Parameter> parameter = elt_create.GetParameters(_params.paramDict[j].key);
-                                if (_params.paramDict[j].key != null && parameter.Count() != 0)
-                                {
-                                    if (parameter[0].Definition.UnitType == UnitType.UT_Length)
-                                    {
-                                        double val = double.Parse(_params.paramDict[j].value, System.Globalization.CultureInfo.InvariantCulture);
-                                        parameter[0].Set(val / 0.3048);
-                                    }
-                                    else if (parameter[0].Definition.UnitType == UnitType.UT_Angle)
-                                    {
-                                        double val = double.Parse(_params.paramDict[j].value, System.Globalization.CultureInfo.InvariantCulture);
-                                        parameter[0].Set(val * Math.PI / 180);
-                                    }
-                                    else
-                                    {
-                                        string val = _params.paramDict[j].value;
-                                        parameter[0].Set(val);
-                                    }
-                                }
-                            }
-                        }
-
-                        //fill output params
+                        //Output Params
                         OutputParams.BaseStruct outputParams = new OutputParams.BaseStruct();
-                        outputParams.id = _params.id;
-                        outputParams.RevitID = elt_create.Id.IntegerValue;
 
-                        if (_params.creation)
+                        if (_params.status == "new")
                         {
+                            Element elt_create = CreateElement(doc, _params);
+                            SetParameters(elt_create, _params);
+
+                            outputParams.id = _params.id;
+                            outputParams.RevitID = elt_create.Id.IntegerValue;
                             outputParams.status = "new";
+                            list_outputs.Add(outputParams);
                         }
-                        else
+                        else if(_params.status == "changedPK")
                         {
-                            if (_params.positionModif)
-                            {
-                                outputParams.status = "position";
-                            }
-                            else
-                            {
-                                outputParams.status = "parameters";
-                            }
+                            int elt_ID = (int)double.Parse(_params.RevitID, System.Globalization.CultureInfo.InvariantCulture);
+                            doc.Delete(new ElementId(elt_ID));
+
+                            Element elt_create = CreateElement(doc, _params);
+                            SetParameters(elt_create, _params);
+
+                            outputParams.id = _params.id;
+                            outputParams.RevitID = elt_create.Id.IntegerValue;
+                            outputParams.status = "changedPK";
+                            list_outputs.Add(outputParams);
                         }
-                        list_outputs.Add(outputParams);
+                        else if(_params.status == "changedParameters")
+                        {
+                            int elt_ID = (int)double.Parse(_params.RevitID, System.Globalization.CultureInfo.InvariantCulture);
+                            Element elt_create = doc.GetElement(new ElementId(elt_ID));
+                            SetParameters(elt_create, _params);
+
+                            outputParams.id = _params.id;
+                            outputParams.RevitID = elt_create.Id.IntegerValue;
+                            outputParams.status = "changedParameters";
+                            list_outputs.Add(outputParams);
+                        }
+                        else if (_params.status == "deleted")
+                        {
+                            int elt_ID = (int)double.Parse(_params.RevitID, System.Globalization.CultureInfo.InvariantCulture);
+                            doc.Delete(new ElementId(elt_ID));
+
+                            outputParams.id = _params.id;
+                            outputParams.RevitID = -1;
+                            outputParams.status = "deleted";
+                            list_outputs.Add(outputParams);
+                        }
                         subTr.Commit();
                     }
                 }
@@ -261,6 +153,135 @@ namespace ObjectsInsertion
             doc.SaveAs(path, new SaveAsOptions());
         }
 
+
+        /// <summary>
+        /// Create Revit element with geometric information
+        /// </summary>
+        /// <param name="doc"></param>
+        /// <param name="_params"></param>
+        /// <returns></returns>
+        public static Element CreateElement(Document doc, InputParams.BaseStruct _params)
+        {
+            Element elt_create = null;
+
+            double x = double.Parse(_params.insertionPoint.x, System.Globalization.CultureInfo.InvariantCulture);
+            double y = double.Parse(_params.insertionPoint.y, System.Globalization.CultureInfo.InvariantCulture);
+            double z = double.Parse(_params.insertionPoint.z, System.Globalization.CultureInfo.InvariantCulture);
+
+            XYZ location = new XYZ(x / 0.3048, y / 0.3048, z / 0.3048);
+
+            Trace.WriteLine(location.ToString());
+
+            string familyName = _params.familyName;
+            string symbolName = _params.typeName;
+
+            Family family = null;
+            FamilySymbol symbol = null;
+
+            //Filter Element Collector
+            FilteredElementCollector FamiliesCollector = new FilteredElementCollector(doc);
+            FamiliesCollector.OfClass(typeof(Family));
+
+            var families = from m_family in FamiliesCollector
+                           where m_family.Name.ToLower() == familyName.ToLower()
+                           select m_family;
+            family = families.Cast<Family>().FirstOrDefault<Family>();
+
+            //If the family is not found in the document
+            if (family == null) throw new InvalidOperationException("The family " + familyName + " have not been found in the working document !");
+
+
+            //choose the familysymbol
+            if (symbolName != "")
+            {
+                //Symbol requested by the user
+                foreach (ElementId id in family.GetFamilySymbolIds())
+                {
+                    FamilySymbol tmp_symbol = doc.GetElement(id) as FamilySymbol;
+                    if (tmp_symbol.Name == symbolName)
+                    {
+                        symbol = tmp_symbol;
+                        break;
+                    }
+                }
+            }
+            else
+            {
+                //No symbol requested by the user so pick the first one
+                foreach (ElementId id in family.GetFamilySymbolIds())
+                {
+                    symbol = doc.GetElement(id) as FamilySymbol;
+                    break;
+                }
+            }
+
+            //Check if the symbol have been found
+            if (symbol == null) throw new InvalidOperationException("The symbol (.i.e. family type) " + symbolName + " have not been found in the family " + familyName);
+
+            //Activate the symbol
+            if (!symbol.IsActive)
+            { symbol.Activate(); doc.Regenerate(); }
+
+            //place the familyinstance   
+            elt_create = doc.Create.NewFamilyInstance(location, symbol, Autodesk.Revit.DB.Structure.StructuralType.NonStructural);
+
+            //Plan rotation
+            double angle_rotation = double.Parse(_params.angle, System.Globalization.CultureInfo.InvariantCulture);
+
+            //Rotation axis
+            double x_axis = double.Parse(_params.rotAxis.x, System.Globalization.CultureInfo.InvariantCulture);
+            double y_axis = double.Parse(_params.rotAxis.y, System.Globalization.CultureInfo.InvariantCulture);
+            double z_axis = double.Parse(_params.rotAxis.z, System.Globalization.CultureInfo.InvariantCulture);
+
+            XYZ axis_plan = new XYZ(x_axis / 0.3048, y_axis / 0.3048, z_axis / 0.3048);
+
+            Trace.WriteLine(axis_plan.ToString());
+
+            XYZ deb_plan = location;
+            XYZ fin_plan = deb_plan + axis_plan;
+            Line axis_plan_line = Line.CreateBound(deb_plan, fin_plan);
+            ElementTransformUtils.RotateElement(doc, elt_create.Id, axis_plan_line, angle_rotation);
+
+            return elt_create;
+        }
+
+        /// <summary>
+        /// Set the parameters of a Revit element
+        /// </summary>
+        /// <param name="elt_create"></param>
+        /// <param name="_params"></param>
+        public static void SetParameters(Element elt_create, InputParams.BaseStruct _params)
+        {
+            if (_params.paramDict != null && _params.paramDict.Length > 0)
+            {
+                Trace.WriteLine(_params.paramDict[0].key.ToString());
+
+                for (int j = 0; j < _params.paramDict.Length; j++)
+                {
+                    IList<Parameter> parameter = elt_create.GetParameters(_params.paramDict[j].key);
+                    if (_params.paramDict[j].key != null && parameter.Count() != 0)
+                    {
+                        if (parameter[0].Definition.UnitType == UnitType.UT_Length)
+                        {
+                            double val = double.Parse(_params.paramDict[j].value, System.Globalization.CultureInfo.InvariantCulture);
+                            parameter[0].Set(val / 0.3048);
+                        }
+                        else if (parameter[0].Definition.UnitType == UnitType.UT_Angle)
+                        {
+                            double val = double.Parse(_params.paramDict[j].value, System.Globalization.CultureInfo.InvariantCulture);
+                            parameter[0].Set(val * Math.PI / 180);
+                        }
+                        else
+                        {
+                            string val = _params.paramDict[j].value;
+                            parameter[0].Set(val);
+                        }
+                    }
+                }
+            }
+        }
+
+
         public static bool LoadFamily(Document doc, string filePath, string _family_name)
         {
             Family family = null;
@@ -274,11 +295,12 @@ namespace ObjectsInsertion
             return isLaoded;
         }
     }
+    
 
     /// <summary>
     /// InputParams is used to parse the input Json parameters
     /// </summary>
-    internal class InputParams
+    public class InputParams
     {
         public class BaseStruct
         {
@@ -287,8 +309,7 @@ namespace ObjectsInsertion
 
             }
             public int id { get; set; }
-            public bool creation { get; set; }
-            public bool positionModif { get; set; }
+            public string status { get; set; }
             public string RevitID { get; set; }
             public XYZStruct insertionPoint { get; set; }
             public string angle { get; set; }
@@ -341,7 +362,7 @@ namespace ObjectsInsertion
     /// <summary>
     /// InputParams is used to parse the input Json parameters
     /// </summary>
-    internal class FamilyParams
+    public class FamilyParams
     {
         public class BaseStruct
         {
@@ -372,7 +393,7 @@ namespace ObjectsInsertion
     /// <summary>
     /// InputParams is used to parse the input Json parameters
     /// </summary>
-    internal class OutputParams
+    public class OutputParams
     {
         public class BaseStruct
         {

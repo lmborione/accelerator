@@ -11,15 +11,16 @@ const THREE = window.THREE;
 const ExtensionId = 'Accelerator';
 export class AIMSPainterForgeExtension extends Autodesk.Viewing.Extension {
 	_group: Autodesk.Viewing.UI.ControlGroup | null;
-	_btnUploadAlignment: Autodesk.Viewing.UI.Button | null;
+	_btnAddModel: Autodesk.Viewing.UI.Button | null;
 	_toolbar: Autodesk.Viewing.UI.ToolBar | null;
 	_alignmentService: any = ServiceManager.getService('AlignmentService');
+	_forgeService: any = ServiceManager.getService('ForgeService');
 
 	constructor(viewer: Autodesk.Viewing.GuiViewer3D, options: any) {
 		super(viewer, options);
 
 		this._group = null;
-		this._btnUploadAlignment = null;
+		this._btnAddModel = null;
 		this._toolbar = null;
 	}
 
@@ -32,7 +33,7 @@ export class AIMSPainterForgeExtension extends Autodesk.Viewing.Extension {
 	unload() {
 		// Clean our UI elements if we added any
 		if (this._group) {
-			this._group.removeControl(this._btnUploadAlignment!);
+			this._group.removeControl(this._btnAddModel!);
 			if (this._group.getNumberOfControls() === 0) {
 				this.viewer.toolbar.removeControl(this._group);
 			}
@@ -47,17 +48,17 @@ export class AIMSPainterForgeExtension extends Autodesk.Viewing.Extension {
 
 		//Create Buttons
 		//Upload Alignment Buton
-		this._btnUploadAlignment = new Autodesk.Viewing.UI.Button('Accelerator.GetAlignmentData');
-		this._btnUploadAlignment.setIcon('adsk-icon-bug');
-		this._btnUploadAlignment.setToolTip('GetAlignmentData');
-		this._btnUploadAlignment.onClick = () => {
-			this.onAddAlignmentData();
+		this._btnAddModel = new Autodesk.Viewing.UI.Button('Accelerator.AddModel');
+		this._btnAddModel.setIcon('adsk-icon-bug');
+		this._btnAddModel.setToolTip('Add Last Model in Viewer');
+		this._btnAddModel.onClick = () => {
+			this.onAddModel();
 			console.log('alert');
 		};
 
 		// add button to the goup
 		this._group = new Autodesk.Viewing.UI.ControlGroup('Accelerator.ControlGroup');
-		this._group.addControl(this._btnUploadAlignment);
+		this._group.addControl(this._btnAddModel);
 
 		// add group to custom toolbar
 		this._toolbar.addControl(this._group);
@@ -88,70 +89,48 @@ export class AIMSPainterForgeExtension extends Autodesk.Viewing.Extension {
 		}
 	};
 
-	onAddAlignmentData = () => {
-		this.viewer.model.getObjectTree((instanceTree) => {
-			var myviewer = this.viewer;
+	onAddModel = async () => {
 
-			//Get all the objects IDs
-			const ids = [] as any[];
-			instanceTree.enumNodeChildren(
-				instanceTree.getRootId(),
-				(id) => {
-					if (instanceTree.getChildCount(id) === 0) {
-						ids.push(id);
-					}
-				},
-				true
-			);
+		//Request last model urn
+		const urnB64 = new Buffer('urn:' + await this._forgeService.getLastURN()).toString('base64');
 
-			// //get XYZ points from alignments and add in data
-			// var data = [];
-			// for (var i = 0; i < ids.length; i++) {
-			// 	data.push({
-			// 		dbid: ids[i],
-			// 		// XYZs: this.XYZPointsfromID(ids[i])
-			// 	});
-			// }
+		Autodesk.Viewing.Document.load(
+			`urn:${urnB64}`,
+			async (viewerDocument: Autodesk.Viewing.Document) => {
+				console.log('Document has been loaded');
+				var viewables = viewerDocument.getRoot().search({ type: 'geometry' });
 
-			if (ids && ids.length > 0) {
-				this._alignmentService.addAlignment(this.viewer.getState().seedURN, ids);
-			}
-		});
+				// Choose the first avialble viewables
+				var initialViewable = viewables[0];
+				var svfUrl = viewerDocument.getViewablePath(initialViewable);
+
+				var offset = this.viewer.model.getData().globalOffset;
+
+				//input the transformation
+				var loadOptions = {
+					placementTransform: new THREE.Matrix4(),
+					globalOffset: offset,
+					applyScaling: 'm', //always in meter
+				};
+
+				await this.viewer.loadModel(svfUrl, loadOptions, this._onLoadModelSuccess, this._onLoadModelError);
+			},
+			this.onDocumentLoadFailure
+		);
 	};
 
-	XYZPointsfromID = (nodeId: number) => {
-		var result = [] as THREE.Vector3[];
-		const myviewer = this.viewer;
+	onDocumentLoadFailure() {
+		console.error('Failed fetching Forge manifest');
+	}
 
-		this.viewer.model.getInstanceTree().enumNodeFragments(nodeId, (frag) => {
-			let impl = myviewer.impl as any;
-			let fragProxy = impl.getFragmentProxy(myviewer.model, frag);
+	_onLoadModelSuccess() {
+		console.log('Model is loaded !');
+	}
 
-			var frags = fragProxy.frags.getVizmesh(fragProxy.fragId);
-			console.log(frags);
+	_onLoadModelError() {
+		console.log('Laod model went wrong !');
 
-			var vb_array = frags.geometry.vb;
-
-			//loop through vb to get pos
-			var pos0 = new THREE.Vector3(vb_array[0], vb_array[1], vb_array[2]);
-
-			result.push(frags.localToWorld(pos0).multiplyScalar(1000).round().multiplyScalar(0.001));
-
-			var i = 6;
-			while (i < vb_array.length) {
-				var pos = new THREE.Vector3(vb_array[i], vb_array[i + 1], vb_array[i + 2]);
-				var world_pos = frags.localToWorld(pos);
-				world_pos = new THREE.Vector3(
-					parseFloat(world_pos.x.toFixed(3)),
-					parseFloat(world_pos.y.toFixed(3)),
-					parseFloat(world_pos.z.toFixed(3))
-				);
-				result.push(world_pos);
-				i += 12;
-			}
-		});
-		return result;
-	};
+	}
 }
 
 Autodesk.Viewing.theExtensionManager.registerExtension(ExtensionId, AIMSPainterForgeExtension);
