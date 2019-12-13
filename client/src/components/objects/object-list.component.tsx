@@ -12,6 +12,7 @@ interface ObjectListProps {
 	fetchData: boolean;
 	getData?: (page: number, limit: number) => Promise<{ pages: number; data: any[] }>;
 	data?: any[];
+	readOnlyFields: number[];
 	displayColumnIndexes: number[];
 	editable: boolean;
 	onClick?: (row: any) => void;
@@ -59,8 +60,12 @@ class ObjectList extends Component<ObjectListProps, ObjectListState> {
 	};
 
 	renderEditable = (cellInfo: any) => {
+		// console.log(cellInfo.column.id);
+
+		const columnId = cellInfo.column.id;
+
 		const cellValue = this.state.displayData[cellInfo.index][cellInfo.column.id];
-		if (this.props.editable) {
+		if (this.props.editable && !this.props.readOnlyFields.includes(columnId)) {
 			return (
 				<input
 					placeholder="type here"
@@ -104,19 +109,16 @@ class ObjectList extends Component<ObjectListProps, ObjectListState> {
 					};
 				});
 			} else {
-				return Object.keys(obj)
-					.map((key: any, index: number) => {
-						if (this.props.displayColumnIndexes.includes(index)) {
-							return {
-								Header: key,
-								accessor: key,
-								Cell: this.renderEditable,
-								minWidth: index > 1 ? 50 : 135,
-								width: index > 0 ? (index > 1 ? 170 : 100) : 135
-							};
-						}
-					})
-					.filter((e) => e !== undefined);
+				return this.props.displayColumnIndexes.map((index: number) => {
+					const key = Object.keys(obj)[index];
+					return {
+						Header: key,
+						accessor: key,
+						Cell: this.renderEditable,
+						minWidth: index > 1 ? 50 : 135,
+						width: index > 0 ? (index > 1 ? 170 : 100) : 135
+					};
+				});
 			}
 		}
 		return [];
@@ -160,31 +162,33 @@ class ObjectList extends Component<ObjectListProps, ObjectListState> {
 		}
 	};
 
-	// getTdProps = (state: any, rowInfo: any) => {
-	// 	if (rowInfo !== undefined) {
-	// 		return {
-	// 			onClick: (event: any, handleOriginal: any) => {
-	// 				this.onRowClick(rowInfo.index);
-	// 			}
-	// 		};
-	// 	}
-	// };
+	getTdProps = (state: any, rowInfo: any) => {
+		if (rowInfo !== undefined) {
+			return {
+				onClick: (event: any, handleOriginal: any) => {
+					this.onRowClick(rowInfo.index);
+				}
+			};
+		}
+	};
 
-	// getTrProps = (state: any, rowInfo: any, column: any) => {
-	// 	if (rowInfo !== undefined) {
-	// 		return {
-	// 			className: classNames({
-	// 				'selected-row': this.isRowSelected(rowInfo.index)
-	// 			})
-	// 		};
-	// 	} else {
-	// 		return {
-	// 			className: 'test'
-	// 		};
-	// 	}
-	// };
+	getTrProps = (state: any, rowInfo: any, column: any) => {
+		if (rowInfo !== undefined) {
+			return {
+				className: classNames({
+					'selected-row': this.isRowSelected(rowInfo.index)
+				})
+			};
+		} else {
+			return {
+				className: 'test'
+			};
+		}
+	};
 
 	render() {
+		console.log(this.props);
+
 		let reactTable = undefined;
 		if (this.props.fetchData) {
 			reactTable = (
@@ -200,8 +204,8 @@ class ObjectList extends Component<ObjectListProps, ObjectListState> {
 					filterable={false}
 					manual // informs React Table that you'll be handling sorting and pagination server-side
 					onFetchData={this.onFetchData}
-					// getTdProps={this.getTdProps}
-					// getTrProps={this.getTrProps}
+					getTdProps={this.getTdProps}
+					getTrProps={this.getTrProps}
 				/>
 			);
 		} else {
@@ -215,12 +219,7 @@ class ObjectList extends Component<ObjectListProps, ObjectListState> {
 			);
 		}
 
-		return (
-			<div className="inner-border">
-				<h1>Objects</h1>
-				{reactTable}
-			</div>
-		);
+		return <div className="inner-border">{reactTable}</div>;
 	}
 }
 

@@ -7,7 +7,7 @@
         "type": "node",
         "request": "launch",
         "name": "Start server",
-        "program": "${workspaceFolder}\\server\\src\\services\\forge.service.js",
+        "program": "${workspaceFolder}\\server\\src\\services\\svf.service.js",
         "env": {
             "CLIENT_ID": "W2I80AOTn5pnEnaThJbECN2t6gSsh1HV",
             "CLIENT_SECRET": "FFqMpVKwwCmWxiKR",

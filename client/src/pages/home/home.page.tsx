@@ -25,7 +25,7 @@ class HomeView extends Component<{}, HomeState> {
 		console.log(this.state);
 
 		return (
-			<div>
+			<div className="page">
 				<h4>Recent models</h4>
 				{this.state.models.length > 0 && (
 					<ForgeModels data={this.state.models} showPagination={false} column={4} row={1} />

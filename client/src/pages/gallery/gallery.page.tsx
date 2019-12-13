@@ -71,7 +71,7 @@ class GalleryView extends Component<{}, GalleryState> {
 		}
 
 		return (
-			<div className="centerContent">
+			<div className="page centerContent">
 				<ForgeModels data={this.state.modeldata} showPagination={true} column={4} row={2} />
 			</div>
 		);
