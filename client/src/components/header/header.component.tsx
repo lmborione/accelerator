@@ -14,6 +14,7 @@ class Header extends Component {
 					<Nav className="mr-auto">
 						<Nav.Link href="/home">Home</Nav.Link>
 						<Nav.Link href="/gallery">Gallery</Nav.Link>
+						<Nav.Link href="/objects">Object List</Nav.Link>
 					</Nav>
 				</Navbar.Collapse>
 			</Navbar>
