@@ -18,8 +18,6 @@ class AlignService extends BaseService {
     pkToXYZ(id, pk) {
 
         const alignment = alignmentsModel.getAlignmentById(id);
-        let res = undefined;
-
         const pkList = [];
         var inc_PK = 0;
 
@@ -60,6 +58,7 @@ class AlignService extends BaseService {
                 };
             }
         }
+        return undefined
     }
 }
 

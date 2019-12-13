@@ -18,6 +18,10 @@ function getAllBuckets() {
     return buckets;
 }
 
+function bucketExists(projectId) {
+    return buckets.findIndex((e) => e.projectId == projectId) >= 0;
+}
+
 function getBucketByProjectId(projectId) {
     return buckets.filter((e) => e.projectId == projectId)[0];
 }
@@ -28,6 +32,7 @@ function getBucketByKey(key) {
 
 module.exports = {
     countObjects,
+    bucketExists,
     addBucket,
     getAllBuckets,
     getBucketByProjectId,

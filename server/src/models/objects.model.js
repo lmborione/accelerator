@@ -24,10 +24,22 @@ function getObjectById(id) {
     return objects.filter((e) => e.id == id);
 }
 
+function updateStatus(data) {
+    data.forEach(d => {
+        const index = objects.findIndex(e => parseInt(e.id) === parseInt(d.id));
+        if (index >= 0) {
+            objects[index].RevitId = d.RevitID
+            objects[index].status = 'updated'
+        }
+    });
+    fs.writeFileSync(path, JSON.stringify(objects));
+}
+
 module.exports = {
     countObjects,
     getObjectsOfProject,
     getAllObjects,
     getObjectByName,
-    getObjectById
+    getObjectById,
+    updateStatus
 };

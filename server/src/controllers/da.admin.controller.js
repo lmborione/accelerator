@@ -106,6 +106,7 @@ class AdminDesignAutomationController {
         }
     }
 
+
     async addJsonToBucket(req, res, next) {
         try {
             if (req.params.projectId && req.params.alignId) {

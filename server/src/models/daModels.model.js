@@ -7,11 +7,14 @@ let models = JSON.parse(rowData);
 function addProject(projectId) {
     models.push({
         projectId: projectId,
-        lastRvtFile: "",
-        lastJsonFile: "",
-        lastZipFile: ""
+        tempUrl: {},
+        workItem: {}
     });
     fs.writeFileSync(path, JSON.stringify(models));
+}
+
+function daprojectExists(projectId) {
+    return models.findIndex((e) => e.projectId == projectId) >= 0;
 }
 
 function getAllModels() {
@@ -22,34 +25,34 @@ function getDaModel(projectId) {
     return models.filter((e) => parseInt(e.projectId) === parseInt(projectId))[0];
 }
 
-function setLastRevitModel(projectId, rvtFile) {
-    console.log(projectId);
+// function setLastRevitModel(projectId, rvtFile) {
+//     console.log(projectId);
 
-    const index = models.findIndex(e => parseInt(e.projectId) === parseInt(projectId));
-    if (index >= 0) {
-        models[index].lastRvtFile = rvtFile;
-    }
-    fs.writeFileSync(path, JSON.stringify(models));
-    return models[index];
-}
+//     const index = models.findIndex(e => parseInt(e.projectId) === parseInt(projectId));
+//     if (index >= 0) {
+//         models[index].lastRvtFile = rvtFile;
+//     }
+//     fs.writeFileSync(path, JSON.stringify(models));
+//     return models[index];
+// }
 
-function setLastJSON(projectId, jsonData) {
-    const index = models.findIndex(e => parseInt(e.projectId) === parseInt(projectId));
-    if (index >= 0) {
-        models[index].lastJsonFile = jsonData;
-    }
-    fs.writeFileSync(path, JSON.stringify(models));
-    return models[index];
-}
+// function setLastJSON(projectId, jsonData) {
+//     const index = models.findIndex(e => parseInt(e.projectId) === parseInt(projectId));
+//     if (index >= 0) {
+//         models[index].lastJsonFile = jsonData;
+//     }
+//     fs.writeFileSync(path, JSON.stringify(models));
+//     return models[index];
+// }
 
-function setLastZip(projectId, zipFile) {
-    const index = models.findIndex(e => parseInt(e.projectId) === parseInt(projectId));
-    if (index >= 0) {
-        models[index].lastZipFile = zipFile;
-    }
-    fs.writeFileSync(path, JSON.stringify(models));
-    return models[index];
-}
+// function setLastZip(projectId, zipFile) {
+//     const index = models.findIndex(e => parseInt(e.projectId) === parseInt(projectId));
+//     if (index >= 0) {
+//         models[index].lastZipFile = zipFile;
+//     }
+//     fs.writeFileSync(path, JSON.stringify(models));
+//     return models[index];
+// }
 
 function getTempUrl(projectId) {
     return models.filter((e) => parseInt(e.projectId) === parseInt(projectId))[0].tempUrl;
@@ -81,11 +84,12 @@ function setWorkItem(projectId, workItem) {
 
 module.exports = {
     addProject,
+    daprojectExists,
     getAllModels,
     getDaModel,
-    setLastRevitModel,
-    setLastJSON,
-    setLastZip,
+    //setLastRevitModel,
+    //setLastJSON,
+    //setLastZip,
     getTempUrl,
     setTempUrl,
     getWorkItem,
