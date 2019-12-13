@@ -41,7 +41,8 @@ class ForgeViewer extends Component<ForgeViewerProps> {
 
 					//input the transformation
 					var loadOptions = {
-						placementTransform: new THREE.Matrix4()
+						placementTransform: new THREE.Matrix4(),
+						applyScaling: 'm', //always in meter
 						// globalOffset: {
 						// 	x: 0,
 						// 	y: 0,
@@ -60,7 +61,7 @@ class ForgeViewer extends Component<ForgeViewerProps> {
 	}
 
 	showPainted() {
-		const ids = [ 60, 95, 132 ];
+		const ids = [60, 95, 132];
 		const color = new THREE.Vector4(255 / 255, 0, 0, 0.5);
 		if (this.viewer) {
 			for (let i = 0; i < ids.length; i++) {

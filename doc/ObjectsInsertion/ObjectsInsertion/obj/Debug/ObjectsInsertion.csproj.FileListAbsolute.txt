@@ -394,3 +394,4 @@ C:\Users\lgibaud\OneDrive - SystraGroup\Documents\Forge\accelerator\doc\ObjectsI
 C:\Users\lgibaud\OneDrive - SystraGroup\Documents\Forge\accelerator\doc\ObjectsInsertion\ObjectsInsertion\obj\Debug\ObjectsInsertion.csproj.CopyComplete
 C:\Users\lgibaud\OneDrive - SystraGroup\Documents\Forge\accelerator\doc\ObjectsInsertion\ObjectsInsertion\obj\Debug\ObjectsInsertion.dll
 C:\Users\lgibaud\OneDrive - SystraGroup\Documents\Forge\accelerator\doc\ObjectsInsertion\ObjectsInsertion\obj\Debug\ObjectsInsertion.pdb
+C:\Users\lgibaud\OneDrive - SystraGroup\Documents\Forge\accelerator\doc\ObjectsInsertion\ObjectsInsertion\obj\Debug\ObjectsInsertion.csprojAssemblyReference.cache

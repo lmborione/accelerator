@@ -22,6 +22,16 @@ class ForgeService {
 		}
 	}
 
+	async getLastURN(): Promise<any> {
+		try {
+			const response = await fetch(`/api/da/project/${0}/getLastRvtUrn`);
+			const urn = await response.text();
+			return urn;
+		} catch (error) {
+			console.log(error);
+		}
+	}
+
 	async getThumbnail(urn: string): Promise<any> {
 		try {
 			const response = await fetch(`/api/models/get/urn/${urn}/thumbnail`);
