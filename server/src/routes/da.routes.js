@@ -7,7 +7,7 @@ const daCtrl = new da.DesignAutomationController();
 const daAdminCtrl = new daAdmin.AdminDesignAutomationController();
 
 router.post('/project/:projectId/launchDA', daCtrl.launchDA);
-router.post('/project/:projectId/getLastRvtUrn', daCtrl.getlastRvtUrn);
+router.get('/project/:projectId/getLastRvtUrn', daCtrl.getlastRvtUrn);
 
 //ADMIN routes to be moved
 router.post('/project/:projectId/buckets/delete', daAdminCtrl.deleteProjectBuckets);

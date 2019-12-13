@@ -41,6 +41,7 @@ class GalleryView extends Component<{}, GalleryState> {
 
 	async loadModel() {
 		const models = await this._forgeService.getModels();
+		console.log(models);
 
 		var forgeModels: ForgeModel[] = await Promise.all(
 			models.data.items.map(async (model: any) => {

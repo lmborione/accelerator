@@ -92,10 +92,10 @@ export class AIMSPainterForgeExtension extends Autodesk.Viewing.Extension {
 	onAddModel = async () => {
 
 		//Request last model urn
-		const urnB64 = new Buffer('urn:' + await this._forgeService.getLastURN()).toString('base64');
+		const urn = await this._forgeService.getLastURN();
 
 		Autodesk.Viewing.Document.load(
-			`urn:${urnB64}`,
+			`urn:${urn}`,
 			async (viewerDocument: Autodesk.Viewing.Document) => {
 				console.log('Document has been loaded');
 				var viewables = viewerDocument.getRoot().search({ type: 'geometry' });

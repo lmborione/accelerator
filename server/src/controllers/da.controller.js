@@ -67,7 +67,7 @@ class DesignAutomationController {
                 const urn = daModelModel.getLastRevitModel(parseInt(req.params.projectId));
                 console.log(urn);
 
-                res.status(200).send(urn);
+                res.status(200).json({ urn: urn });
             }
         } catch (error) {
             next(error)

@@ -24,9 +24,11 @@ class ForgeService {
 
 	async getLastURN(): Promise<any> {
 		try {
-			const response = await fetch(`/api/da/project/${0}/getLastRvtUrn`);
-			const urn = await response.text();
-			return urn;
+			const response = await fetch(`/api/da/project/0/getLastRvtUrn`);
+			const data = await response.json();
+			console.log(data);
+
+			return data.urn;
 		} catch (error) {
 			console.log(error);
 		}

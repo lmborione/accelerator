@@ -11,6 +11,7 @@ class ModelsController {
         try {
             const objectApi = new forge.ObjectsApi();
             const token = await svcMng.getService('AuthService').get2LeggedToken();
+            console.log(token);
 
 
             const objectsRes = await objectApi.getObjects(process.env.BUCKET_KEY,
