@@ -24,7 +24,7 @@
     "method-override": "^3.0.0",
     "moment": "^2.24.0",
     "nodemon": "^1.19.3",
-    "three": "^0.111.0",
+    "three": "^0.125.0",
     "zip-dir": "^1.0.2"
   }
 }
