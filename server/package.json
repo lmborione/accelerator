@@ -17,7 +17,7 @@
     "dotenv": "^8.2.0",
     "express": "^4.16.3",
     "express-fileupload": "^1.1.6",
-    "firebase-admin": "^8.2.0",
+    "firebase-admin": "^11.4.1",
     "forge-apis": "^0.5.3",
     "forge-convert-utils": "^1.1.2",
     "forge-server-utils": "^8.0.11",
